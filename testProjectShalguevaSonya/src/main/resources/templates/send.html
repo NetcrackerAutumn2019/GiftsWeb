@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>AddToDatabase</title>
+</head>
+<body>
+<!--    <div>-->
+<!--        <form method="post">-->
+<!--            <input type="text" name="text" placeholder="Enter word">-->
+<!--            <input type="submit" placeholder="Add">-->
+<!--        </form>-->
+<!--    </div>-->
+    <div>
+        <table>
+            <thead>
+            <tr>
+                <th> Id </th>
+                <th> Text </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:if="${messages.empty}">
+                <td colspan="2"> No Messages Available </td>
+            </tr>
+            <tr th:each="m : ${messages}">
+                <td><span th:text="${m.id}"> Id </span></td>
+                <td><span th:text="${m.text}"> Text </span></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
