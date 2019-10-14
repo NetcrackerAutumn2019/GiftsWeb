@@ -27,9 +27,11 @@ public class HelloController {
     @GetMapping("read/{id}")
     public String read(@PathVariable String id, Model model){
         System.out.println(id);
+        Optional<Users> u = usersService.findById(Long.parseLong(id));
         Users user = usersService.findById(Long.parseLong(id)).get();
-        model.addAttribute("id", user.getId());
-        model.addAttribute("name", user.getName());
+        model.addAttribute("user", user);
+        //model.addAttribute("id", user.getId());
+        //model.addAttribute("name", user.getName());
         return "read";
     }
 }
