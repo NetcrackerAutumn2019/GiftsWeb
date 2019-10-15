@@ -1,0 +1,452 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+<!-- Создано Microsoft Visio 11.0, Экспорт SVG, версия 1.0 Netcracker схема.svg Page-1 -->
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:v="http://schemas.microsoft.com/visio/2003/SVGExtensions/" width="8.26772in"
+		height="11.6929in" viewBox="0 0 595.276 841.89" xml:space="preserve" color-interpolation-filters="sRGB" class="st7">
+	<v:documentProperties v:langID="1049" v:metric="true" v:viewMarkup="false"/>
+
+	<style type="text/css">
+	<![CDATA[
+		.st1 {fill:#ffffff;stroke:#000000;stroke-linecap:round;stroke-linejoin:round;stroke-width:0.24}
+		.st2 {fill:#000000;font-family:Arial;font-size:0.666664em}
+		.st3 {font-size:1em}
+		.st4 {marker-end:url(#mrkr4-18);stroke:#000000;stroke-linecap:round;stroke-linejoin:round;stroke-width:0.239976}
+		.st5 {fill:#000000;fill-opacity:1;stroke:#000000;stroke-opacity:1;stroke-width:0.086948582161584}
+		.st6 {fill:#ffffff;stroke:none;stroke-linecap:butt;stroke-width:7.2}
+		.st7 {fill:none;fill-rule:evenodd;font-size:12;overflow:visible;stroke-linecap:square;stroke-miterlimit:3}
+	]]>
+	</style>
+
+	<defs id="Markers">
+		<g id="lend4">
+			<path d="M 2 1 L -0 0 L 2 -1 L 2 1 " style="stroke:none"/>
+		</g>
+		<marker id="mrkr4-18" class="st5" v:arrowType="4" v:arrowSize="2" v:setback="23.0021" refX="-23.002100210021" orient="auto"
+				markerUnits="strokeWidth">
+			<use xlink:href="#lend4" transform="scale(-11.501050105011,-11.501050105011) "/>
+		</marker>
+	</defs>
+	<g v:mID="0" v:index="1" v:groupContext="foregroundPage">
+		<title>Страница-1</title>
+		<v:pageProperties v:drawingScale="0.0393701" v:pageScale="0.0393701" v:drawingUnits="24" v:shadowOffsetX="8.50394"
+				v:shadowOffsetY="-8.50394"/>
+		<v:layer v:name="Блок-схема" v:index="0"/>
+		<v:layer v:name="Соединительная линия" v:index="1"/>
+		<g id="shape1-1" v:mID="1" v:groupContext="shape" v:layerMember="0" transform="translate(248.031,-759.685)">
+			<title>Оконечная фигура</title>
+			<desc>Вход на главную страницу</desc>
+			<v:custProps>
+				<v:cp v:nameU="Cost" v:lbl="Стоимость" v:type="7" v:format="@" v:langID="1049"/>
+				<v:cp v:nameU="Duration" v:lbl="Длительность" v:type="2" v:langID="1049"/>
+				<v:cp v:nameU="Resources" v:lbl="Ресурсы" v:langID="1049"/>
+			</v:custProps>
+			<v:userDefs>
+				<v:ud v:nameU="visVersion" v:val="VT0(12):26"/>
+			</v:userDefs>
+			<v:textBlock v:margins="rect(2,2,2,2)" v:tabSpace="42.5197"/>
+			<v:textRect cx="35.4331" cy="827.717" width="70.87" height="28.3465"/>
+			<path d="M14.17 841.89 L56.69 841.89 A14.1732 14.1732 -180 0 0 56.69 813.54 L14.17 813.54 A14.1732 14.1732 -180 1 0 14.17
+						 841.89 Z" class="st1"/>
+			<text x="4.2" y="825.32" class="st2" v:langID="1049"><v:paragraph v:horizAlign="1"/><v:tabList/>Вход на главную <tspan
+						x="18.42" dy="1.2em" class="st3">страницу</tspan></text>		</g>
+		<g id="shape2-5" v:mID="2" v:groupContext="shape" v:layerMember="0" transform="translate(248.031,-701.575)">
+			<title>Процесс</title>
+			<desc>Страница с формой логина</desc>
+			<v:custProps>
+				<v:cp v:nameU="Cost" v:lbl="Стоимость" v:type="7" v:format="@" v:langID="1049"/>
+				<v:cp v:nameU="Duration" v:lbl="Длительность" v:type="2" v:langID="1049"/>
+				<v:cp v:nameU="Resources" v:lbl="Ресурсы" v:langID="1049"/>
+			</v:custProps>
+			<v:userDefs>
+				<v:ud v:nameU="visVersion" v:val="VT0(12):26"/>
+			</v:userDefs>
+			<v:textBlock v:margins="rect(2,2,2,2)" v:tabSpace="42.5197"/>
+			<v:textRect cx="35.4331" cy="820.63" width="70.87" height="42.5197"/>
+			<rect x="0" y="799.37" width="70.8661" height="42.5197" class="st1"/>
+			<text x="14.19" y="818.23" class="st2" v:langID="1049"><v:paragraph v:horizAlign="1"/><v:tabList/>Страница с <tspan
+						x="6.69" dy="1.2em" class="st3">формой</tspan> логина</text>		</g>
+		<g id="shape3-9" v:mID="3" v:groupContext="shape" v:layerMember="0" transform="translate(248.031,-616.535)">
+			<title>Решение</title>
+			<desc>Вход или регистрация</desc>
+			<v:custProps>
+				<v:cp v:nameU="Cost" v:lbl="Стоимость" v:type="7" v:format="@" v:langID="1049"/>
+				<v:cp v:nameU="Duration" v:lbl="Длительность" v:type="2" v:langID="1049"/>
+				<v:cp v:nameU="Resources" v:lbl="Ресурсы" v:langID="1049"/>
+			</v:custProps>
+			<v:userDefs>
+				<v:ud v:nameU="visVersion" v:val="VT0(12):26"/>
+			</v:userDefs>
+			<v:textBlock v:margins="rect(2,2,2,2)" v:tabSpace="42.5197"/>
+			<v:textRect cx="35.4331" cy="820.63" width="59.06" height="31.8898"/>
+			<path d="M0 820.63 L35.43 799.37 L70.87 820.63 L35.43 841.89 L0 820.63 Z" class="st1"/>
+			<text x="18.29" y="818.23" class="st2" v:langID="1049"><v:paragraph v:horizAlign="1"/><v:tabList/>Вход или <tspan
+						x="12.32" dy="1.2em" class="st3">регистрация</tspan></text>		</g>
+		<g id="shape4-13" v:mID="4" v:groupContext="shape" v:layerMember="1" transform="translate(276.378,-701.575)">
+			<title>Динамическая соединительная линия</title>
+			<path d="M7.09 841.89 L7.09 878.89" class="st4"/>
+		</g>
+		<g id="shape5-19" v:mID="5" v:groupContext="shape" v:layerMember="1" transform="translate(276.378,-759.685)">
+			<title>Динамическая соединительная линия.5</title>
+			<path d="M7.09 841.89 L7.09 851.96" class="st4"/>
+		</g>
+		<g id="shape7-24" v:mID="7" v:groupContext="shape" v:layerMember="1" transform="translate(276.378,-616.535)">
+			<title>Динамическая соединительная линия.7</title>
+			<path d="M7.09 841.89 L7.09 864.72" class="st4"/>
+		</g>
+		<g id="shape9-29" v:mID="9" v:groupContext="shape" v:layerMember="1" transform="translate(318.898,-630.709)">
+			<title>Динамическая соединительная линия.9</title>
+			<path d="M0 834.8 L21.48 834.8" class="st4"/>
+		</g>
+		<g id="shape6-34" v:mID="6" v:groupContext="shape" v:layerMember="0" transform="translate(248.031,-545.669)">
+			<title>Процесс.6</title>
+			<desc>Главная страница пользователя</desc>
+			<v:custProps>
+				<v:cp v:nameU="Cost" v:lbl="Стоимость" v:type="7" v:format="@" v:langID="1049"/>
+				<v:cp v:nameU="Duration" v:lbl="Длительность" v:type="2" v:langID="1049"/>
+				<v:cp v:nameU="Resources" v:lbl="Ресурсы" v:langID="1049"/>
+			</v:custProps>
+			<v:userDefs>
+				<v:ud v:nameU="visVersion" v:val="VT0(12):26"/>
+			</v:userDefs>
+			<v:textBlock v:margins="rect(2,2,2,2)" v:tabSpace="42.5197"/>
+			<v:textRect cx="35.4331" cy="820.63" width="70.87" height="42.5197"/>
+			<rect x="0" y="799.37" width="70.8661" height="42.5197" class="st1"/>
+			<text x="19.98" y="813.43" class="st2" v:langID="1049"><v:paragraph v:horizAlign="1"/><v:tabList/>Главная <tspan
+						x="18.19" dy="1.2em" class="st3">страница</tspan> <tspan x="9.66" dy="1.2em" class="st3">пользователя</tspan></text>		</g>
+		<g id="shape8-39" v:mID="8" v:groupContext="shape" v:layerMember="0" transform="translate(345.898,-616.535)">
+			<title>Процесс.8</title>
+			<desc>Форма регистрации</desc>
+			<v:custProps>
+				<v:cp v:nameU="Cost" v:lbl="Стоимость" v:type="7" v:format="@" v:langID="1049"/>
+				<v:cp v:nameU="Duration" v:lbl="Длительность" v:type="2" v:langID="1049"/>
+				<v:cp v:nameU="Resources" v:lbl="Ресурсы" v:langID="1049"/>
+			</v:custProps>
+			<v:userDefs>
+				<v:ud v:nameU="visVersion" v:val="VT0(12):26"/>
+			</v:userDefs>
+			<v:textBlock v:margins="rect(2,2,2,2)" v:tabSpace="42.5197"/>
+			<v:textRect cx="35.4331" cy="820.63" width="70.87" height="42.5197"/>
+			<rect x="0" y="799.37" width="70.8661" height="42.5197" class="st1"/>
+			<text x="22.97" y="818.23" class="st2" v:langID="1049"><v:paragraph v:horizAlign="1"/><v:tabList/>Форма <tspan
+						x="12.25" dy="1.2em" class="st3">регистрации</tspan></text>		</g>
+		<g id="shape10-43" v:mID="10" v:groupContext="shape" v:layerMember="1" transform="translate(318.898,-630.709)">
+			<title>Динамическая соединительная линия.10</title>
+			<path d="M0 834.8 L21.48 834.8" class="st4"/>
+		</g>
+		<g id="shape12-48" v:mID="12" v:groupContext="shape" v:layerMember="1" transform="translate(381.331,-659.055)">
+			<title>Динамическая соединительная линия.12</title>
+			<path d="M0 841.89 L0 778.11 L-56.91 778.11" class="st4"/>
+		</g>
+		<g id="shape15-53" v:mID="15" v:groupContext="shape" v:layerMember="1" transform="translate(283.465,-545.669)">
+			<title>Динамическая соединительная линия.15</title>
+			<path d="M0 841.89 L0 891.5 L-107.87 891.5" class="st4"/>
+		</g>
+		<g id="shape14-58" v:mID="14" v:groupContext="shape" v:layerMember="0" transform="translate(99.2126,-474.803)">
+			<title>Процесс.14</title>
+			<desc>Календарь с праздниками друзей</desc>
+			<v:custProps>
+				<v:cp v:nameU="Cost" v:lbl="Стоимость" v:type="7" v:format="@" v:langID="1049"/>
+				<v:cp v:nameU="Duration" v:lbl="Длительность" v:type="2" v:langID="1049"/>
+				<v:cp v:nameU="Resources" v:lbl="Ресурсы" v:langID="1049"/>
+			</v:custProps>
+			<v:userDefs>
+				<v:ud v:nameU="visVersion" v:val="VT0(12):26"/>
+			</v:userDefs>
+			<v:textBlock v:margins="rect(2,2,2,2)" v:tabSpace="42.5197"/>
+			<v:textRect cx="35.4331" cy="820.63" width="70.87" height="42.5197"/>
+			<rect x="0" y="799.37" width="70.8661" height="42.5197" class="st1"/>
+			<text x="12.13" y="813.43" class="st2" v:langID="1049"><v:paragraph v:horizAlign="1"/><v:tabList/>Календарь с <tspan
+						x="11.25" dy="1.2em" class="st3">праздниками</tspan> <tspan x="22.58" dy="1.2em" class="st3">друзей</tspan></text>		</g>
+		<g id="shape16-63" v:mID="16" v:groupContext="shape" v:layerMember="0" transform="translate(396.85,-474.803)">
+			<title>Процесс.16</title>
+			<desc>Редактирование профиля</desc>
+			<v:custProps>
+				<v:cp v:nameU="Cost" v:lbl="Стоимость" v:type="7" v:format="@" v:langID="1049"/>
+				<v:cp v:nameU="Duration" v:lbl="Длительность" v:type="2" v:langID="1049"/>
+				<v:cp v:nameU="Resources" v:lbl="Ресурсы" v:langID="1049"/>
+			</v:custProps>
+			<v:userDefs>
+				<v:ud v:nameU="visVersion" v:val="VT0(12):26"/>
+			</v:userDefs>
+			<v:textBlock v:margins="rect(2,2,2,2)" v:tabSpace="42.5197"/>
+			<v:textRect cx="35.4331" cy="820.63" width="70.87" height="42.5197"/>
+			<rect x="0" y="799.37" width="70.8661" height="42.5197" class="st1"/>
+			<text x="4.7" y="818.23" class="st2" v:langID="1049"><v:paragraph v:horizAlign="1"/><v:tabList/>Редактирование <tspan
+						x="18.79" dy="1.2em" class="st3">профиля</tspan></text>		</g>
+		<g id="shape18-67" v:mID="18" v:groupContext="shape" v:layerMember="0" transform="translate(248.031,-382.677)">
+			<title>Процесс.18</title>
+			<desc>Список друзей</desc>
+			<v:custProps>
+				<v:cp v:nameU="Cost" v:lbl="Стоимость" v:type="7" v:format="@" v:langID="1049"/>
+				<v:cp v:nameU="Duration" v:lbl="Длительность" v:type="2" v:langID="1049"/>
+				<v:cp v:nameU="Resources" v:lbl="Ресурсы" v:langID="1049"/>
+			</v:custProps>
+			<v:userDefs>
+				<v:ud v:nameU="visVersion" v:val="VT0(12):26"/>
+			</v:userDefs>
+			<v:textBlock v:margins="rect(2,2,2,2)" v:tabSpace="42.5197"/>
+			<v:textRect cx="35.4331" cy="820.63" width="70.87" height="42.5197"/>
+			<rect x="0" y="799.37" width="70.8661" height="42.5197" class="st1"/>
+			<text x="8.21" y="823.03" class="st2" v:langID="1049"><v:paragraph v:horizAlign="1"/><v:tabList/>Список друзей</text>		</g>
+		<g id="shape20-70" v:mID="20" v:groupContext="shape" v:layerMember="1" transform="translate(283.465,-545.669)">
+			<title>Динамическая соединительная линия.20</title>
+			<path d="M0 841.89 L0 891.5 L107.87 891.5" class="st4"/>
+		</g>
+		<g id="shape17-75" v:mID="17" v:groupContext="shape" v:layerMember="1" transform="translate(283.465,-545.669)">
+			<title>Динамическая соединительная линия.5</title>
+			<v:userDefs>
+				<v:ud v:nameU="visVersion" v:val="VT0(12):26"/>
+			</v:userDefs>
+			<path d="M0 841.89 L0 939.76 L107.87 939.76" class="st4"/>
+		</g>
+		<g id="shape21-80" v:mID="21" v:groupContext="shape" v:layerMember="0" transform="translate(396.85,-426.543)">
+			<title>Процесс.21</title>
+			<desc>Редактирования списка желаний</desc>
+			<v:custProps>
+				<v:cp v:nameU="Cost" v:lbl="Стоимость" v:type="7" v:format="@" v:langID="1049"/>
+				<v:cp v:nameU="Duration" v:lbl="Длительность" v:type="2" v:langID="1049"/>
+				<v:cp v:nameU="Resources" v:lbl="Ресурсы" v:langID="1049"/>
+			</v:custProps>
+			<v:userDefs>
+				<v:ud v:nameU="visVersion" v:val="VT0(12):26"/>
+			</v:userDefs>
+			<v:textBlock v:margins="rect(2,2,2,2)" v:tabSpace="42.5197"/>
+			<v:textRect cx="35.4331" cy="820.63" width="70.87" height="42.5197"/>
+			<rect x="0" y="799.37" width="70.8661" height="42.5197" class="st1"/>
+			<text x="4.76" y="818.23" class="st2" v:langID="1049"><v:paragraph v:horizAlign="1"/><v:tabList/>Редактирования <tspan
+						x="5.81" dy="1.2em" class="st3">списка</tspan> желаний</text>		</g>
+		<g id="shape22-84" v:mID="22" v:groupContext="shape" v:layerMember="0" transform="translate(248.031,-298.984)">
+			<title>Процесс.22</title>
+			<desc>Страница друга</desc>
+			<v:custProps>
+				<v:cp v:nameU="Cost" v:lbl="Стоимость" v:type="7" v:format="@" v:langID="1049"/>
+				<v:cp v:nameU="Duration" v:lbl="Длительность" v:type="2" v:langID="1049"/>
+				<v:cp v:nameU="Resources" v:lbl="Ресурсы" v:langID="1049"/>
+			</v:custProps>
+			<v:userDefs>
+				<v:ud v:nameU="visVersion" v:val="VT0(12):26"/>
+			</v:userDefs>
+			<v:textBlock v:margins="rect(2,2,2,2)" v:tabSpace="42.5197"/>
+			<v:textRect cx="35.4331" cy="820.63" width="70.87" height="42.5197"/>
+			<rect x="0" y="799.37" width="70.8661" height="42.5197" class="st1"/>
+			<text x="5.95" y="823.03" class="st2" v:langID="1049"><v:paragraph v:horizAlign="1"/><v:tabList/>Страница друга</text>		</g>
+		<g id="shape23-87" v:mID="23" v:groupContext="shape" v:layerMember="1" transform="translate(276.378,-382.677)">
+			<title>Динамическая соединительная линия.23</title>
+			<path d="M7.09 841.89 L7.09 877.54" class="st4"/>
+		</g>
+		<g id="shape25-92" v:mID="25" v:groupContext="shape" v:layerMember="1" transform="translate(134.646,-474.803)">
+			<title>Динамическая соединительная линия.25</title>
+			<path d="M0 841.89 L0 996.45 L107.87 996.45" class="st4"/>
+		</g>
+		<g id="shape29-97" v:mID="29" v:groupContext="shape" v:layerMember="1" transform="translate(276.378,-418.11)">
+			<title>Динамическая соединительная линия.29</title>
+		</g>
+		<g id="shape30-100" v:mID="30" v:groupContext="shape" v:layerMember="1" transform="translate(311.811,-320.244)">
+			<title>Динамическая соединительная линия.30</title>
+			<path d="M7.09 841.89 L183.54 841.89 L183.54 595.2 L12.61 595.2" class="st4"/>
+		</g>
+		<g id="shape31-105" v:mID="31" v:groupContext="shape" v:layerMember="1" transform="translate(248.031,-320.244)">
+			<title>Динамическая соединительная линия.31</title>
+			<path d="M0 841.89 L-113.39 841.89 L-113.39 692.85" class="st4"/>
+		</g>
+		<g id="shape11-110" v:mID="11" v:groupContext="shape" v:layerMember="1" transform="translate(276.378,-545.669)">
+			<title>Динамическая соединительная линия.11</title>
+			<path d="M7.09 841.89 L7.09 956.84" class="st4"/>
+		</g>
+		<g id="shape13-115" v:mID="13" v:groupContext="shape" v:layerMember="1" transform="translate(276.378,-425.197)">
+			<title>Динамическая соединительная линия.13</title>
+			<path d="M7.09 841.89 L7.09 726.94" class="st4"/>
+		</g>
+		<g id="shape19-120" v:mID="19" v:groupContext="shape" v:layerMember="0" transform="translate(162.992,-215.291)">
+			<title>Процесс.19</title>
+			<desc>Список желаний друга</desc>
+			<v:custProps>
+				<v:cp v:nameU="Cost" v:lbl="Стоимость" v:type="7" v:format="@" v:langID="1049"/>
+				<v:cp v:nameU="Duration" v:lbl="Длительность" v:type="2" v:langID="1049"/>
+				<v:cp v:nameU="Resources" v:lbl="Ресурсы" v:langID="1049"/>
+			</v:custProps>
+			<v:userDefs>
+				<v:ud v:nameU="visVersion" v:val="VT0(12):26"/>
+			</v:userDefs>
+			<v:textBlock v:margins="rect(2,2,2,2)" v:tabSpace="42.5197"/>
+			<v:textRect cx="35.4331" cy="820.63" width="70.87" height="42.5197"/>
+			<rect x="0" y="799.37" width="70.8661" height="42.5197" class="st1"/>
+			<text x="4.92" y="818.23" class="st2" v:langID="1049"><v:paragraph v:horizAlign="1"/><v:tabList/>Список желаний <tspan
+						x="25.19" dy="1.2em" class="st3">друга</tspan></text>		</g>
+		<g id="shape26-124" v:mID="26" v:groupContext="shape" v:layerMember="0" transform="translate(325.984,-215.291)">
+			<title>Процесс.26</title>
+			<desc>Список праздников дргуга</desc>
+			<v:custProps>
+				<v:cp v:nameU="Cost" v:lbl="Стоимость" v:type="7" v:format="@" v:langID="1049"/>
+				<v:cp v:nameU="Duration" v:lbl="Длительность" v:type="2" v:langID="1049"/>
+				<v:cp v:nameU="Resources" v:lbl="Ресурсы" v:langID="1049"/>
+			</v:custProps>
+			<v:userDefs>
+				<v:ud v:nameU="visVersion" v:val="VT0(12):26"/>
+			</v:userDefs>
+			<v:textBlock v:margins="rect(2,2,2,2)" v:tabSpace="42.5197"/>
+			<v:textRect cx="35.4331" cy="820.63" width="70.87" height="42.5197"/>
+			<rect x="0" y="799.37" width="70.8661" height="42.5197" class="st1"/>
+			<text x="22.17" y="813.43" class="st2" v:langID="1049"><v:paragraph v:horizAlign="1"/><v:tabList/>Список <tspan
+						x="14.11" dy="1.2em" class="st3">праздников</tspan> <tspan x="23.73" dy="1.2em" class="st3">дргуга</tspan></text>		</g>
+		<g id="shape32-129" v:mID="32" v:groupContext="shape" v:layerMember="1" transform="translate(283.465,-298.984)">
+			<title>Динамическая соединительная линия.32</title>
+			<path d="M0 841.89 L0 855.39 L-85.04 855.39 L-85.04 877.54" class="st4"/>
+		</g>
+		<g id="shape33-134" v:mID="33" v:groupContext="shape" v:layerMember="1" transform="translate(283.465,-298.984)">
+			<title>Динамическая соединительная линия.33</title>
+			<path d="M0 841.89 L0 855.39 L77.95 855.39 L77.95 877.54" class="st4"/>
+		</g>
+		<g id="shape34-139" v:mID="34" v:groupContext="shape" v:layerMember="1" transform="translate(396.85,-236.551)">
+			<title>Динамическая соединительная линия.34</title>
+			<path d="M0 841.89 L114.09 841.89 L114.09 511.51 L-72.43 511.51" class="st4"/>
+		</g>
+		<g id="shape35-144" v:mID="35" v:groupContext="shape" v:layerMember="1" transform="translate(162.992,-236.551)">
+			<title>Динамическая соединительная линия.35</title>
+			<path d="M0 841.89 L-92.13 841.89 L-92.13 511.51 L79.52 511.51" class="st4"/>
+		</g>
+		<g id="shape36-149" v:mID="36" v:groupContext="shape" v:layerMember="1" transform="translate(233.858,-229.465)">
+			<title>Динамическая соединительная линия.36</title>
+			<path d="M0 834.8 L86.61 834.8" class="st4"/>
+		</g>
+		<g id="shape37-154" v:mID="37" v:groupContext="shape" v:layerMember="1" transform="translate(325.984,-243.638)">
+			<title>Динамическая соединительная линия.37</title>
+			<path d="M0 848.98 L-86.61 848.98" class="st4"/>
+		</g>
+		<g id="shape24-159" v:mID="24" v:groupContext="shape" v:layerMember="1" transform="translate(170.079,-496.063)">
+			<title>Динамическая соединительная линия.24</title>
+			<path d="M0 841.89 L113.39 841.89 L113.39 797.8" class="st4"/>
+		</g>
+		<g id="shape27-164" v:mID="27" v:groupContext="shape" v:layerMember="1" transform="translate(396.85,-496.063)">
+			<title>Динамическая соединительная линия.27</title>
+			<path d="M0 841.89 L-113.39 841.89 L-113.39 797.8" class="st4"/>
+		</g>
+		<g id="shape28-169" v:mID="28" v:groupContext="shape" v:layerMember="1" transform="translate(396.85,-447.803)">
+			<title>Динамическая соединительная линия.28</title>
+			<path d="M0 841.89 L-113.39 841.89 L-113.39 749.54" class="st4"/>
+		</g>
+		<g id="shape38-174" v:mID="38" v:groupContext="shape" v:layerMember="0" transform="translate(248.031,-134.646)">
+			<title>Решение.38</title>
+			<desc>Первый ли человек</desc>
+			<v:custProps>
+				<v:cp v:nameU="Cost" v:lbl="Стоимость" v:type="7" v:format="@" v:langID="1049"/>
+				<v:cp v:nameU="Duration" v:lbl="Длительность" v:type="2" v:langID="1049"/>
+				<v:cp v:nameU="Resources" v:lbl="Ресурсы" v:langID="1049"/>
+			</v:custProps>
+			<v:userDefs>
+				<v:ud v:nameU="visVersion" v:val="VT0(12):26"/>
+			</v:userDefs>
+			<v:textBlock v:margins="rect(2,2,2,2)" v:tabSpace="42.5197"/>
+			<v:textRect cx="35.4331" cy="820.63" width="59.06" height="31.8898"/>
+			<path d="M0 820.63 L35.43 799.37 L70.87 820.63 L35.43 841.89 L0 820.63 Z" class="st1"/>
+			<text x="15.2" y="818.23" class="st2" v:langID="1049"><v:paragraph v:horizAlign="1"/><v:tabList/>Первый ли <tspan
+						x="20.47" dy="1.2em" class="st3">человек</tspan></text>		</g>
+		<g id="shape39-178" v:mID="39" v:groupContext="shape" v:layerMember="1" transform="translate(198.425,-215.291)">
+			<title>Динамическая соединительная линия.39</title>
+			<path d="M0 841.89 L0 855.39 L85.04 855.39 L85.04 874.5" class="st4"/>
+		</g>
+		<g id="shape41-183" v:mID="41" v:groupContext="shape" v:layerMember="1" transform="translate(248.031,-148.819)">
+			<title>Динамическая соединительная линия.41</title>
+			<desc>Да</desc>
+			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+			<v:textRect cx="-21.2598" cy="834.803" width="40" height="17.6036"/>
+			<path d="M0 834.8 L-37 834.8" class="st4"/>
+			<rect v:rectContext="textBkgnd" x="-26.1935" y="830.003" width="9.8671" height="9.59985" class="st6"/>
+			<text x="-26.19" y="837.2" class="st2" v:langID="1049"><v:paragraph v:horizAlign="1"/><v:tabList/>Да</text>		</g>
+		<g id="shape43-190" v:mID="43" v:groupContext="shape" v:layerMember="1" transform="translate(318.898,-148.819)">
+			<title>Динамическая соединительная линия.43</title>
+			<desc>Нет</desc>
+			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+			<v:textRect cx="53.1496" cy="834.803" width="40" height="17.6036"/>
+			<path d="M0 834.8 L100.78 834.8" class="st4"/>
+			<rect v:rectContext="textBkgnd" x="46.2044" y="830.003" width="13.8906" height="9.59985" class="st6"/>
+			<text x="46.2" y="837.2" class="st2" v:langID="1049"><v:paragraph v:horizAlign="1"/><v:tabList/>Нет</text>		</g>
+		<g id="shape40-197" v:mID="40" v:groupContext="shape" v:layerMember="0" transform="translate(134.646,-134.646)">
+			<title>Процесс.40</title>
+			<desc>Становится организатором сборов на подарок</desc>
+			<v:custProps>
+				<v:cp v:nameU="Cost" v:lbl="Стоимость" v:type="7" v:format="@" v:langID="1049"/>
+				<v:cp v:nameU="Duration" v:lbl="Длительность" v:type="2" v:langID="1049"/>
+				<v:cp v:nameU="Resources" v:lbl="Ресурсы" v:langID="1049"/>
+			</v:custProps>
+			<v:userDefs>
+				<v:ud v:nameU="visVersion" v:val="VT0(12):26"/>
+			</v:userDefs>
+			<v:textBlock v:margins="rect(2,2,2,2)" v:tabSpace="42.5197"/>
+			<v:textRect cx="35.4331" cy="820.63" width="70.87" height="42.5197"/>
+			<rect x="0" y="799.37" width="70.8661" height="42.5197" class="st1"/>
+			<text x="13.7" y="808.63" class="st2" v:langID="1049"><v:paragraph v:horizAlign="1"/><v:tabList/>Становится <tspan
+						x="7.54" dy="1.2em" class="st3">организатором</tspan> <tspan x="16.8" dy="1.2em" class="st3">сборов</tspan> на <tspan
+						x="20.28" dy="1.2em" class="st3">подарок</tspan></text>		</g>
+		<g id="shape42-203" v:mID="42" v:groupContext="shape" v:layerMember="0" transform="translate(425.197,-134.646)">
+			<title>Процесс.42</title>
+			<desc>Становится участником сборов на подарок</desc>
+			<v:custProps>
+				<v:cp v:nameU="Cost" v:lbl="Стоимость" v:type="7" v:format="@" v:langID="1049"/>
+				<v:cp v:nameU="Duration" v:lbl="Длительность" v:type="2" v:langID="1049"/>
+				<v:cp v:nameU="Resources" v:lbl="Ресурсы" v:langID="1049"/>
+			</v:custProps>
+			<v:userDefs>
+				<v:ud v:nameU="visVersion" v:val="VT0(12):26"/>
+			</v:userDefs>
+			<v:textBlock v:margins="rect(2,2,2,2)" v:tabSpace="42.5197"/>
+			<v:textRect cx="35.4331" cy="820.63" width="70.87" height="42.5197"/>
+			<rect x="0" y="799.37" width="70.8661" height="42.5197" class="st1"/>
+			<text x="13.7" y="808.63" class="st2" v:langID="1049"><v:paragraph v:horizAlign="1"/><v:tabList/>Становится <tspan
+						x="14.12" dy="1.2em" class="st3">участником</tspan> <tspan x="16.8" dy="1.2em" class="st3">сборов</tspan> на <tspan
+						x="20.28" dy="1.2em" class="st3">подарок</tspan></text>		</g>
+		<g id="shape44-209" v:mID="44" v:groupContext="shape" v:layerMember="0" transform="translate(21.2598,-134.646)">
+			<title>Процесс.44</title>
+			<desc>Выбирает праздник, сумму и дату окончания сбора средств</desc>
+			<v:custProps>
+				<v:cp v:nameU="Cost" v:lbl="Стоимость" v:type="7" v:format="@" v:langID="1049"/>
+				<v:cp v:nameU="Duration" v:lbl="Длительность" v:type="2" v:langID="1049"/>
+				<v:cp v:nameU="Resources" v:lbl="Ресурсы" v:langID="1049"/>
+			</v:custProps>
+			<v:userDefs>
+				<v:ud v:nameU="visVersion" v:val="VT0(12):26"/>
+			</v:userDefs>
+			<v:textBlock v:margins="rect(2,2,2,2)" v:tabSpace="42.5197"/>
+			<v:textRect cx="35.4331" cy="820.63" width="70.87" height="42.5197"/>
+			<rect x="0" y="799.37" width="70.8661" height="42.5197" class="st1"/>
+			<text x="16.86" y="808.63" class="st2" v:langID="1049"><v:paragraph v:horizAlign="1"/><v:tabList/>Выбирает <tspan
+						x="4.73" dy="1.2em" class="st3">праздник</tspan>, сумму <tspan x="3.26" dy="1.2em" class="st3">и</tspan> дату окончания <tspan
+						x="8.62" dy="1.2em" class="st3">сбора</tspan> средств</text>		</g>
+		<g id="shape45-215" v:mID="45" v:groupContext="shape" v:layerMember="1" transform="translate(134.646,-148.819)">
+			<title>Динамическая соединительная линия.45</title>
+			<path d="M0 834.8 L-37 834.8" class="st4"/>
+		</g>
+		<g id="shape46-220" v:mID="46" v:groupContext="shape" v:layerMember="0" transform="translate(248.031,-49.6063)">
+			<title>Процесс.46</title>
+			<desc>Чат со сбором средств</desc>
+			<v:custProps>
+				<v:cp v:nameU="Cost" v:lbl="Стоимость" v:type="7" v:format="@" v:langID="1049"/>
+				<v:cp v:nameU="Duration" v:lbl="Длительность" v:type="2" v:langID="1049"/>
+				<v:cp v:nameU="Resources" v:lbl="Ресурсы" v:langID="1049"/>
+			</v:custProps>
+			<v:userDefs>
+				<v:ud v:nameU="visVersion" v:val="VT0(12):26"/>
+			</v:userDefs>
+			<v:textBlock v:margins="rect(2,2,2,2)" v:tabSpace="42.5197"/>
+			<v:textRect cx="35.4331" cy="820.63" width="70.87" height="42.5197"/>
+			<rect x="0" y="799.37" width="70.8661" height="42.5197" class="st1"/>
+			<text x="8.55" y="818.23" class="st2" v:langID="1049"><v:paragraph v:horizAlign="1"/><v:tabList/>Чат со сбором <tspan
+						x="20.69" dy="1.2em" class="st3">средств</tspan></text>		</g>
+		<g id="shape47-224" v:mID="47" v:groupContext="shape" v:layerMember="1" transform="translate(56.6929,-134.646)">
+			<title>Динамическая соединительная линия.47</title>
+			<path d="M0 841.89 L0 855.39 L226.77 855.39 L226.77 878.89" class="st4"/>
+		</g>
+		<g id="shape48-229" v:mID="48" v:groupContext="shape" v:layerMember="1" transform="translate(460.63,-134.646)">
+			<title>Динамическая соединительная линия.48</title>
+			<path d="M0 841.89 L0 855.39 L-177.17 855.39 L-177.17 878.89" class="st4"/>
+		</g>
+		<g id="shape49-234" v:mID="49" v:groupContext="shape" v:layerMember="1" transform="translate(56.6929,-177.165)">
+			<title>Динамическая соединительная линия.49</title>
+			<path d="M0 841.89 L0 452.13 L185.82 452.13" class="st4"/>
+		</g>
+		<g id="shape50-239" v:mID="50" v:groupContext="shape" v:layerMember="1" transform="translate(496.063,-155.906)">
+			<title>Динамическая соединительная линия.50</title>
+			<path d="M0 841.89 L28.35 841.89 L28.35 430.87 L-171.65 430.87" class="st4"/>
+		</g>
+	</g>
+</svg>
