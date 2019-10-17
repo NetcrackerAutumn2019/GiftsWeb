@@ -17,11 +17,16 @@ public class HelloController {
     @Autowired
     public UsersService usersService;
 
-    @GetMapping("write/{name}")
-    public String write(@PathVariable String name) {
-        Users users = new Users(name);
-        usersService.save(users);
+    @GetMapping("write")
+    public String write(Model model) {
+        Users users = new Users();
+        model.addAttribute("users", users);
         return "write";
+    }
+
+    @PostMapping("write")
+    public void  write(@ModelAttribute("users") Users users){
+        usersService.save(users);
     }
 
     @GetMapping("read/{id}")
