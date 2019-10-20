@@ -5,6 +5,11 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
-<h1>Success</h1>
+<form th:action="@{/write}" th:object="${users}" method="post">
+    Name:
+    <input type="text" th:field="*{name}" />
+    <br/>
+    <input th:type="submit" value="Create" />
+</form>
 </body>
 </html>
