@@ -1,31 +1,29 @@
 package authentification.domain;
 
+import org.hibernate.annotations.Fetch;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.GenerationType;
-import javax.persistence.ElementCollection;
-import javax.persistence.FetchType;
-import javax.persistence.CollectionTable;
-import javax.persistence.JoinColumn;
-import javax.persistence.Enumerated;
-import javax.persistence.EnumType;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import java.util.Collection;
 import java.util.Set;
 
-@Entity
+@Entity(name = "Users")
 @Table(name = "users")
 public class User implements UserDetails {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    //@Column(name = "user_id")
     private Long id;
     private String username;
     private String password;
+
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
+    private UserInfo info;
+
+    @OneToMany(fetch = FetchType.LAZY, targetEntity = UserWishes.class)
+    private Set<UserWishes> wishes;
 
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
@@ -96,4 +94,6 @@ public class User implements UserDetails {
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
+
+//    UserInfo infouser = new UserInfo().getBirthday()
 }

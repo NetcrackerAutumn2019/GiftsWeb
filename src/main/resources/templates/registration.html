@@ -9,6 +9,10 @@ Add new User
 <form th:action="@{/registration}" method="post">
     <div><label> User Name : <input type="text" name="login"/> </label></div>
     <div><label> Password: <input type="password" name="password"/> </label></div>
+    <div><label> First Name: <input type="text" name="first_name"/> </label></div>
+    <div><label> Last Name: <input type="text" name="last_name"/> </label></div>
+    <div><label> Email: <input type="text" name="email"/> </label></div>
+    <div><label> Birth Date: <input type="date" name="birthday"/> </label></div>
     <div><input type="submit" value="Sign Up"/></div>
 </form>
 <div th:if="${message}">

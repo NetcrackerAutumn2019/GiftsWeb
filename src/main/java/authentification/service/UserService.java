@@ -15,6 +15,8 @@ import java.util.Collections;
 public class UserService implements UserDetailsService {
     @Autowired
     private UserRepository userRepository;
+//    @Autowired
+//    private UserInfoRepository userInfoRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -32,4 +34,7 @@ public class UserService implements UserDetailsService {
         userRepository.save(user);
         return true;
     }
+//    public void addUserInfo(UserInfo userInfo){
+//        userInfoRepository.save(userInfo);
+//    }
 }
