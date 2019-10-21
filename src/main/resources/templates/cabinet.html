@@ -6,7 +6,16 @@
 </head>
 <body>
 <h1 th:inline="text">Добро пожаловать,  [[${#httpServletRequest.remoteUser}]]!</h1>
-<p> <a th:href="@{/hello_next}">Мои друзья</a></p>
+<form th:action="@{/redactor}">
+    <input type="submit" value="Редактировать"/>
+</form>
+<form th:action="@{/friends}">
+    <input type="submit" value="Мои друзья"/>
+</form>
+<form th:action="@{/new_wish}">
+    <input type="submit" value="Новое желание"/>
+</form>
+
 <form th:action="@{/logout}" method="post">
     <input type="submit" value="Sign Out"/>
 </form>

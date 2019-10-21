@@ -20,8 +20,9 @@ public class MainController {
         return "login";
     }
 
-    @GetMapping("/hello_next")
-    public String hello_next() {
-        return "hello_next";
+    @GetMapping("/friends")
+    public String friends() {
+        return "friends";
     }
+
 }
