@@ -11,9 +11,6 @@ public class UserInfoService {
     @Autowired
     private UserInfoRepository userInfoRepository;
 
-    @Autowired
-    private UserRepository userRepository;
-
     public boolean addUserInfo(UserInfo userInfo) {
         userInfo.setUser(userInfo.getUser());
         userInfo.setFirstName(userInfo.getFirstName());

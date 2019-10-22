@@ -35,13 +35,13 @@ public class RegistrationController {
             Map<String, Object> model) {
 
         User newUser = new User(login, password);
-        UserInfo uI = new UserInfo(first_name, last_name, email, birthday, new User(login, password));
+        UserInfo uI = new UserInfo(first_name, last_name, email, birthday, newUser);
 
-        if (!userService.addUser(new User(login, password)) || !userInfoService.addUserInfo(uI)) {
+        if (!userService.addUser(newUser)) {
             model.put("message", "User exists!");
             return "registration";
         }
-
+        userInfoService.addUserInfo(uI);
         return "redirect:/login";
     }
 
