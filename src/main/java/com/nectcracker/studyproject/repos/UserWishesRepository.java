@@ -1,6 +1,6 @@
-package authentification.repos;
+package com.nectcracker.studyproject.repos;
 
-import authentification.domain.UserWishes;
+import com.nectcracker.studyproject.domain.UserWishes;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UserWishesRepository extends JpaRepository<UserWishes,Long> {

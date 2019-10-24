@@ -1,7 +1,6 @@
-package authentification.repos;
+package com.nectcracker.studyproject.repos;
 
-import authentification.domain.User;
-import authentification.domain.UserInfo;
+import com.nectcracker.studyproject.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UserRepository extends JpaRepository<User, Long> {

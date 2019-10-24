@@ -1,8 +1,8 @@
-package authentification.service;
+package com.nectcracker.studyproject.service;
 
-import authentification.domain.Role;
-import authentification.domain.User;
-import authentification.repos.UserRepository;
+import com.nectcracker.studyproject.domain.Role;
+import com.nectcracker.studyproject.domain.User;
+import com.nectcracker.studyproject.repos.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

@@ -1,4 +1,4 @@
-package authentification.domain;
+package com.nectcracker.studyproject.domain;
 
 import lombok.Data;
 

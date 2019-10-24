@@ -1,6 +1,6 @@
-package authentification.repos;
+package com.nectcracker.studyproject.repos;
 
-import authentification.domain.UserInfo;
+import com.nectcracker.studyproject.domain.UserInfo;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UserInfoRepository extends JpaRepository<UserInfo,Long> {

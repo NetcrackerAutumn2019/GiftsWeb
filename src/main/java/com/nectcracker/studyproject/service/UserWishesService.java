@@ -1,8 +1,8 @@
-package authentification.service;
+package com.nectcracker.studyproject.service;
 
 
-import authentification.domain.UserWishes;
-import authentification.repos.UserWishesRepository;
+import com.nectcracker.studyproject.domain.UserWishes;
+import com.nectcracker.studyproject.repos.UserWishesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,4 +1,4 @@
-package authentification.domain;
+package com.nectcracker.studyproject.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,7 +19,6 @@ public class UserInfo implements Serializable {
     private Long id;
     private String firstName;
     private String lastName;
-    private String email;
 
     @Temporal(TemporalType.DATE)
     private Date birthday;
