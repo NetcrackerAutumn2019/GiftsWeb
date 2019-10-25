@@ -34,20 +34,14 @@ public class RegistrationController {
             @RequestParam("birthday") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date birthday,
             Map<String, Object> model) {
 
-        User user = new User(login,password);
+        User newUser = new User(login, password);
+        UserInfo uI = new UserInfo(first_name, last_name, email, birthday, new User(login, password));
 
-        if (!userService.addUser(user)) {
+        if (!userService.addUser(new User(login, password)) || !userInfoService.addUserInfo(uI)) {
             model.put("message", "User exists!");
             return "registration";
         }
 
-        UserInfo userInfo = new UserInfo();
-        userInfo.setUser(user);
-        userInfo.setFirstName(first_name);
-        userInfo.setLastName(last_name);
-        userInfo.setEmail(email);
-        userInfo.setBirthday(birthday);
-        userInfoService.addUserInfo(userInfo);
         return "redirect:/login";
     }
 

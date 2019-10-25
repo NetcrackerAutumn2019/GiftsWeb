@@ -29,11 +29,11 @@ public class UserInfo implements Serializable {
     @MapsId
     private User user;
 
-
-
-
-
-
-
-
+    public UserInfo(String firstName, String lastName, String email, Date birthday, User user) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.birthday = birthday;
+        this.user = user;
+    }
 }
