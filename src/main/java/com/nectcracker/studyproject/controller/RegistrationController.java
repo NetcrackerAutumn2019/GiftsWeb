@@ -1,20 +1,14 @@
 package com.nectcracker.studyproject.controller;
 
-import com.nectcracker.studyproject.domain.User;
-import com.nectcracker.studyproject.domain.UserInfo;
 import com.nectcracker.studyproject.domain.UserRegistrationRequest;
 import com.nectcracker.studyproject.service.UserService;
-import com.nectcracker.studyproject.service.UserInfoService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
 
@@ -34,7 +28,7 @@ public class RegistrationController {
 
     @GetMapping("")
     public String registration(Model model) {
-        model.addAttribute("userRegistrationRequest", new UserProfileController());
+        model.addAttribute("userRegistrationRequest", new UserController());
         return "registration";
     }
 
