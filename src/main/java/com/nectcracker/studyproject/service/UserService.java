@@ -2,8 +2,10 @@ package com.nectcracker.studyproject.service;
 
 import com.nectcracker.studyproject.domain.Role;
 import com.nectcracker.studyproject.domain.User;
+import com.nectcracker.studyproject.domain.UserInfo;
+import com.nectcracker.studyproject.domain.UserRegistrationRequest;
+import com.nectcracker.studyproject.repos.UserInfoRepository;
 import com.nectcracker.studyproject.repos.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -13,28 +15,40 @@ import java.util.Collections;
 
 @Service
 public class UserService implements UserDetailsService {
-    @Autowired
-    private UserRepository userRepository;
-//    @Autowired
-//    private UserInfoRepository userInfoRepository;
+    private final UserRepository userRepository;
+    private final UserInfoRepository userInfoRepository;
+
+    public UserService(UserRepository userRepository, UserInfoRepository userInfoRepository) {
+        this.userRepository = userRepository;
+        this.userInfoRepository = userInfoRepository;
+    }
+
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepository.findByUsername(username);
     }
 
-    public boolean addUser(User user) {
-        User userFromDb = userRepository.findByUsername(user.getUsername());
-
-        if (userFromDb != null) {
+    public boolean addUser(UserRegistrationRequest userRegistrationRequest) {
+        if (userRepository.findByUsername(userRegistrationRequest.getLogin()) != null)
             return false;
-        }
 
+        User user = new User(userRegistrationRequest.getLogin(), userRegistrationRequest.getPassword(), userRegistrationRequest.getEmail());
         user.setRoles(Collections.singleton(Role.USER));
         userRepository.save(user);
+
+//        UserInfo userInfo = new UserInfo();
+//        userInfo.setUser(user);
+//        userInfo.setFirstName(first_name);
+//        userInfo.setLastName(last_name);
+//        userInfo.setEmail(email);
+//        userInfo.setBirthday(birthday);
+//        userInfoService.addUserInfo(new UserInfo().toBuilder().user());
+        userInfoRepository.save(UserInfo.builder()
+                .firstName(userRegistrationRequest.getFirst_name())
+                .lastName(userRegistrationRequest.getLast_name())
+                .birthday(userRegistrationRequest.getBirthday())
+                .user(user).build());
         return true;
     }
-//    public void addUserInfo(UserInfo userInfo){
-//        userInfoRepository.save(userInfo);
-//    }
 }

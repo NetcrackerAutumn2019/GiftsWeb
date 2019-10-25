@@ -1,6 +1,7 @@
 package com.nectcracker.studyproject.domain;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -11,8 +12,6 @@ import javax.persistence.*;
 @Entity
 @Table
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class UserInfo implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,11 +27,11 @@ public class UserInfo implements Serializable {
     @MapsId
     private User user;
 
-
-
-
-
-
-
-
+    @Builder(toBuilder = true)
+    public UserInfo(String firstName, String lastName, Date birthday, User user) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.birthday = birthday;
+        this.user = user;
+    }
 }

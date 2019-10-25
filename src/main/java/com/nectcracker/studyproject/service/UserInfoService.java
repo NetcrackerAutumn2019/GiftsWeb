@@ -7,8 +7,11 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class UserInfoService {
-    @Autowired
-    private UserInfoRepository userInfoRepository;
+    private final UserInfoRepository userInfoRepository;
+
+    public UserInfoService(UserInfoRepository userInfoRepository) {
+        this.userInfoRepository = userInfoRepository;
+    }
 
     public void addUserInfo(UserInfo userInfo){
         userInfoRepository.save(userInfo);

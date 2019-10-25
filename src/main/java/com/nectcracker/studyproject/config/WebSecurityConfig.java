@@ -36,12 +36,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                     .logout()
                     .permitAll();
-//                .and()
-//                    .oauth2Login()
-//        http.authorizeRequests()
-//                .anyRequest().authenticated()
-//                .and()
-//                .oauth2Login();
     }
 
     @Autowired

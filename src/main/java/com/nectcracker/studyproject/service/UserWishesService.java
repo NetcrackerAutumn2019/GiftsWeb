@@ -8,8 +8,11 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class UserWishesService {
-    @Autowired
-    private UserWishesRepository userWishesRepository;
+    private final UserWishesRepository userWishesRepository;
+
+    public UserWishesService(UserWishesRepository userWishesRepository) {
+        this.userWishesRepository = userWishesRepository;
+    }
 
     public void addUserWishes(UserWishes userWishes){
         userWishesRepository.save(userWishes);

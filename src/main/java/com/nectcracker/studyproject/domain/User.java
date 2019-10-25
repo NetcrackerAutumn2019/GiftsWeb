@@ -1,5 +1,6 @@
 package com.nectcracker.studyproject.domain;
 
+import lombok.Builder;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -8,8 +9,10 @@ import javax.persistence.*;
 import java.util.Collection;
 import java.util.Set;
 
+
 @Entity(name = "Users")
 @Table(name = "users")
+
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

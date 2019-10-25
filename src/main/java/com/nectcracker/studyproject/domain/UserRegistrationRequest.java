@@ -5,8 +5,6 @@ import lombok.*;
 import java.util.Date;
 
 @Data
-@Builder(toBuilder = true)
-@NonNull
 public class UserRegistrationRequest {
     private String login;
     private String password;
