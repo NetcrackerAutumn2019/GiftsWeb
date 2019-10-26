@@ -28,7 +28,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                    .antMatchers("/", "/registration", "/home").permitAll()
+                    .antMatchers("/", "/registration", "/home", "/vkauth").permitAll()
                     .anyRequest()
                     .authenticated()
                 .and()
@@ -37,9 +37,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .permitAll()
                 .and()
                     .logout()
-                    .permitAll();
-//                .and()
-//                    .oauth2Login()
+                    .permitAll()
+                .and()
+                    .oauth2Login();
 //        http.authorizeRequests()
 //                .anyRequest().authenticated()
 //                .and()
@@ -54,5 +54,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .usersByUsernameQuery(
                         "select username, password, 1 from users where username=?")
                 .authoritiesByUsernameQuery("select u.username, ur.roles from users u inner join user_role ur on u.id = ur.user_id where u.username=?");
+
     }
+
+
 }
