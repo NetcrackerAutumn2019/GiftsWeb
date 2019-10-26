@@ -1,9 +1,9 @@
 package com.nectcracker.studyproject.domain;
 
-import lombok.AllArgsConstructor;
+
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+
 
 import java.io.Serializable;
 import java.util.Date;
@@ -33,5 +33,9 @@ public class UserInfo implements Serializable {
         this.lastName = lastName;
         this.birthday = birthday;
         this.user = user;
+    }
+
+    public UserInfo(){
+
     }
 }

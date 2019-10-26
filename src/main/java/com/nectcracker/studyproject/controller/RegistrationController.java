@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import org.thymeleaf.util.StringUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -35,12 +36,27 @@ public class RegistrationController {
     @PostMapping("")
     public String addUser(@ModelAttribute("userRegistrationRequest") UserRegistrationRequest userRegistrationRequest,
             Map<String, Object> model) {
-
-        if (!userService.addUser(userRegistrationRequest)) {
-            model.put("message", "User exists!");
+        String message = userService.addUser(userRegistrationRequest);
+        if (!StringUtils.isEmpty(message)) {
+            model.put("message", message);
             return "registration";
         }
         return "redirect:/login";
     }
+
+
+    @GetMapping("/activate/{code}")
+    public String activate(Model model, @PathVariable String code ){
+        boolean isActivated = userService.activateUser(code);
+
+        if(isActivated)
+            model.addAttribute("message", "Success");
+        else
+            model.addAttribute("message", "Sorry, something was wrong");
+
+        return "login";
+    }
+
+
 
 }

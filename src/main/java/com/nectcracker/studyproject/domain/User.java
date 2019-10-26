@@ -1,6 +1,6 @@
 package com.nectcracker.studyproject.domain;
 
-import lombok.Builder;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -16,11 +16,15 @@ import java.util.Set;
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    //@Column(name = "user_id")
+   // @Column(name = "user_id")
     private Long id;
+    @Column(unique = true)
     private String username;
     private String password;
+    @Column(unique = true)
     private String email;
+    private String activationCode;
+    private boolean confirmed = false;
 
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
     private UserInfo info;
@@ -46,6 +50,10 @@ public class User implements UserDetails {
         return id;
     }
 
+    public void setUsername(String username){
+        this.username = username;
+    }
+
     public String getUsername() {
         return username;
     }
@@ -54,8 +62,36 @@ public class User implements UserDetails {
         return email;
     }
 
-    public void setUsername(String username){
-        this.username = username;
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setConfirmed(boolean confirmed) {
+        this.confirmed = confirmed;
+    }
+
+    public boolean isConfirmed() {
+        return confirmed;
+    }
+
+    public void setActivationCode(String activationCode) {
+        this.activationCode = activationCode;
+    }
+
+    public String getActivationCode() {
+        return activationCode;
     }
 
     @Override
@@ -84,21 +120,4 @@ public class User implements UserDetails {
         return null;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public Set<Role> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
-    }
-
-//    UserInfo infouser = new UserInfo().getBirthday()
 }

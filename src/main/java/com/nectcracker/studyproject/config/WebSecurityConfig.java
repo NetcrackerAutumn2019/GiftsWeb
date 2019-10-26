@@ -16,17 +16,20 @@ import javax.sql.DataSource;
 @EnableWebSecurity
 //@EnableOAuth2Sso
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
 
-    @Autowired
-    private DataSource dataSource;
+    private final DataSource dataSource;
+
+    public WebSecurityConfig(UserService userService, DataSource dataSource) {
+        this.userService = userService;
+        this.dataSource = dataSource;
+    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                    .antMatchers("/", "/registration", "/home").permitAll()
+                    .antMatchers("/", "/registration", "/home", "/registration/activate/*").permitAll()
                     .anyRequest()
                     .authenticated()
                 .and()
