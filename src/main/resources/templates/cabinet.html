@@ -2,37 +2,48 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <title>GiftsWeb!</title>
 </head>
-<body>
-<h1 th:inline="text">Добро пожаловать,  [[${#httpServletRequest.remoteUser}]]!</h1>
-<form th:action="@{/redactor}">
-    <input type="submit" value="Редактировать"/>
-</form>
-<form th:action="@{/friends}">
-    <input type="submit" value="Мои друзья"/>
-</form>
-<form th:action="@{/new_wish}">
-    <input type="submit" value="Новое желание"/>
-</form>
-
-<form th:action="@{/logout}" method="post">
-    <input type="submit" value="Sign Out"/>
-</form>
-<table>
-    <thead>
-    <tr>
-        <th> Wish </th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:if="${messages.empty}">
-        <td colspan="2"> No wish yet </td>
-    </tr>
-    <tr th:each="m : ${messages}">
-        <td><span th:text="${m.wish}"> Wish </span></td>
-    </tr>
-    </tbody>
-</table>
+<div th:insert="fragments/navbar :: header"></div>
+<div th:insert="fragments/listgroup :: group" style="display : inline-block; vertical-align: top;"></div>
+<div style="display : inline-block; vertical-align: top;">
+    <div class="font-weight-bold h4">
+        <span th:text="${info.firstName}"></span>
+        <span th:text="${info.lastName}"></span>
+    </div>
+    <div class="font-italic m-3">Мои желания</div>
+    <div class="m-3">
+        <a class="btn btn-primary btn-lg" data-toggle="collapse" href="#collapseExample" role="button"
+           aria-expanded="false"
+           aria-controls="collapseExample">+</a>
+        <div class="collapse" id="collapseExample">
+            <div class="form-group my-3">
+                <form th:action="@{/new_wish}" method="post" class="form-inline">
+                    <div>
+                        <input type="text" class="form-control" name="text" placeholder="Название"/>
+                    </div>
+                    <div>
+                        <button type="submit" class="btn btn-primary mx-3">Добавить</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div th:if="${messages.empty}">No wish yet</div>
+    <div th:each="m : ${messages}">
+        <div class="card-deck">
+            <div class="card border-info mb-3" style="max-width: 18rem;">
+                <div class="card-body text-info">
+                    <h5 class="card-title"><span th:text="${m.wish}"></span></h5>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:insert="fragments/settings :: settings"></div>
 </body>
 </html>
