@@ -19,5 +19,20 @@
 <form th:action="@{/logout}" method="post">
     <input type="submit" value="Sign Out"/>
 </form>
+<table>
+    <thead>
+    <tr>
+        <th> Wish </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:if="${messages.empty}">
+        <td colspan="2"> No wish yet </td>
+    </tr>
+    <tr th:each="m : ${messages}">
+        <td><span th:text="${m.wish}"> Wish </span></td>
+    </tr>
+    </tbody>
+</table>
 </body>
 </html>
