@@ -2,22 +2,63 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <title>GiftsWeb!</title>
 </head>
 <body>
-Add new User
-<form th:action="@{/registration}" method="post">
-    <div><label> User Name : <input type="text" name="login"/> </label></div>
-    <div><label> Password: <input type="password" name="password"/> </label></div>
-    <div><label> First Name: <input type="text" name="first_name"/> </label></div>
-    <div><label> Last Name: <input type="text" name="last_name"/> </label></div>
-    <div><label> Email: <input type="text" name="email"/> </label></div>
-    <div><label> Birth Date: <input type="date" name="birthday"/> </label></div>
-    <div><input type="submit" value="Sign Up"/></div>
+<div th:insert="fragments/navbar :: header"></div>
+<h3 class="m-3">Add new User</h3>
+<form th:action="@{/registration}" method="post" class="m-3">
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label> First Name: </label>
+            <div class="col-sm-6">
+                <input class="form-control" type="text" name="first_name"/>
+            </div>
+        </div>
+        <div class="form-group col-md-6">
+            <label> Last Name: </label>
+            <div class="col-sm-6">
+                <input class="form-control" type="text" name="last_name"/>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-1 col-form-label"> Email:</label>
+        <div class="col-sm-6">
+            <input class="form-control" type="text" name="email"/>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-1 col-form-label"> Username: </label>
+        <div class="col-sm-6">
+            <input class="form-control" type="text" name="login"/>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-1 col-form-label"> Password:</label>
+        <div class="col-sm-6">
+            <input class="form-control" type="password" name="password"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-1 col-form-label"> Birth Date:</label>
+        <div class="col-sm-6">
+            <input class="form-control" type="date" name="birthday"/>
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Присоединиться!</button>
 </form>
+
 <div th:if="${message}">
-    <p th:text="${message}"> </p>
+    <p class="text-danger" th:text="${message}"></p>
 </div>
-<p>Click <a th:href="@{/login}">here</a> to return   </p>
+<p>Click <a th:href="@{/login}">here</a> to return </p>
+<div th:insert="fragments/settings :: settings"></div>
 </body>
 </html>

@@ -2,23 +2,45 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <title>GiftsWeb!</title>
 </head>
 <body>
-<div th:if="${param.error}">
+<div th:insert="fragments/navbar :: header"></div>
+<div class="text-danger" th:if="${param.error}">
     Invalid username and password.
 </div>
 
-<div th:if="${param.logout}">
+<div class="text-info" th:if="${param.logout}">
     You have been logged out.
 </div>
-Вход
-<form th:action="@{/login}" method="post">
-    <div><label> User Name : <input type="text" name="username"/> </label></div>
-    <div><label> Password: <input type="password" name="password"/> </label></div>
-    <div><input type="submit" value="Sign In"/></div>
+
+<h3 class="mx-5">Вход</h3>
+<form th:action="@{/login}" method="post" class="m-3">
+    <div class="form-group row">
+        <label class="col-sm-1 col-form-label"> Username: </label>
+        <div class="col-sm-5">
+            <input type="text" name="username" class="form-control"
+                   placeholder="Username"/>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-sm-1 col-form-label"> Password:</label>
+        <div class="col-sm-5">
+            <input class="form-control" type="password" name="password"
+                   placeholder="Password"/>
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Войти</button>
 </form>
-<p>Если вы ещё не зарегестрированы, <a th:href="@{/registration}">нажмите сюда</a> </p>
-<p>А еще можно войти по гугл аккаунтом (но это не точно)  <a th:href="@{/login/oauth2/authorization/google}">нажмите сюда</a> </p>
+<form class="form-inline m-3">
+    <a class="btn btn-primary mx-1" href="/registration" role="button">Регистрация</a>
+    <a class="btn btn-primary mx-1" href="//login/oauth2/authorization/google" role="button">Google</a>
+    <a class="btn btn-primary mx-1" href="/registration" role="button">Вконтакте</a>
+</form>
+<div th:insert="fragments/settings :: settings"></div>
 </body>
 </html>
