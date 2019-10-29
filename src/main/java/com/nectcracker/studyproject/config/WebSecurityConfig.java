@@ -2,6 +2,7 @@ package com.nectcracker.studyproject.config;
 
 import com.nectcracker.studyproject.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth2Sso;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -29,7 +30,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                    .antMatchers("/", "/registration", "/home", "/registration/activate/*").permitAll()
+                    .antMatchers("/", "/registration/**", "/home", "/registration/activate/*","/registration/vk").permitAll()
                     .anyRequest()
                     .authenticated()
                 .and()
@@ -38,7 +39,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .permitAll()
                 .and()
                     .logout()
-                    .permitAll();
+                    .permitAll()
+                .and()
+                    .csrf().disable();
     }
 
     @Autowired

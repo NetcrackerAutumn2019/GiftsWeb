@@ -62,6 +62,16 @@ public class UserService implements UserDetailsService {
         return "";
     }
 
+    public void addUserFromVK(User user){
+        userRepository.save(user);
+        String message = String.format("Hello \n" +
+                "what is your template login and password \n" +
+                "login: %s \n"+
+                "password: %s",user.getUsername(), user.getPassword());
+
+        mailSender.send(user.getEmail(), "Login and password", message);
+    }
+
     public boolean activateUser(String code) {
         User user = userRepository.findByActivationCode(code);
         if( user == null)
