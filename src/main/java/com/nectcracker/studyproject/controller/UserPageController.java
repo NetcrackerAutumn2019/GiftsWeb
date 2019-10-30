@@ -5,6 +5,7 @@ import com.nectcracker.studyproject.domain.UserWishes;
 import com.nectcracker.studyproject.repos.UserInfoRepository;
 import com.nectcracker.studyproject.repos.UserRepository;
 import com.nectcracker.studyproject.service.UserWishesService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.Map;
 
+@Slf4j
 @Controller
 public class UserPageController {
     private final UserWishesService userWishesService;
@@ -26,6 +28,7 @@ public class UserPageController {
         this.userInfoRepository = userInfoRepository;
         this.userRepository = userRepository;
     }
+
 
     @GetMapping("/cabinet")
     public String cabinet(Map<String, Object> model) {
