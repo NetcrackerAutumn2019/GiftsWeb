@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <title>GiftsWeb</title>
+</head>
+<body>
+<h1 >Добавление желания</h1>
+<form th:action="@{/new_wish}" method="post">
+    <div><label> Название : <input type="text" name="text"/> </label></div>
+    <div><input type="submit" value="Add"/></div>
+</form>
+<table>
+    <thead>
+    <tr>
+        <th> Wish </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:if="${messages.empty}">
+        <td colspan="2"> No wish yet </td>
+    </tr>
+    <tr th:each="m : ${messages}">
+        <td><span th:text="${m.wish}"> Wish </span></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

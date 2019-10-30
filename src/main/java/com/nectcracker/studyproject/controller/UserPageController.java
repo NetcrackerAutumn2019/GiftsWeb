@@ -15,14 +15,17 @@ import java.util.Map;
 
 @Controller
 public class UserPageController {
-    @Autowired
-    private UserWishesService userWishesService;
+    private final UserWishesService userWishesService;
 
-    @Autowired
-    private UserInfoRepository userInfoRepository;
+    private final UserInfoRepository userInfoRepository;
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+
+    public UserPageController(UserWishesService userWishesService, UserInfoRepository userInfoRepository, UserRepository userRepository) {
+        this.userWishesService = userWishesService;
+        this.userInfoRepository = userInfoRepository;
+        this.userRepository = userRepository;
+    }
 
     @GetMapping("/cabinet")
     public String cabinet(Map<String, Object> model) {

@@ -15,11 +15,14 @@ import java.util.Map;
 
 @Service
 public class UserWishesService implements UserRepositoryCustom {
-    @Autowired
-    private UserWishesRepository userWishesRepository;
+    private final UserWishesRepository userWishesRepository;
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+
+    public UserWishesService(UserWishesRepository userWishesRepository, UserRepository userRepository) {
+        this.userWishesRepository = userWishesRepository;
+        this.userRepository = userRepository;
+    }
 
     @Override
     public User findByAuthentication() {
