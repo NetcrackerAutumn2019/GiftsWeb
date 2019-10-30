@@ -19,6 +19,7 @@ import com.vk.api.sdk.exceptions.ApiException;
 import com.vk.api.sdk.exceptions.ClientException;
 import com.vk.api.sdk.httpclient.HttpTransportClient;
 import com.vk.api.sdk.objects.UserAuthResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.asynchttpclient.DefaultAsyncHttpClient;
 import org.asynchttpclient.DefaultAsyncHttpClientConfig;
 import org.codehaus.jackson.JsonParser;
@@ -43,6 +44,7 @@ import java.util.concurrent.ExecutionException;
 
 @RequestMapping("registration")
 @Controller
+@Slf4j
 public class RegistrationController {
     private final UserService userService;
 
@@ -76,7 +78,7 @@ public class RegistrationController {
 
     @PostMapping("")
     public String addUser(@ModelAttribute("userRegistrationRequest") UserRegistrationRequest userRegistrationRequest,
-            Map<String, Object> model) {
+                          Map<String, Object> model) {
         String message = userService.addUser(userRegistrationRequest);
         if (!StringUtils.isEmpty(message)) {
             model.put("message", message);
@@ -86,8 +88,8 @@ public class RegistrationController {
     }
 
     @GetMapping("/vk")
-    public ModelAndView vk(){
-        final String customScope = "offline, friends, email";
+    public ModelAndView vk() {
+        final String customScope = "friends, email";
         final String authorizationUrl = service.createAuthorizationUrlBuilder()
                 .scope(customScope)
                 .build();
@@ -102,29 +104,28 @@ public class RegistrationController {
         final OAuthRequest request = new OAuthRequest(Verb.GET, PROTECTED_RESOURCE_URL);
         service.signRequest(accessToken, request);
         final Response response = service.execute(request);
-
+        log.debug("token {}", response);
         JSONParser jsonParser = new JSONParser();
         JSONObject jsonObject = (JSONObject) jsonParser.parse(((JSONArray) ((JSONObject) jsonParser.parse(response.getBody())).get("response")).get(0).toString());
 
         User user = new User(jsonObject.get("id").toString(), jsonObject.get("id").toString(), vkoAuth2AccessToken.getEmail());
 
         userService.addUserFromVK(user);
-        return "redirect:/login";
+        return "redirect:/cabinet";
     }
 
 
     @GetMapping("/activate/{code}")
-    public String activate(Model model, @PathVariable String code ){
+    public String activate(Model model, @PathVariable String code) {
         boolean isActivated = userService.activateUser(code);
 
-        if(isActivated)
+        if (isActivated)
             model.addAttribute("message", "Success");
         else
             model.addAttribute("message", "Sorry, something was wrong");
 
         return "login";
     }
-
 
 
 }
