@@ -54,6 +54,7 @@ public class UserInfoService implements UserRepositoryCustom {
     }
 
     public boolean updateUserInfo(String name, String surname, String oldPassword, String newPassword) {
+<<<<<<< HEAD
         User currentUser = findByAuthentication();
         UserInfo currentUserInfo = userInfoRepository.findByUser(currentUser);
 //        if (!name.equals("")) {
@@ -72,6 +73,26 @@ public class UserInfoService implements UserRepositoryCustom {
         userRepository.save(currentUser);
         return true;
 >>>>>>> Feat : add possibility for redactoring
+=======
+        try {
+            User currentUser = findByAuthentication();
+            UserInfo currentUserInfo = userInfoRepository.findByUser(currentUser);
+            if (!name.equals("")) {
+                currentUserInfo.setFirstName(name);
+            }
+            if (!surname.equals("")) {
+                currentUserInfo.setLastName(surname);
+            }
+            if (!oldPassword.equals("") && !newPassword.equals("") && oldPassword.equals(currentUser.getPassword())) {
+                currentUser.setPassword(newPassword);
+            }
+            userInfoRepository.save(currentUserInfo);
+            userRepository.save(currentUser);
+            return true;
+        } catch (Exception ex) {
+            return false;
+        }
+>>>>>>> Feat : try to change post to put
     }
 
 }
