@@ -1,10 +1,15 @@
 package com.nectcracker.studyproject.domain;
+
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
+
 @Entity(name = "Users")
 @Table(name = "users")
 @Data
@@ -30,6 +35,12 @@ public class User implements UserDetails {
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "user_has_interest",
+            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "interest_id", referencedColumnName = "id"))
+    private Set<Interests> interestsSet = new HashSet<>();
 
     public User() {
     }
@@ -65,4 +76,16 @@ public class User implements UserDetails {
         return null;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return id.equals(user.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 }
