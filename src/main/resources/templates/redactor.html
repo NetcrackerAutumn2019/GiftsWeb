@@ -7,6 +7,51 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
           integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <title>GiftsWeb!</title>
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.15/lodash.min.js"></script>
+    <script defer type="text/javascript" th:inline="javascript">
+        const suggestData = [[${data}]]
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const suggestHolder = document.getElementsByClassName("container-hold")[0];
+            const suggestTemplate = document.getElementsByClassName("auto-dop")[0].cloneNode(false);
+            suggestTemplate.style.cssText = "";
+
+            const autoDop = (event) => {
+                const text = event.target.value;
+
+                if (!text.length) {
+                    suggestHolder.innerHTML = '';
+                    return;
+                }
+
+                const checkBase = suggestData.filter((line) => {
+                    const toCheck = line.substr(0, text.length).toLowerCase();
+                    return toCheck === text.toLowerCase();
+                });
+
+                const toDisplay = checkBase.map((line) => {
+                    const tt = suggestTemplate.cloneNode(false);
+
+                    tt.innerText = line + "\n";
+                    tt.addEventListener('click', () => {
+                        tag.value = line;
+                        suggestHolder.innerHTML = '';
+                    })
+                    return tt;
+                });
+
+                suggestHolder.innerHTML = '';
+
+                suggestHolder.append(...toDisplay);
+            }
+
+            tag.addEventListener('input', autoDop);
+        });
+
+
+
+
+    </script>
 </head>
 <body>
 <div th:insert="fragments/navbar :: header"></div>
@@ -41,20 +86,26 @@
                 <input class="form-control" type="password" name="newPassword"/>
             </div>
         </div>
-        <button type="submit" class="btn btn-primary m-1">Сохранить изменения</button>
+        <button type="submit" class="btn btn-primary m-3">Сохранить изменения</button>
     </form>
 
-    <div class="card-columns">
+    <div class="card-columns" style="display : inline-block; vertical-align: top;">
         <div th:each="i : ${interests}">
             <div class="card mb-3">
-                <!--                <div class="card border-info " style="max-width: 18rem;">-->
                 <div class="card-body text-info">
-                    <h5 class="card-title"><span th:text="${i.interestName}"></span></h5>
+                    <form th:action="@{/delete/{name}(name=${i.interestName})}">
+                        <h5 class="card-title"><span th:text="${i.interestName}"></span></h5>
+                        <button type="submit" class="btn btn-primary m-1">x</button>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
-    <form th:action="@{/interests}" method="post" class="form-inline m-3" style="display : inline-block; vertical-align: top;">
+    <span class="auto-dop m-1 text-primary" style="display: hidden"></span>
+    <div class="container-hold">
+    </div>
+    <form th:action="@{/interests}" method="post" class="form-inline m-3"
+          style="display : inline-block; vertical-align: top;">
         <input class="form-control" type="text" name="interest" id="tag"/>
         <button type="submit" class="btn btn-primary mx-3">Добавить</button>
     </form>

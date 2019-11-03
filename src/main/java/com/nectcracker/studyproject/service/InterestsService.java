@@ -2,7 +2,6 @@ package com.nectcracker.studyproject.service;
 
 import com.nectcracker.studyproject.domain.Interests;
 import com.nectcracker.studyproject.domain.User;
-import com.nectcracker.studyproject.domain.UserInfo;
 import com.nectcracker.studyproject.repos.InterestsRepository;
 import com.nectcracker.studyproject.repos.UserInfoRepository;
 import com.nectcracker.studyproject.repos.UserRepository;
@@ -51,5 +50,16 @@ public class InterestsService implements UserRepositoryCustom {
     public Set<Interests> getUserInterests() {
         User currentUser = findByAuthentication();
         return currentUser.getInterestsSet();
+    }
+
+    public boolean deleteInterest(String name) {
+        User currentUser = findByAuthentication();
+        boolean isRemoved =  currentUser.getInterestsSet().removeIf(interest -> interest.getInterestName().equals(name));
+        userRepository.save(currentUser);
+        return isRemoved;
+    }
+
+    public List<Interests> getAllInterests() {
+       return interestsRepository.findAll();
     }
 }
