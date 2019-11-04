@@ -1,16 +1,19 @@
 package com.nectcracker.studyproject.domain;
-import lombok.Getter;
-import lombok.Setter;
+
+import lombok.Data;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity(name = "Users")
 @Table(name = "users")
-@Getter
-@Setter
+@Data
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,13 +33,6 @@ public class User implements UserDetails {
     @OneToMany(fetch = FetchType.LAZY, targetEntity = UserWishes.class)
     private Set<UserWishes> wishes;
 
-//    @OneToMany(fetch = FetchType.LAZY, targetEntity = Friends.class)
-//    private Set<Friends> friends;
-//
-//    @ManyToOne(fetch = FetchType.EAGER, targetEntity = User.class)
-//    @JoinColumn(name = "user_friend_id")
-//    private Friends user;
-
     @ManyToMany
     @JoinTable(name = "tbl_friends",
                 joinColumns = @JoinColumn(name = "user_id"),
@@ -53,6 +49,12 @@ public class User implements UserDetails {
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "user_has_interest",
+            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "interest_id", referencedColumnName = "id"))
+    private Set<Interests> interestsSet = new HashSet<>();
 
     public User() {
     }
@@ -101,4 +103,22 @@ public class User implements UserDetails {
         return null;
     }
 
+    @Override
+    public String toString(){
+        return "id: " + id +"; username: " + username + "; email: " + email + "; vkId: " + vkId;
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return id.equals(user.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 }

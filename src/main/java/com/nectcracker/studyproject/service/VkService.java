@@ -76,7 +76,7 @@ public class VkService {
                 .user(newUser).build();
 
         userInfoRepository.save(newUserInfo);
-        return "";
+        return String.valueOf(userInfoFromVk.getId());
     }
 
     //public void authentication(HttpServletRequest httpServletRequest, Response response) throws IOException {
