@@ -6,13 +6,11 @@ import com.nectcracker.studyproject.domain.UserInfo;
 import com.nectcracker.studyproject.domain.UserRegistrationRequest;
 import com.nectcracker.studyproject.repos.UserInfoRepository;
 import com.nectcracker.studyproject.repos.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.util.StringUtils;
-
 import java.util.Collections;
 import java.util.UUID;
 import java.util.regex.Pattern;
@@ -61,18 +59,7 @@ public class UserService implements UserDetailsService {
                 .birthday(userRegistrationRequest.getBirthday())
                 .user(newUser).build();
         userInfoRepository.save(userInfo);
-
         return "";
-    }
-
-    public void addUserFromVK(User user){
-        userRepository.save(user);
-        String message = String.format("Hello \n" +
-                "what is your template login and password \n" +
-                "login: %s \n"+
-                "password: %s",user.getUsername(), user.getPassword());
-
-        mailSender.send(user.getEmail(), "Login and password", message);
     }
 
     public boolean activateUser(String code) {
@@ -87,5 +74,4 @@ public class UserService implements UserDetailsService {
         return true;
 
     }
-
 }

@@ -14,6 +14,10 @@
 <div style="display : inline-block; vertical-align: top;">
     <h1>Список друзей</h1>
     <div th:insert="fragments/settings :: settings"></div>
+    <ul>
+        <li th:each="friend : ${friends}" th:text="${friend.username}"></li>
+    </ul>
+
 </div>
 </body>
 </html>

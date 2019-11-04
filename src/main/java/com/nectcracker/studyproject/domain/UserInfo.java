@@ -37,4 +37,10 @@ public class UserInfo implements Serializable {
 
     public UserInfo(){
     }
+
+    @Override
+    public String toString(){
+        return "id: " + id + ";firstName: " + firstName + ";lastName: " + lastName + ";birthday: " + birthday + ";user id: " + user.getId();
+    }
+
 }
