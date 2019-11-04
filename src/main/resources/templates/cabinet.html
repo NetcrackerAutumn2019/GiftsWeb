@@ -11,9 +11,19 @@
 <div th:insert="fragments/navbar :: header"></div>
 <div th:insert="fragments/listgroup :: group" style="display : inline-block; vertical-align: top;"></div>
 <div style="display : inline-block; vertical-align: top;">
-    <div class="font-weight-bold h4">
+    <div class="font-weight-bold h4 m-3">
         <span th:text="${info.firstName}"></span>
         <span th:text="${info.lastName}"></span>
+    </div>
+
+    <div class="card-deck m-3">
+        <div th:each="i : ${interests}">
+            <div class="card bg-light mb-3" style="max-width: 18rem;">
+                <div class="card-body text-info">
+                    <h5 class="card-title"><span th:text="${i.interestName}"></span></h5>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="font-italic m-3">Мои желания</div>
     <div class="m-3">
@@ -34,6 +44,7 @@
         </div>
     </div>
     <div th:if="${messages.empty}">No wish yet</div>
+
     <div th:each="m : ${messages}">
         <div class="card-deck">
             <div class="card border-info mb-3" style="max-width: 18rem;">
