@@ -11,6 +11,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.util.StringUtils;
+
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.Collections;
 import java.util.UUID;
 import java.util.regex.Pattern;
@@ -34,7 +37,7 @@ public class UserService implements UserDetailsService {
         return userRepository.findByUsername(username);
     }
 
-    public String addUser(UserRegistrationRequest userRegistrationRequest) {
+    public String addUser(UserRegistrationRequest userRegistrationRequest) throws IOException, GeneralSecurityException {
         if(!Pattern.matches(".*@.*", userRegistrationRequest.getEmail()))
             return "Wrong e-mail address";
 
@@ -44,6 +47,11 @@ public class UserService implements UserDetailsService {
         User newUser = new User(userRegistrationRequest.getLogin(), userRegistrationRequest.getPassword(), userRegistrationRequest.getEmail());
         newUser.setRoles(Collections.singleton(Role.USER));
         newUser.setActivationCode(UUID.randomUUID().toString());
+
+        String userCalendarId = CalendarService.createCalendar();
+        CalendarService.createEvent(userCalendarId, userRegistrationRequest.getBirthday(), "Ваш День Рождения ");
+
+        newUser.setUserCalendarId(userCalendarId);
         userRepository.save(newUser);
 
         if(!StringUtils.isEmpty(newUser.getEmail())) {
