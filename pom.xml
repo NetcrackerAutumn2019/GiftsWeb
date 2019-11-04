@@ -129,10 +129,11 @@
             <version>2.7</version>
         </dependency>
         <dependency>
-            <groupId>com.googlecode.json-simple</groupId>
-            <artifactId>json-simple</artifactId>
-            <version>1.1</version>
+            <groupId>org.springframework.social</groupId>
+            <artifactId>spring-social-config</artifactId>
+            <version>1.1.0.RELEASE</version>
         </dependency>
+
     </dependencies>
 
     <properties>

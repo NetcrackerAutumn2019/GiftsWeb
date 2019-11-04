@@ -1,6 +1,7 @@
 package com.nectcracker.studyproject.domain;
 
 import lombok.Data;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -20,16 +21,29 @@ public class User implements UserDetails {
     @Column(unique = true)
     private String username;
     private String password;
-    @Column(unique = true)
     private String email;
     private String activationCode;
     private boolean confirmed = false;
+    @Column(unique = true)
+    private Long vkId;
 
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
     private UserInfo info;
 
     @OneToMany(fetch = FetchType.LAZY, targetEntity = UserWishes.class)
     private Set<UserWishes> wishes;
+
+    @ManyToMany
+    @JoinTable(name = "tbl_friends",
+                joinColumns = @JoinColumn(name = "user_id"),
+                inverseJoinColumns = @JoinColumn(name = "friend_id"))
+    private Set<User> friends;
+
+    @ManyToMany
+    @JoinTable(name = "tbl_friends",
+            joinColumns = @JoinColumn(name = "friend_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
+    private Set<User> friendsOf;
 
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
@@ -49,6 +63,19 @@ public class User implements UserDetails {
         this.username = username;
         this.password = password;
         this.email = email;
+    }
+
+    public User(String username, String password, String email, Long vkId) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.vkId = vkId;
+    }
+
+    public User(String username, String password, Long vkId) {
+        this.username = username;
+        this.password = password;
+        this.vkId = vkId;
     }
 
     @Override
@@ -75,6 +102,12 @@ public class User implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;
     }
+
+    @Override
+    public String toString(){
+        return "id: " + id +"; username: " + username + "; email: " + email + "; vkId: " + vkId;
+    }
+
 
     @Override
     public boolean equals(Object o) {

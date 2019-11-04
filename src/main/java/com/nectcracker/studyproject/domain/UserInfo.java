@@ -40,6 +40,10 @@ public class UserInfo implements Serializable {
     }
 
     @Override
+    public String toString(){
+        return "id: " + id + ";firstName: " + firstName + ";lastName: " + lastName + ";birthday: " + birthday + ";user id: " + user.getId();
+    }
+
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
