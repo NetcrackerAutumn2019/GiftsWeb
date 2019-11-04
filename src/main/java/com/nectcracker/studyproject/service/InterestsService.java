@@ -52,6 +52,10 @@ public class InterestsService implements UserRepositoryCustom {
         return currentUser.getInterestsSet();
     }
 
+    public Set<Interests> getSmbInterests(User user) {
+        return user.getInterestsSet();
+    }
+
     public boolean deleteInterest(String name) {
         User currentUser = findByAuthentication();
         boolean isRemoved =  currentUser.getInterestsSet().removeIf(interest -> interest.getInterestName().equals(name));
