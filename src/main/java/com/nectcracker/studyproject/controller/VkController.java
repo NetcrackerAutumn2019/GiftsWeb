@@ -11,6 +11,7 @@ import com.github.scribejava.core.oauth.OAuth20Service;
 import com.nectcracker.studyproject.service.VkService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -66,7 +67,7 @@ public class VkController {
     }
 
     @GetMapping("/callback")
-    public String vk(@RequestParam("code") String code) throws InterruptedException, ExecutionException, IOException, ParseException {
+    public String vk(@RequestParam("code") String code, Model model) throws InterruptedException, ExecutionException, IOException, ParseException {
 
         final OAuth2AccessToken accessToken = vkScribejavaService.getAccessToken(AccessTokenRequestParams.create(code));
         final OAuthRequest request = new OAuthRequest(Verb.GET, vkMethod+"users.get?fields=bdate&v="
@@ -76,9 +77,9 @@ public class VkController {
 
         String vkId;
         if(!StringUtils.isEmpty(vkId = vkService.addUser(accessToken, response))){
-            vkService.addFriends(vkScribejavaService, accessToken, vkId);
+            return "redirect:/login";
         }
-
+        vkService.addFriends(vkScribejavaService, accessToken, vkId);
         return "redirect:/";
     }
 
