@@ -17,6 +17,7 @@
         <span th:text="${info.lastName}"></span>
     </div>
 
+    <div class="font-italic m-3">Ваш друг интересуется:</div>
     <div class="card-deck m-3">
         <div th:each="i : ${interests}">
             <div class="card bg-light mb-3" style="max-width: 18rem;">
@@ -26,10 +27,9 @@
             </div>
         </div>
     </div>
+
     <div class="font-italic m-3">Желания</div>
-
     <div th:if="${messages.empty}">No wish yet</div>
-
     <div th:each="m : ${messages}">
         <div class="card-deck">
             <div class="card border-info mb-3" style="max-width: 18rem;">
