@@ -48,9 +48,6 @@
             tag.addEventListener('input', autoDop);
         });
 
-
-
-
     </script>
 </head>
 <body>
@@ -88,7 +85,9 @@
         </div>
         <button type="submit" class="btn btn-primary m-3">Сохранить изменения</button>
     </form>
-
+</div>
+<div style="display : inline-block; vertical-align: top;">
+    <div class="font-italic m-3">Редактор интересов</div>
     <div class="card-columns" style="display : inline-block; vertical-align: top;">
         <div th:each="i : ${interests}">
             <div class="card mb-3">
@@ -101,16 +100,17 @@
             </div>
         </div>
     </div>
-    <span class="auto-dop m-1 text-primary" style="display: hidden"></span>
-    <div class="container-hold">
+    <div class="m-3">
+        <div class="font-italic m-3">Новые интересы</div>
+        <form th:action="@{/interests}" method="post" class="form-inline m-3">
+            <input class="form-control" type="text" name="interest" id="tag" placeholder="Интересы..."/>
+            <button type="submit" class="btn btn-primary mx-3">Добавить</button>
+        </form>
+        <span class="auto-dop m-1 text-primary" style="display: hidden"></span>
+        <div class="container-hold"></div>
+        <div th:insert="fragments/settings :: settings"></div>
     </div>
-    <form th:action="@{/interests}" method="post" class="form-inline m-3"
-          style="display : inline-block; vertical-align: top;">
-        <input class="form-control" type="text" name="interest" id="tag"/>
-        <button type="submit" class="btn btn-primary mx-3">Добавить</button>
-    </form>
-
 </div>
-<div th:insert="fragments/settings :: settings"></div>
+
 </body>
 </html>

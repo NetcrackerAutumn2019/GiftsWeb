@@ -30,10 +30,8 @@ public class UserWishesService implements UserRepositoryCustom {
         return userRepository.findByUsername(auth.getName());
     }
 
-    public Iterable<UserWishes> getUserWishes() {
-        User currentUser = findByAuthentication();
-        Iterable<UserWishes> messages = userWishesRepository.findByUserId(currentUser.getId());
-        return messages;
+    public Iterable<UserWishes> getUserWishes(User user) {
+        return userWishesRepository.findByUserId(user.getId());
     }
 
     public boolean addWish(String text) {

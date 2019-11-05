@@ -8,6 +8,7 @@
           integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <title>GiftsWeb!</title>
 </head>
+<body>
 <div th:insert="fragments/navbar :: header"></div>
 <div th:insert="fragments/listgroup :: group" style="display : inline-block; vertical-align: top;"></div>
 <div style="display : inline-block; vertical-align: top;">
@@ -16,7 +17,7 @@
         <span th:text="${info.lastName}"></span>
     </div>
 
-    <div class="font-italic m-3">Мои интересы</div>
+    <div class="font-italic m-3">Ваш друг интересуется:</div>
     <div class="card-deck m-3">
         <div th:each="i : ${interests}">
             <div class="card bg-light mb-3" style="max-width: 18rem;">
@@ -26,31 +27,15 @@
             </div>
         </div>
     </div>
-    <div class="font-italic m-3">Мои желания</div>
-    <div class="m-3">
-        <a class="btn btn-primary btn-lg" data-toggle="collapse" href="#collapseExample" role="button"
-           aria-expanded="false"
-           aria-controls="collapseExample">+</a>
-        <div class="collapse" id="collapseExample">
-            <div class="form-group my-3">
-                <form th:action="@{/new_wish}" method="post" class="form-inline">
-                    <div>
-                        <input type="text" class="form-control" name="text" placeholder="Название"/>
-                    </div>
-                    <div>
-                        <button type="submit" class="btn btn-primary mx-3">Добавить</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-    <div th:if="${messages.empty}">No wish yet</div>
 
+    <div class="font-italic m-3">Желания</div>
+    <div th:if="${messages.empty}">No wish yet</div>
     <div th:each="m : ${messages}">
         <div class="card-deck">
             <div class="card border-info mb-3" style="max-width: 18rem;">
                 <div class="card-body text-info">
                     <h5 class="card-title"><span th:text="${m.wishName}"></span></h5>
+                    <button type="submit" class="btn btn-primary m-1">+</button>
                 </div>
             </div>
         </div>
