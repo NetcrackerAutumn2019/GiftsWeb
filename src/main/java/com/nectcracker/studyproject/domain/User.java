@@ -57,6 +57,10 @@ public class User implements UserDetails {
             inverseJoinColumns = @JoinColumn(name = "interest_id", referencedColumnName = "id"))
     private Set<Interests> interestsSet = new HashSet<>();
 
+
+    @ManyToMany(mappedBy = "participants")
+    private Set<Chat> userChats;
+
     public User() {
     }
 

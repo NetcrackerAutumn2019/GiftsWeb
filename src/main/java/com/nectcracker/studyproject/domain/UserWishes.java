@@ -19,9 +19,15 @@ public class UserWishes implements Serializable {
 
     private String wishName;
 
+    private String wishHasChat;
+
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "wishForChat", cascade = CascadeType.ALL)
+    private Chat chatForWish;
+
     public UserWishes(User user, String wish) {
         this.user = user;
         this.wishName = wish;
+        this.wishHasChat = "no";
     }
 
     public UserWishes() {

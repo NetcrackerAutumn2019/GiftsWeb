@@ -9,9 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import sun.rmi.runtime.Log;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 public class UserWishesService implements UserRepositoryCustom {
@@ -43,5 +45,10 @@ public class UserWishesService implements UserRepositoryCustom {
         } catch (Exception e) {
             return false;
         }
+    }
+
+    public UserWishes getById(Long id) {
+        Optional<UserWishes> wish = userWishesRepository.findById(id);
+        return wish.orElseGet(UserWishes::new);
     }
 }

@@ -25,7 +25,10 @@ public class UserInfo implements Serializable {
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
+<<<<<<< HEAD
 //  @MapsId
+=======
+>>>>>>> Feat : add chat
     private User user;
 
     @Builder(toBuilder = true)
