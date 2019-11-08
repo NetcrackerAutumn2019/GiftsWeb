@@ -23,9 +23,9 @@ public class UserInfo implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date birthday;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    @MapsId
+//    @MapsId
     private User user;
 
     @Builder(toBuilder = true)

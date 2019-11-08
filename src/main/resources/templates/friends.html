@@ -14,10 +14,18 @@
 <div style="display : inline-block; vertical-align: top;">
     <h1>Список друзей</h1>
     <div th:insert="fragments/settings :: settings"></div>
-    <div th:each="friend : ${friends}">
+    <h2>Ваши друзья которые уже в системе</h2>
+    <div th:each="friend : ${registeredFriends}">
         <span th:text="${friend.username}"></span>
         <form method="post" th:action="@{/friend_page/{name}(name=${friend.username})}">
             <button type="submit" class="btn btn-primary m-1">x</button>
+        </form>
+    </div>
+    <h2>Ваши друзья которых ещё нет в системе</h2>
+    <div th:each="notRegisteredFriend : ${notRegisteredFriends}">
+        <span th:text="${notRegisteredFriend.first_name} ${notRegisteredFriend.last_name}"></span>
+        <form method="post" th:action="@{/friend_send_invite/{vkId}(vkId=${notRegisteredFriend})}">
+            <button type="submit" class="btn btn-primary m-1">Send invite</button>
         </form>
     </div>
 </div>

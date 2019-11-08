@@ -35,19 +35,19 @@ public class VkController {
         this.vkService = vkService;
     }
 
-    @Value("${spring.oauth2.vk.client-id}")
+    @Value("${spring.security.oauth2.vk.client.clientId}")
     private String vkClientId;
 
-    @Value("${spring.oauth2.vk.client-secret}")
+    @Value("${spring.security.oauth2.vk.client.clientSecret}")
     private String vkClientSecret;
 
-    @Value("${spring.oauth2.vk.scope}")
+    @Value("${spring.security.oauth2.vk.client.scope}")
     private String vkScope;
 
-    @Value("${spring.oauth2.vk.callback}")
+    @Value("${spring.security.oauth2.vk.callback}")
     private String vkCallback;
 
-    @Value("${spring.oauth2.vk.method}")
+    @Value("${spring.security.oauth2.vk.method}")
     private String vkMethod;
 
     //Because @Value initialize after OAuth20Service
@@ -78,9 +78,9 @@ public class VkController {
         final Response response = vkScribejavaService.execute(request);
 
         String vkId;
-        vkId = vkService.addUser(accessToken, response);
+        //vkId = vkService.addUser(accessToken, response);
 
-        vkService.addFriends(vkScribejavaService, accessToken, vkId);
+        //vkService.addFriends(vkScribejavaService, accessToken, vkId);
         return new ModelAndView("redirect:/");
     }
 

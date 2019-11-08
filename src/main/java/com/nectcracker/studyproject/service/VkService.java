@@ -38,7 +38,7 @@ public class VkService {
         this.mailSender = mailSender;
     }
 
-    @Value("${spring.oauth2.vk.method}")
+    @Value("${spring.security.oauth2.vk.method}")
     private String vkMethod;
 
     private Gson gson = new Gson();
@@ -93,28 +93,28 @@ public class VkService {
 //    }
 
     public void addFriends(OAuth20Service vkScribejavaService, OAuth2AccessToken accessToken, String vkId) throws IOException, ExecutionException, InterruptedException {
-        final OAuthRequest friendsRequest = new OAuthRequest(Verb.GET, "https://api.vk.com/method/friends.get?user_id=" + vkId + "&v=" + VkontakteApi.VERSION);
-        vkScribejavaService.signRequest(accessToken, friendsRequest);
-        final Response friendsResponse = vkScribejavaService.execute(friendsRequest);
-
-        User user = userRepository.findByVkId(Long.parseLong(vkId));
-        String UserFriendsFromVk = friendsResponse.getBody();
-        List<Long> friendsVkId = gson.fromJson(UserFriendsFromVk, FriendsFromVk.class).response.getItems();
-
-        Set<User> friendsSet = new HashSet<>();
-        User friend;
-        for(Long friendVkId : friendsVkId){
-            friend = userRepository.findByVkId(friendVkId);
-            if(friend != null) {
-                friendsSet.add(friend);
-            }
-        }
-
-        if(friendsSet.size() != 0) {
-            user.setFriends(friendsSet);
-            user.setFriendsOf(friendsSet);
-            userRepository.save(user);
-        }
+//        final OAuthRequest friendsRequest = new OAuthRequest(Verb.GET, "https://api.vk.com/method/friends.get?user_id=" + vkId + "&v=" + VkontakteApi.VERSION);
+//        vkScribejavaService.signRequest(accessToken, friendsRequest);
+//        final Response friendsResponse = vkScribejavaService.execute(friendsRequest);
+//
+//        User user = userRepository.findByVkId(Long.parseLong(vkId));
+//        String UserFriendsFromVk = friendsResponse.getBody();
+//        List<Long> friendsVkId = gson.fromJson(UserFriendsFromVk, FriendsFromVk.class).response.getItems();
+//
+//        Set<User> friendsSet = new HashSet<>();
+//        User friend;
+//        for(Long friendVkId : friendsVkId){
+//            friend = userRepository.findByVkId(friendVkId);
+//            if(friend != null) {
+//                friendsSet.add(friend);
+//            }
+//        }
+//
+//        if(friendsSet.size() != 0) {
+//            user.setFriends(friendsSet);
+//            user.setFriendsOf(friendsSet);
+//            userRepository.save(user);
+//        }
     }
 }
 
