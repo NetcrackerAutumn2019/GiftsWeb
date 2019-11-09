@@ -23,10 +23,11 @@
     </div>
     <h2>Ваши друзья которых ещё нет в системе</h2>
     <div th:each="notRegisteredFriend : ${notRegisteredFriends}">
-        <span th:text="${notRegisteredFriend.first_name} ${notRegisteredFriend.last_name}"></span>
+        <p><span th:text="${notRegisteredFriend.first_name}"></span>  <span th:text="${notRegisteredFriend.last_name}"></span>
         <form method="post" th:action="@{/friend_send_invite/{vkId}(vkId=${notRegisteredFriend})}">
             <button type="submit" class="btn btn-primary m-1">Send invite</button>
         </form>
+        </p>
     </div>
 </div>
 <div th:insert="fragments/settings :: settings"></div>

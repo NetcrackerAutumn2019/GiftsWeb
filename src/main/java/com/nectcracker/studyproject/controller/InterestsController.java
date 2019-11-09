@@ -10,8 +10,11 @@ import java.security.Principal;
 
 @Controller
 public class InterestsController {
-    @Autowired
-    private InterestsService interestsService;
+    private final InterestsService interestsService;
+
+    public InterestsController(InterestsService interestsService) {
+        this.interestsService = interestsService;
+    }
 
     @PostMapping("/interests")
     public String updateUserInterest(@RequestParam String interest) {

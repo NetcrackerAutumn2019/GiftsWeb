@@ -27,7 +27,6 @@ public class User implements UserDetails {
     @Column(unique = true)
     private Long vkId;
 
-    //@OneToOne(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
     private UserInfo info;
 

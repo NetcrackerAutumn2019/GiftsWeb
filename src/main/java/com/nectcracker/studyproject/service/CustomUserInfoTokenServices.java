@@ -42,13 +42,8 @@ import org.springframework.util.Assert;
  */
 public class CustomUserInfoTokenServices implements ResourceServerTokenServices {
 
-    private UserRepository userRepository;
-
-    private UserInfoRepository userInfoRepository;
 
     private UserService userService;
-
-    //private OAuth20Service vkScribejavaService;
 
     protected final Log logger = LogFactory.getLog(getClass());
 
@@ -87,26 +82,12 @@ public class CustomUserInfoTokenServices implements ResourceServerTokenServices 
         this.principalExtractor = principalExtractor;
     }
 
-    public void setUserRepository(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
-
     public void setUserService(UserService userService) {
         this.userService = userService;
     }
 
-    public void setUserInfoRepository(UserInfoRepository userInfoRepository){
-        this.userInfoRepository = userInfoRepository;
-    }
-
     @Override
-    public OAuth2Authentication loadAuthentication(String accessToken)
-            throws AuthenticationException, InvalidTokenException {
-//        vkScribejavaService = new ServiceBuilder(this.clientId)
-//                .apiSecret("AntS9vYhNpK8mKtkl8ae")
-//                .defaultScope("friends, email")
-//                .callback("http://localhost:8080/vk/login")
-//                .build(VkontakteApi.instance());
+    public OAuth2Authentication loadAuthentication(String accessToken) throws AuthenticationException, InvalidTokenException {
         Map<String, Object> map = getMap(this.userInfoEndpointUrl, accessToken);
         if (map.containsKey("error")) {
             if (this.logger.isDebugEnabled()) {
@@ -114,12 +95,14 @@ public class CustomUserInfoTokenServices implements ResourceServerTokenServices 
             }
             throw new InvalidTokenException(accessToken);
         }
+
         Map<String ,Object> userInfoMap = null;
         if(map.containsKey("response")){
             userInfoMap = (Map<String, Object>) ((List) map.get("response")).get(0);
             userService.addUserFromVk(userInfoMap);
             userService.setAccessToken(accessToken);
         }
+
         return extractAuthentication(userInfoMap);
     }
 
@@ -163,16 +146,16 @@ public class CustomUserInfoTokenServices implements ResourceServerTokenServices 
                 resource.setClientId(this.clientId);
                 restTemplate = new OAuth2RestTemplate(resource);
             }
-            OAuth2AccessToken existingToken = restTemplate.getOAuth2ClientContext()
-                    .getAccessToken();
+
+            OAuth2AccessToken existingToken = restTemplate.getOAuth2ClientContext().getAccessToken();
             if (existingToken == null || !accessToken.equals(existingToken.getValue())) {
                 DefaultOAuth2AccessToken token = new DefaultOAuth2AccessToken(
                         accessToken);
                 token.setTokenType(this.tokenType);
                 restTemplate.getOAuth2ClientContext().setAccessToken(token);
             }
-            ResponseEntity<Map> s = restTemplate.getForEntity(path + VkontakteApi.VERSION + "&access_token=" + accessToken, Map.class);
-            return s.getBody();
+
+            return restTemplate.getForEntity(path + VkontakteApi.VERSION + "&access_token=" + accessToken, Map.class).getBody();
         }
         catch (Exception ex) {
             this.logger.warn("Could not fetch user details: " + ex.getClass() + ", "

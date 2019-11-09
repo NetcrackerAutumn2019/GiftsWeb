@@ -37,10 +37,6 @@ import javax.sql.DataSource;
 @Slf4j
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final UserRepository userRepository;
-
-    private final UserInfoRepository userInfoRepository;
-
     private final OAuth2ClientContext oAuth2ClientContext;
 
     private final AuthProvider authProvider;
@@ -50,11 +46,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final DataSource dataSource;
 
 
-    public WebSecurityConfig(UserService userService, DataSource dataSource, UserRepository userRepository, UserInfoRepository userInfoRepository, @Qualifier("oauth2ClientContext") OAuth2ClientContext oAuth2ClientContext, AuthProvider authProvider) {
+    public WebSecurityConfig(UserService userService, DataSource dataSource, @Qualifier("oauth2ClientContext") OAuth2ClientContext oAuth2ClientContext, AuthProvider authProvider) {
         this.userService = userService;
         this.dataSource = dataSource;
-        this.userRepository = userRepository;
-        this.userInfoRepository = userInfoRepository;
         this.oAuth2ClientContext = oAuth2ClientContext;
         this.authProvider = authProvider;
 
@@ -134,9 +128,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         tokenServices.setRestTemplate(vkTemplate);
         vkFilter.setTokenServices(tokenServices);
         tokenServices.setUserService(userService);
-//        tokenServices.setUserRepository(userRepository);
-//        tokenServices.setUserInfoRepository(userInfoRepository);
-        log.info("Token Service", tokenServices);
+        log.info("Token Service started", tokenServices);
         return vkFilter;
     }
 }

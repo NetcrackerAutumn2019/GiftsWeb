@@ -117,7 +117,9 @@ public class UserService implements UserDetailsService {
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("d.M.yyyy");
             Date bDate = null;
             try {
-                bDate = simpleDateFormat.parse((String) userInfoMap.get("bdate"));
+                if(userInfoMap.get("bdate") != null)
+                    bDate = simpleDateFormat.parse((String) userInfoMap.get("bdate"));
+
             } catch (ParseException e) {
                 e.printStackTrace();
             }
@@ -146,31 +148,32 @@ public class UserService implements UserDetailsService {
     }
 
     public Map<String, Set> takeFriendFromVk(User user) throws InterruptedException, ExecutionException, IOException {
+        Set<User> friendsSetRegistered = new HashSet<>();
+        Set<Nickname> friendsNicknamesSetNotRegistered = new HashSet<>();
+        if(user.getVkId() != null) {
         vkScribejavaService = new ServiceBuilder(vkClientId)
                 .apiSecret(vkClientSecret)
                 .defaultScope(vkScope)
                 .callback(vkCallback)
                 .build(VkontakteApi.instance());
 
-        final OAuthRequest friendsRequest = new OAuthRequest(Verb.GET, "https://api.vk.com/method/friends.get?user_id=" + user.getVkId() + "&fields=nickname&v=" + VkontakteApi.VERSION);
-        vkScribejavaService.signRequest(accessToken, friendsRequest);
-        final Response friendsResponse = vkScribejavaService.execute(friendsRequest);
+            final OAuthRequest friendsRequest = new OAuthRequest(Verb.GET, "https://api.vk.com/method/friends.get?user_id=" + user.getVkId() + "&fields=nickname&v=" + VkontakteApi.VERSION);
+            vkScribejavaService.signRequest(accessToken, friendsRequest);
+            final Response friendsResponse = vkScribejavaService.execute(friendsRequest);
 
-        String UserFriendsFromVk = friendsResponse.getBody();
-        Set<Nickname> friendsNicknames = gson.fromJson(UserFriendsFromVk, FriendsFromVk.class).response.getItems();
+            String UserFriendsFromVk = friendsResponse.getBody();
+            Set<Nickname> friendsNicknames = gson.fromJson(UserFriendsFromVk, FriendsFromVk.class).response.getItems();
 
-        Set<User> friendsSetRegistered = new HashSet<>();
-        Set<Nickname> friendsNicknamesSetNotRegistered = new HashSet<>();
 
-        User friend;
-        for(Nickname friendsNickname : friendsNicknames){
-            friend = userRepository.findByVkId(friendsNickname.getId());
-            if(friend != null)
-                friendsSetRegistered.add(friend);
-            else
-                friendsNicknamesSetNotRegistered.add(friendsNickname);
+            User friend;
+            for (Nickname friendsNickname : friendsNicknames) {
+                friend = userRepository.findByVkId(friendsNickname.getId());
+                if (friend != null)
+                    friendsSetRegistered.add(friend);
+                else
+                    friendsNicknamesSetNotRegistered.add(friendsNickname);
+            }
         }
-
 
         HashMap<String, Set> friendMapForForm= new HashMap<>();
         friendMapForForm.put("registered", friendsSetRegistered);

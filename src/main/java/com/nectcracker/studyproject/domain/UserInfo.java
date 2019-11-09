@@ -25,7 +25,7 @@ public class UserInfo implements Serializable {
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-//    @MapsId
+//  @MapsId
     private User user;
 
     @Builder(toBuilder = true)

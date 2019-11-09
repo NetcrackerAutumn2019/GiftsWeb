@@ -18,11 +18,9 @@ import java.util.Map;
 @Slf4j
 public class RegistrationController {
     private final UserService userService;
-    private final UserInfoService userInfoService;
 
-    public RegistrationController(UserService userService, UserInfoService userInfoService) {
+    public RegistrationController(UserService userService) {
         this.userService = userService;
-        this.userInfoService = userInfoService;
     }
 
 

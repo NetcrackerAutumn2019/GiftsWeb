@@ -17,11 +17,14 @@ import java.util.Map;
 @Slf4j
 @Controller
 public class UserProfileController {
-    @Autowired
-    private UserInfoService userInfoService;
+    private final UserInfoService userInfoService;
 
-    @Autowired
-    private InterestsService interestsService;
+    private final InterestsService interestsService;
+
+    public UserProfileController(UserInfoService userInfoService, InterestsService interestsService) {
+        this.userInfoService = userInfoService;
+        this.interestsService = interestsService;
+    }
 
     @GetMapping("/redactor")
     public String redactor(Map<String, Object> model) {
