@@ -1,6 +1,7 @@
 package com.nectcracker.studyproject.controller;
 
 import com.nectcracker.studyproject.domain.Interests;
+import com.nectcracker.studyproject.domain.User;
 import com.nectcracker.studyproject.domain.UserInfo;
 import com.nectcracker.studyproject.domain.UserWishes;
 import com.nectcracker.studyproject.repos.InterestsRepository;
@@ -35,9 +36,10 @@ public class UserPageController {
     @GetMapping("/cabinet")
     public String cabinet(Map<String, Object> model) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        UserInfo currentUserInfo = userInfoRepository.findByUser(userRepository.findByUsername(auth.getName()));
+        User user = userRepository.findByUsername(auth.getName());
+        UserInfo currentUserInfo = userInfoRepository.findByUser(user);
         model.put("info", currentUserInfo);
-        Iterable<UserWishes> list = userWishesService.getUserWishes();
+        Iterable<UserWishes> list = userWishesService.getUserWishes(user);
         model.put("messages", list);
         Iterable<Interests> interests = interestsService.getUserInterests();
         model.put("interests", interests);

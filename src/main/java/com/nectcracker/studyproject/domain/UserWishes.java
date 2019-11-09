@@ -1,7 +1,6 @@
 package com.nectcracker.studyproject.domain;
 
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -18,11 +17,11 @@ public class UserWishes implements Serializable {
     @JoinColumn(name = "user_id")
     private User user;
 
-    private String wish;
+    private String wishName;
 
     public UserWishes(User user, String wish) {
         this.user = user;
-        this.wish = wish;
+        this.wishName = wish;
     }
 
     public UserWishes() {
