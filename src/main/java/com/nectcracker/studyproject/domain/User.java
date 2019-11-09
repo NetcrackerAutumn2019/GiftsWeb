@@ -23,6 +23,7 @@ public class User implements UserDetails {
     private String password;
     private String email;
     private String activationCode;
+    private String userCalendarId;
     private boolean confirmed = false;
     @Column(unique = true)
     private Long vkId;
