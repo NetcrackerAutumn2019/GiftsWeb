@@ -101,12 +101,12 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return getRoles();
     }
 
     @Override
     public String toString(){
-        return "id: " + id +"; username: " + username + "; email: " + email + "; vkId: " + vkId;
+        return "id: " + id +"; username: " + username;
     }
 
 

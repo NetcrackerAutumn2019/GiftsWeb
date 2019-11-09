@@ -5,11 +5,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import com.nectcracker.studyproject.service.CalendarService.*;
 
+import java.security.Principal;
+
 
 @Controller
 public class HomeController {
     @GetMapping("/")
-    public String home() {
+    public String home(Principal principal) {
+        if(principal != null)
+            return "redirect:/cabinet";
         return "home";
     }
 

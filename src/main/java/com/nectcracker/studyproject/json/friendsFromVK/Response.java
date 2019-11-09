@@ -1,16 +1,17 @@
 package com.nectcracker.studyproject.json.friendsFromVK;
 
 import java.util.List;
+import java.util.Set;
 
 public class Response {
     private int count;
-    private List<Long> items;
+    private Set<Nickname> items;
 
     public int getCount() {
         return count;
     }
 
-    public List<Long> getItems() {
+    public Set<Nickname> getItems() {
         return items;
     }
 }
