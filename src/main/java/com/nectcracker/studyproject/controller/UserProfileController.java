@@ -18,9 +18,14 @@ import java.util.Map;
 @Controller
 public class UserProfileController {
     private final UserInfoService userInfoService;
+<<<<<<< HEAD
 
     private final InterestsService interestsService;
 
+=======
+    private final InterestsService interestsService;
+
+>>>>>>> Feat : add chat
     public UserProfileController(UserInfoService userInfoService, InterestsService interestsService) {
         this.userInfoService = userInfoService;
         this.interestsService = interestsService;

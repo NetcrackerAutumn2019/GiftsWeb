@@ -12,9 +12,8 @@
 <div th:insert="fragments/navbar :: header"></div>
 <div th:insert="fragments/listgroup :: group" style="display : inline-block; vertical-align: top;"></div>
 <div>
-    <h1>Новый чат про желание [[${wish}]] для пользователя [[${user}]]</h1>
-<!--    <form th:action="@{/add_chat/{id}(id=${wish.id})}" method="post">-->
-    <form th:action="@{/new_chat}" method="post">
+    <h1>Новый чат про желание [[${wishInfo}]] для пользователя [[${username}]]</h1>
+    <form th:action="@{/new_chat/{id}(id=${wishId})}" method="post">
     <div class="form-group my-3">
             <label class="col-sm-3 col-form-label"> Описание:</label>
             <div class="col-sm-6">

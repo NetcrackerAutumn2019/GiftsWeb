@@ -11,7 +11,32 @@
 <body>
 <div th:insert="fragments/navbar :: header"></div>
 <div th:insert="fragments/listgroup :: group" style="display : inline-block; vertical-align: top;"></div>
-<h1>Обсуждение желания [[${wish}]] для пользователя [[${user}]]</h1>
+<div style="display : inline-block; vertical-align: top;">
+    <h1>Обсуждение желания [[${wishInfo}]] для пользователя [[${username}]]</h1>
+    <div style="vertical-align: text-bottom">
+        <h5 class="font-italic m-3">Участники</h5>
+        <div th:fragment="group">
+            <div class="list-group list-group-flush my-3" style="width: 200px;">
+                <div th:each="p : ${participants}">
+                    <label>[[${p.username}]]</label>
+                </div>
+            </div>
+        </div>
+        <form method="post" th:action="@{/donate/{id}(id=${wishId})}" class="form-inline">
+            <div>
+                <input type="text" class="form-control" name="sum" placeholder="Сумма"/>
+            </div>
+            <div>
+                <button type="submit" class="btn btn-primary mx-3">Donate</button>
+            </div>
+        </form>
+    </div>
+    <div class="m-3">
+        <h5 class="font-italic m-1">Прогресс</h5>
+        <span>pr: [[${currentPrice}]]</span>
+        <progress value="[[${currentPrice}]]" max="[[${price}]]"></progress> --TODO doesn't work properly
+    </div>
+</div>
 <div th:insert="fragments/settings :: settings"></div>
 </body>
 </html>

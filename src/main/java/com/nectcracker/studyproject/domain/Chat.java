@@ -5,6 +5,7 @@ import lombok.Data;
 import javax.persistence.*;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 
@@ -13,11 +14,12 @@ import java.util.Set;
 @Data
 public class Chat {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
     private Long id;
 
-    @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "wish_id")
+    @OneToOne
+    @MapsId
     private UserWishes wishForChat;
 
     private String description;
@@ -28,11 +30,12 @@ public class Chat {
 
     private Double currentPrice;
 
+    // TODO here should be mapping but I can't understand which one
     private User owner;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "chat_participants",
-            joinColumns = @JoinColumn(name = "chat_id", referencedColumnName = "id"),
+            joinColumns = @JoinColumn(name = "chat_id", referencedColumnName = "wish_for_chat"),
             inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"))
     private Set<User> participants = new HashSet<>();
 
@@ -45,5 +48,34 @@ public class Chat {
         this.deadline = deadline;
         this.presentPrice = presentPrice;
         this.currentPrice = 0.0;
+    }
+
+    public void updateCurrentPrice(Double sum) {
+        currentPrice += sum;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Chat chat = (Chat) o;
+        return Objects.equals(id, chat.id) &&
+                Objects.equals(wishForChat, chat.wishForChat);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, wishForChat);
+    }
+
+    @Override
+    public String toString() {
+        return "Chat{" +
+                "id=" + id +
+                ", wishForChat=" + wishForChat +
+                ", description='" + description + '\'' +
+                ", deadline=" + deadline +
+                ", presentPrice=" + presentPrice +
+                '}';
     }
 }
