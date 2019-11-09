@@ -4,7 +4,6 @@ import com.nectcracker.studyproject.domain.Interests;
 import com.nectcracker.studyproject.service.InterestsService;
 import com.nectcracker.studyproject.service.UserInfoService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,14 +17,8 @@ import java.util.Map;
 @Controller
 public class UserProfileController {
     private final UserInfoService userInfoService;
-<<<<<<< HEAD
-
     private final InterestsService interestsService;
 
-=======
-    private final InterestsService interestsService;
-
->>>>>>> Feat : add chat
     public UserProfileController(UserInfoService userInfoService, InterestsService interestsService) {
         this.userInfoService = userInfoService;
         this.interestsService = interestsService;
