@@ -23,10 +23,12 @@ import org.springframework.stereotype.Service;
 import org.thymeleaf.util.StringUtils;
 
 import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
+
 import java.util.regex.Pattern;
 
 @Service
@@ -77,7 +79,8 @@ public class UserService implements UserDetailsService {
         this.accessToken = accessToken;
     }
 
-    public String addUser(UserRegistrationRequest userRegistrationRequest) {
+    public String addUser(UserRegistrationRequest userRegistrationRequest) throws IOException, GeneralSecurityException {
+
         if(!Pattern.matches(".*@.*", userRegistrationRequest.getEmail()))
             return "Wrong e-mail address";
 
@@ -87,6 +90,11 @@ public class UserService implements UserDetailsService {
         User newUser = new User(userRegistrationRequest.getLogin(), userRegistrationRequest.getPassword(), userRegistrationRequest.getEmail());
         newUser.setRoles(Collections.singleton(Role.USER));
         newUser.setActivationCode(UUID.randomUUID().toString());
+
+        String userCalendarId = CalendarService.createCalendar();
+        CalendarService.createEvent(userCalendarId, userRegistrationRequest.getBirthday(), "Ваш День Рождения ");
+
+        newUser.setUserCalendarId(userCalendarId);
         userRepository.save(newUser);
 
         if(!StringUtils.isEmpty(newUser.getEmail())) {
