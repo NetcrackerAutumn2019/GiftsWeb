@@ -35,7 +35,9 @@
             <div class="card border-info mb-3" style="max-width: 18rem;">
                 <div class="card-body text-info">
                     <h5 class="card-title"><span th:text="${m.wishName}"></span></h5>
-                    <button type="submit" class="btn btn-primary m-1">+</button>
+                    <form th:action="@{/join_chat/{id}(id=${m.id})}" method="post">
+                        <button type="submit" class="btn btn-primary m-1">+</button>
+                    </form>
                 </div>
             </div>
         </div>
