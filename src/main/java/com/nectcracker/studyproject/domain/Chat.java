@@ -30,7 +30,9 @@ public class Chat {
 
     private Double currentPrice;
 
-    // TODO here should be mapping but I can't understand which one
+
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = User.class)
+    @JoinColumn(name = "user_id")
     private User owner;
 
     @ManyToMany(cascade = CascadeType.ALL)
