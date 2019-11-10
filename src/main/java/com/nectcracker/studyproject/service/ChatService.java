@@ -35,7 +35,6 @@ public class ChatService {
         try {
             UserWishes wishForChat = userWishesService.getById(id);
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
-            //TODO frankly speaking, have some problems with date - it doesn't parse correctly
             Chat tmp = new Chat(description, formatter.parse(deadline), Double.parseDouble(sum));
             tmp.setWishForChat(wishForChat);
             User user = userWishesService.findByAuthentication();
