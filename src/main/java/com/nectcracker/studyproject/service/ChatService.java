@@ -24,29 +24,40 @@ public class ChatService {
     private final ChatRepository chatRepository;
     private final UserRepository userRepository;
 
-    public ChatService(UserWishesService userWishesService, UserWishesRepository userWishesRepository, ChatRepository chatRepository, UserRepository userRepository) {
+    public ChatService(UserWishesService userWishesService,
+                       UserWishesRepository userWishesRepository,
+                       ChatRepository chatRepository,
+                       UserRepository userRepository) {
         this.userWishesService = userWishesService;
         this.userWishesRepository = userWishesRepository;
         this.chatRepository = chatRepository;
         this.userRepository = userRepository;
     }
 
-    public void createNewChat(Long id, String description, String deadline, String sum) {
+    private static boolean isOnlyDigits(String str) {
+        return str.matches("([\\d]*[.]?[\\d]+)");
+    }
+
+    public boolean createNewChat(Long id, String description, String deadline, String sum) {
         try {
             UserWishes wishForChat = userWishesService.getById(id);
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
-            Chat tmp = new Chat(description, formatter.parse(deadline), Double.parseDouble(sum));
-            tmp.setWishForChat(wishForChat);
-            User user = userWishesService.findByAuthentication();
-            if (chatRepository.findByWishForChat(wishForChat) == null)
-                tmp.setOwner(user);
-            tmp.getParticipants().add(user);
-            chatRepository.save(tmp);
-            wishForChat.setChatForWish(tmp);
-            userWishesRepository.save(wishForChat);
-
+            if (!deadline.equals("") && !sum.equals("") && sum.matches("([\\d]*[.]?[\\d]+)")) {
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+                Chat tmp = new Chat(description, formatter.parse(deadline), Double.parseDouble(sum));
+                tmp.setWishForChat(wishForChat);
+                User user = userWishesService.findByAuthentication();
+                if (chatRepository.findByWishForChat(wishForChat) == null) {
+                    tmp.setOwner(user);
+                }
+                tmp.getParticipants().add(user);
+                chatRepository.save(tmp);
+                wishForChat.setChatForWish(tmp);
+                userWishesRepository.save(wishForChat);
+                return true;
+            } else return false;
         } catch (Exception ex) {
             ex.printStackTrace();
+            return false;
         }
     }
 
