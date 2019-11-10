@@ -32,9 +32,11 @@
         </form>
     </div>
     <div class="m-3">
-        <h5 class="font-italic m-1">Прогресс</h5>
-        <span>pr: [[${currentPrice}]]</span>
-        <progress value="[[${currentPrice}]]" max="[[${price}]]"></progress>
+        <h5 class="font-italic m-1">Прогресс/Цель</h5>
+        <span th:text = "${currentPrice}">/</span>
+        <span th:text = "${price}"></span>
+        <br>
+        <progress th:value="${currentPrice}" th:max="${price}"></progress>
 <!--        TODO doesn't work properly-->
     </div>
 </div>

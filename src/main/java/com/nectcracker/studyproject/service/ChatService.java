@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
+import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.Set;
@@ -18,28 +19,33 @@ import java.util.Set;
 @Slf4j
 @Service
 public class ChatService {
-    @Autowired
-    private UserWishesService userWishesService;
-    @Autowired
-    private UserWishesRepository userWishesRepository;
-    @Autowired
-    private ChatRepository chatRepository;
-    @Autowired
-    private UserRepository userRepository;
+    private final UserWishesService userWishesService;
+    private final UserWishesRepository userWishesRepository;
+    private final ChatRepository chatRepository;
+    private final UserRepository userRepository;
+
+    public ChatService(UserWishesService userWishesService, UserWishesRepository userWishesRepository, ChatRepository chatRepository, UserRepository userRepository) {
+        this.userWishesService = userWishesService;
+        this.userWishesRepository = userWishesRepository;
+        this.chatRepository = chatRepository;
+        this.userRepository = userRepository;
+    }
 
     public void createNewChat(Long id, String description, String deadline, String sum) {
         try {
             UserWishes wishForChat = userWishesService.getById(id);
-            SimpleDateFormat formatter = new SimpleDateFormat("dd-M-yyyy", Locale.ENGLISH);
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
             //TODO frankly speaking, have some problems with date - it doesn't parse correctly
             Chat tmp = new Chat(description, formatter.parse(deadline), Double.parseDouble(sum));
             tmp.setWishForChat(wishForChat);
-            tmp.setOwner(userWishesService.findByAuthentication());
             User user = userWishesService.findByAuthentication();
+            if (chatRepository.findByWishForChat(wishForChat) == null)
+                tmp.setOwner(user);
             tmp.getParticipants().add(user);
             chatRepository.save(tmp);
             wishForChat.setChatForWish(tmp);
             userWishesRepository.save(wishForChat);
+
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -53,6 +59,10 @@ public class ChatService {
 
     public Optional<Chat> findByWishForChat(UserWishes wishForChat) {
         return chatRepository.findById(wishForChat.getId());
+    }
+
+    public Chat findByOwner(User user){
+        return chatRepository.findByOwner(user);
     }
 
     public void checkUser(UserWishes wish) {
