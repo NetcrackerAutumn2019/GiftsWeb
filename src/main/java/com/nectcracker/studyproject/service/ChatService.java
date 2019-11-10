@@ -7,11 +7,9 @@ import com.nectcracker.studyproject.repos.ChatRepository;
 import com.nectcracker.studyproject.repos.UserRepository;
 import com.nectcracker.studyproject.repos.UserWishesRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
-import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.Set;
@@ -32,10 +30,6 @@ public class ChatService {
         this.userWishesRepository = userWishesRepository;
         this.chatRepository = chatRepository;
         this.userRepository = userRepository;
-    }
-
-    private static boolean isOnlyDigits(String str) {
-        return str.matches("([\\d]*[.]?[\\d]+)");
     }
 
     public boolean createNewChat(Long id, String description, String deadline, String sum) {
