@@ -96,8 +96,6 @@ public class ChatController {
     @GetMapping("/chat_list")
     public String showAllChats(Map<String, Object> model) {
         User currentUser = userWishesService.findByAuthentication();
-        System.out.println(chatService.findByOwner(currentUser));
-
         model.put("chats", currentUser.getUserChats());
         return "chat_list";
     }
