@@ -1,5 +1,5 @@
 CREATE TABLE interests
 (
     Id serial  PRIMARY KEY,
-    interestName CHARACTER varying (30)
+    interest_name CHARACTER varying (30)
 );

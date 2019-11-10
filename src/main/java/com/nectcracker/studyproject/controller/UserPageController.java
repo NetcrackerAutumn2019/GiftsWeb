@@ -43,6 +43,9 @@ public class UserPageController {
         model.put("messages", list);
         Iterable<Interests> interests = interestsService.getUserInterests();
         model.put("interests", interests);
+//        String calendarId = "https://calendar.google.com/calendar/embed?src=vitalyvv14%40gmail.com&ctz=Europe%2FMoscow";
+        String calendarId = "https://calendar.google.com/calendar/embed?src=lgpafk2g10ep8p60osc24be8ug@group.calendar.google.com&ctz=Europe%2FMoscow";
+        model.put("calendarId", calendarId);
         return "cabinet";
     }
 }
