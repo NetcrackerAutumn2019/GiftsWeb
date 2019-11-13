@@ -58,6 +58,7 @@ public class FriendsController {
 
         model.addAttribute("registeredFriends", friendsMapForForm.get("registered"));
         model.addAttribute("notRegisteredFriends", friendsMapForForm.get("notRegistered"));
+//        String s = user.getInfo().
         return "friends";
     }
 

@@ -79,8 +79,14 @@ public class ChatController {
     @PostMapping("/new_chat/{id}")
     public ModelAndView createNewChat(@PathVariable Long id, @RequestParam String description,
                                       @RequestParam String deadline, @RequestParam String sum) {
-        chatService.createNewChat(id, description, deadline, sum);
-        ModelAndView modelAndView = new ModelAndView("redirect:/chat");
+        ModelAndView modelAndView;
+        if (!chatService.createNewChat(id, description, deadline, sum)) {
+            modelAndView = new ModelAndView("redirect:/new_chat");
+            modelAndView.addObject("errorInfo", "Please fill again");
+
+        } else {
+            modelAndView = new ModelAndView("redirect:/chat");
+        }
         modelAndView.addObject("wishId", id);
         return modelAndView;
     }

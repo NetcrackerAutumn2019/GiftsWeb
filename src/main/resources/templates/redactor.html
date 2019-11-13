@@ -49,68 +49,80 @@
         });
 
     </script>
+    <style>
+        .columns {
+             float: left; /*Задаем обтекание*/
+             font-size: 14px;
+             width: 525px;
+             margin-right: 10px;
+            }
+    </style>
 </head>
 <body>
 <div th:insert="fragments/navbar :: header"></div>
 <div th:insert="fragments/listgroup :: group" style="display : inline-block; vertical-align: top;"></div>
 <div class="m-3" style="display : inline-block; vertical-align: top;">
-    <h1>Редактировать личный кабнет</h1>
-    <span th:text="${result}"></span>
-    <form th:action="@{/redactor}" method="post">
-        <div class="form-group my-3">
-            <label class="col-sm-3 col-form-label"> Имя:</label>
-            <div class="col-sm-6">
-                <input class="form-control" type="text" name="name"/>
+    <div>
+        <h1>Редактировать личный кабнет</h1>
+    </div>
+    <div class="columns">
+        <span th:text="${result}"></span>
+        <form th:action="@{/redactor}" method="post">
+            <div class="form-group my-3">
+                <label class="col-sm-3 col-form-label"> Имя:</label>
+                <div class="col-sm-6">
+                    <input class="form-control" type="text" name="name"/>
+                </div>
             </div>
-        </div>
-        <div class="form-group my-3">
-            <label class="col-sm-3 col-form-label"> Фамилия:</label>
-            <div class="col-sm-6">
-                <input class="form-control" type="text" name="surname"/>
+            <div class="form-group my-3">
+                <label class="col-sm-3 col-form-label"> Фамилия:</label>
+                <div class="col-sm-6">
+                    <input class="form-control" type="text" name="surname"/>
+                </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            <label class="col-sm-3 col-form-label"> Старый пароль:</label>
-            <div class="col-sm-6">
-                <input class="form-control" type="password" name="oldPassword"/>
+            <div class="form-group">
+                <label class="col-sm-3 col-form-label"> Старый пароль:</label>
+                <div class="col-sm-6">
+                    <input class="form-control" type="password" name="oldPassword"/>
+                </div>
             </div>
-        </div>
 
-        <div class="form-group m-1">
-            <label class="col-sm-3 col-form-label"> Новый пароль:</label>
-            <div class="col-sm-6">
-                <input class="form-control" type="password" name="newPassword"/>
+            <div class="form-group m-1">
+                <label class="col-sm-3 col-form-label"> Новый пароль:</label>
+                <div class="col-sm-6">
+                    <input class="form-control" type="password" name="newPassword"/>
+                </div>
             </div>
-        </div>
-        <button type="submit" class="btn btn-primary m-3">Сохранить изменения</button>
-    </form>
-</div>
-<div style="display : inline-block; vertical-align: top;">
-    <div class="font-italic m-3">Редактор интересов</div>
-    <div class="card-columns" style="display : inline-block; vertical-align: top;">
-        <div th:each="i : ${interests}">
-            <div class="card mb-3">
-                <div class="card-body text-info">
-                    <form th:action="@{/delete/{name}(name=${i.interestName})}">
-                        <h5 class="card-title"><span th:text="${i.interestName}"></span></h5>
-                        <button type="submit" class="btn btn-primary m-1">x</button>
-                    </form>
+            <button type="submit" class="btn btn-primary m-3">Сохранить изменения</button>
+        </form>
+    </div>
+
+    <div class="columns">
+        <div class="font-italic m-3">Редактор интересов</div>
+        <div class="card-columns" style="display : inline-block; vertical-align: top;">
+            <div th:each="i : ${interests}">
+                <div class="card mb-3">
+                    <div class="card-body text-info">
+                        <form th:action="@{/delete/{name}(name=${i.interestName})}">
+                            <h5 class="card-title"><span th:text="${i.interestName}"></span></h5>
+                            <button type="submit" class="btn btn-primary m-1">x</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="m-3">
-        <div class="font-italic m-3">Новые интересы</div>
-        <form th:action="@{/interests}" method="post" class="form-inline m-3">
-            <input class="form-control" type="text" name="interest" id="tag" placeholder="Интересы..."/>
-            <button type="submit" class="btn btn-primary mx-3">Добавить</button>
-        </form>
-        <span class="auto-dop m-1 text-primary" style="display: hidden"></span>
-        <div class="container-hold"></div>
-        <div th:insert="fragments/settings :: settings"></div>
+        <div class="m-3">
+            <div class="font-italic m-3">Новые интересы</div>
+            <form th:action="@{/interests}" method="post" class="form-inline m-3">
+                <input class="form-control" type="text" name="interest" id="tag" placeholder="Интересы..."/>
+                <button type="submit" class="btn btn-primary mx-3">Добавить</button>
+            </form>
+            <span class="auto-dop m-1 text-primary" style="display: hidden"></span>
+            <div class="container-hold"></div>
+            <div th:insert="fragments/settings :: settings"></div>
+        </div>
     </div>
 </div>
-
 </body>
 </html>

@@ -31,6 +31,30 @@ public class UserWishes implements Serializable {
     public UserWishes() {
     }
 
+    public int getNumberOfChatParticipants() {
+        if (chatForWish != null) {
+            return chatForWish.getParticipants().size();
+        } else {
+            return 0;
+        }
+    }
+
+    public double getCurrentSum() {
+        if (chatForWish != null) {
+            return chatForWish.getCurrentPrice();
+        } else {
+            return 0;
+        }
+    }
+
+    public double getPrice() {
+        if (chatForWish != null) {
+            return chatForWish.getPresentPrice();
+        } else {
+            return 0;
+        }
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

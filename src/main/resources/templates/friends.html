@@ -16,7 +16,7 @@
     <div th:insert="fragments/settings :: settings"></div>
     <h2>Ваши друзья которые уже в системе</h2>
     <div th:each="friend : ${registeredFriends}">
-        <span th:text="${friend.username}"></span>
+        <span th:text="${friend.getInfo().getFirstName()}"> </span> <span th:text="${friend.getInfo().getLastName()}"></span>
         <form method="post" th:action="@{/friend_page/{name}(name=${friend.username})}">
             <button type="submit" class="btn btn-primary m-1">x</button>
         </form>
