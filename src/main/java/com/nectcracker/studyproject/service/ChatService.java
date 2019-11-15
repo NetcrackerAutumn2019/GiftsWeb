@@ -1,9 +1,11 @@
 package com.nectcracker.studyproject.service;
 
 import com.nectcracker.studyproject.domain.Chat;
+import com.nectcracker.studyproject.domain.News;
 import com.nectcracker.studyproject.domain.User;
 import com.nectcracker.studyproject.domain.UserWishes;
 import com.nectcracker.studyproject.repos.ChatRepository;
+import com.nectcracker.studyproject.repos.NewsRepository;
 import com.nectcracker.studyproject.repos.UserRepository;
 import com.nectcracker.studyproject.repos.UserWishesRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -21,15 +23,17 @@ public class ChatService {
     private final UserWishesRepository userWishesRepository;
     private final ChatRepository chatRepository;
     private final UserRepository userRepository;
+    private final NewsService newsService;
 
     public ChatService(UserWishesService userWishesService,
                        UserWishesRepository userWishesRepository,
                        ChatRepository chatRepository,
-                       UserRepository userRepository) {
+                       UserRepository userRepository, NewsService newsService) {
         this.userWishesService = userWishesService;
         this.userWishesRepository = userWishesRepository;
         this.chatRepository = chatRepository;
         this.userRepository = userRepository;
+        this.newsService = newsService;
     }
 
     public boolean createNewChat(Long id, String description, String deadline, String sum) {
@@ -43,10 +47,15 @@ public class ChatService {
                 if (chatRepository.findByWishForChat(wishForChat) == null) {
                     tmp.setOwner(user);
                 }
+
                 tmp.getParticipants().add(user);
                 chatRepository.save(tmp);
+
+                newsService.createNew(tmp, user);
+
                 wishForChat.setChatForWish(tmp);
                 userWishesRepository.save(wishForChat);
+
                 return true;
             } else return false;
         } catch (Exception ex) {

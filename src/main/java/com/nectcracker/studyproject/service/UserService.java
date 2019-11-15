@@ -120,6 +120,7 @@ public class UserService implements UserDetailsService {
             user = new User(String.valueOf(vkId), String.valueOf(random.nextInt(2147483600)), vkId);
             user.setEmail("q");
             user.setRoles(Collections.singleton(Role.USER));
+            user.setConfirmed(true);
             userRepository.save(user);
 
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("d.M.yyyy");
@@ -181,6 +182,11 @@ public class UserService implements UserDetailsService {
                 else
                     friendsNicknamesSetNotRegistered.add(friendsNickname);
             }
+        }
+        if(!user.getFriends().equals(friendsSetRegistered)) {
+            user.setFriends(friendsSetRegistered);
+            user.setFriendsOf(friendsSetRegistered);
+            userRepository.save(user);
         }
 
         HashMap<String, Set> friendMapForForm= new HashMap<>();
