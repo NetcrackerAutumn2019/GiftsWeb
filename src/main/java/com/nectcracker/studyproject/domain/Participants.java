@@ -31,9 +31,7 @@ public class Participants {
     }
 
     public void updateSumFromUser(double sum) {
-        log.error("SUM BEF" + sumFromUser + " " + sum);
         sumFromUser += sum;
-        log.error("SUM aft" + sumFromUser);
     }
 
     public Participants() {

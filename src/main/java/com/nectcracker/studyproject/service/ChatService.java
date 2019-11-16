@@ -12,11 +12,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.mail.Part;
+import javax.persistence.EntityManager;
 import java.text.SimpleDateFormat;
-import java.util.HashSet;
-import java.util.Locale;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -84,7 +82,7 @@ public class ChatService {
         return chatRepository.findById(wishForChat.getId());
     }
 
-    public Chat findByOwner(User user){
+    public Chat findByOwner(User user) {
         return chatRepository.findByOwner(user);
     }
 
@@ -122,5 +120,17 @@ public class ChatService {
             chatSet.add(i.getChat());
         }
         return chatSet;
+    }
+
+    public void leaveChat(Long wishId) {
+        UserWishes wish = userWishesService.getById(wishId);
+        User currentUser = userWishesService.findByAuthentication();
+        Chat currentChat = chatRepository.findByWishForChat(wish);
+        Participants participants = participantsRepository.findByUserForChatAndChat(currentUser, currentChat);
+        currentChat.getChatForParticipants().remove(participants);
+        currentUser.getParticipantsForChat().remove(participants);
+        participantsRepository.save(participants);
+        chatRepository.save(currentChat);
+        userRepository.save(currentUser);
     }
 }

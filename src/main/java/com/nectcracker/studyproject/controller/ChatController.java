@@ -4,6 +4,7 @@ import com.nectcracker.studyproject.domain.Chat;
 import com.nectcracker.studyproject.domain.Participants;
 import com.nectcracker.studyproject.domain.User;
 import com.nectcracker.studyproject.domain.UserWishes;
+import com.nectcracker.studyproject.repos.ChatRepository;
 import com.nectcracker.studyproject.repos.ParticipantsRepository;
 import com.nectcracker.studyproject.repos.UserRepository;
 import com.nectcracker.studyproject.repos.UserWishesRepository;
@@ -19,6 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Stream;
 
 @Slf4j
 @Controller
@@ -26,7 +28,6 @@ public class ChatController {
     private final UserWishesService userWishesService;
     private final ChatService chatService;
     private final ParticipantsRepository participantsRepository;
-
 
     public ChatController(UserWishesService userWishesService,
                           ChatService chatService,
@@ -53,16 +54,22 @@ public class ChatController {
     @GetMapping("/chat")
     public String showChat(@RequestParam Long wishId, Map<String, Object> model) {
         UserWishes currentWish = userWishesService.getById(wishId);
-        User currentUser = currentWish.getUser();
-        model.put("username", currentUser.getInfo().getFirstName());
+        User wishUser = currentWish.getUser();
+        model.put("username", wishUser.getInfo().getFirstName());
         model.put("wishInfo", currentWish.getWishName());
         model.put("wishId", wishId);
         chatService.checkUser(currentWish);
-        Iterable<User> participants = chatService.getChatParticipants(wishId);
+        User currentUser = userWishesService.findByAuthentication();
+        Chat currentChat = chatService.getById(wishId);
+        Iterable<Participants> participants = participantsRepository.findByChat(currentChat);
+        if (currentUser.getId().equals(currentChat.getOwner().getId())) {
+            model.put("ownerPage", "true");
+        } else {
+            model.put("ownerPage", "false");
+        }
         model.put("participants", participants);
-        Chat chat = chatService.getById(wishId);
-        model.put("currentPrice", chat.sumCurrentPrice());
-        model.put("price", chat.getPresentPrice());
+        model.put("currentPrice", currentChat.sumCurrentPrice());
+        model.put("price", currentChat.getPresentPrice());
         return "chat";
     }
 
@@ -106,5 +113,11 @@ public class ChatController {
         Set<Participants> participants = participantsRepository.findByUserForChat(currentUser);
         model.put("chats", chatService.getChatParticipants(participants));
         return "chat_list";
+    }
+
+    @PostMapping("/leave/{id}")
+    public String leaveChat(@PathVariable Long id) {
+        chatService.leaveChat(id);
+        return "redirect:/chat_list";
     }
 }

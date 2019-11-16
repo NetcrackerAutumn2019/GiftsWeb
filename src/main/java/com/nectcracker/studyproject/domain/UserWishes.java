@@ -35,9 +35,6 @@ public class UserWishes implements Serializable {
 
     public int getNumberOfChatParticipants() {
         if (chatForWish != null) {
-            for (Participants i : chatForWish.getChatForParticipants()) {
-                log.error(i.getUserForChat().getUsername());
-            }
             return chatForWish.getChatForParticipants().size();
         } else {
             return 0;
@@ -46,7 +43,7 @@ public class UserWishes implements Serializable {
 
     public double getCurrentSum() {
         if (chatForWish != null) {
-            return chatForWish.getCurrentPrice();
+            return chatForWish.sumCurrentPrice();
         } else {
             return 0;
         }
