@@ -9,7 +9,7 @@ import java.util.Set;
 
 public interface NewsRepository extends JpaRepository<News, Long> {
 
-    Set<News> findAllByUsersNewsContains(User user);
+    //Set<News> findAllByUsersNewsContains(User user);
 
 //    @Query("Delete u from ")
 //    void deleteUsetFromUserSet()

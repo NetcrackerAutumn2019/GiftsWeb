@@ -16,11 +16,32 @@
         <h1>События</h1>
     </div>
     <div class="m-3">
-        <div th:each="n : ${news}">
+        <div class="m-3">
+            <h2>Новые события</h2>
+        </div>
+        <div th:each="newNews : ${newNews}">
             <div class="card-deck">
-                <div class="card border-info mb-3" style="max-width: 18rem;">
+                <div class="card border-info mb-3" style="max-width: 42rem;">
                     <div class="card-body text-info">
-                        <h5 class="card-title"><span th:text="${n}"></span></h5>
+                        <h5 class="card-title"><span th:text="${newNews}"></span></h5>
+                    </div>
+                    <div class="card-text">
+                        <a href="chat.html" th:href="@{/chat(wishId=${newNews.chat.getWishId()})}"><h5 class="card-text">Присоеденится к сбору средств</h5></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="m-3">
+            <h2>Старые события</h2>
+        </div>
+        <div th:each="oldNews : ${oldNews}">
+            <div class="card-deck">
+                <div class="card border-info mb-3" style="max-width: 42rem;">
+                    <div class="card-body text-info">
+                        <h5 class="card-title"><span th:text="${oldNews}"></span></h5>
+                    </div>
+                    <div class="card-text">
+                        <a href="chat.html" th:href="@{/chat(wishId=${oldNews.chat.getWishId()})}"><h5 class="card-text">Присоеденится к сбору средств</h5></a>
                     </div>
                 </div>
             </div>

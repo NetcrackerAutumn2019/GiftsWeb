@@ -4,12 +4,13 @@ import com.nectcracker.studyproject.domain.News;
 import com.nectcracker.studyproject.domain.User;
 import com.nectcracker.studyproject.service.NewsService;
 import com.nectcracker.studyproject.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import java.util.Map;
 import java.util.Set;
 
 @Controller
@@ -24,10 +25,12 @@ public class NewsController {
     }
 
     @GetMapping("/news")
-    public String news(){
+    public String news(Model model){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) userService.loadUserByUsername(auth.getName());
-        Set<News> news = newsService.findByUser(user);
+        Map<String, Set<News>> news = newsService.findByUser(user);
+        model.addAttribute("newNews", news.get("newNews"));
+        model.addAttribute("oldNews", news.get("oldNews"));
         return "news";
     }
 }
