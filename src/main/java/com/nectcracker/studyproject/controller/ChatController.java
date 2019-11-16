@@ -1,8 +1,10 @@
 package com.nectcracker.studyproject.controller;
 
 import com.nectcracker.studyproject.domain.Chat;
+import com.nectcracker.studyproject.domain.Participants;
 import com.nectcracker.studyproject.domain.User;
 import com.nectcracker.studyproject.domain.UserWishes;
+import com.nectcracker.studyproject.repos.ParticipantsRepository;
 import com.nectcracker.studyproject.repos.UserRepository;
 import com.nectcracker.studyproject.repos.UserWishesRepository;
 import com.nectcracker.studyproject.service.ChatService;
@@ -16,23 +18,22 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Map;
+import java.util.Set;
 
 @Slf4j
 @Controller
 public class ChatController {
     private final UserWishesService userWishesService;
-    private final UserWishesRepository userWishesRepository;
     private final ChatService chatService;
-    private final UserRepository userRepository;
+    private final ParticipantsRepository participantsRepository;
+
 
     public ChatController(UserWishesService userWishesService,
-                          UserWishesRepository userWishesRepository,
                           ChatService chatService,
-                          UserRepository userRepository) {
+                          ParticipantsRepository participantsRepository) {
         this.userWishesService = userWishesService;
-        this.userWishesRepository = userWishesRepository;
         this.chatService = chatService;
-        this.userRepository = userRepository;
+        this.participantsRepository = participantsRepository;
     }
 
     @PostMapping("/join_chat/{id}")
@@ -60,7 +61,7 @@ public class ChatController {
         Iterable<User> participants = chatService.getChatParticipants(wishId);
         model.put("participants", participants);
         Chat chat = chatService.getById(wishId);
-        model.put("currentPrice", chat.getCurrentPrice());
+        model.put("currentPrice", chat.sumCurrentPrice());
         model.put("price", chat.getPresentPrice());
         return "chat";
     }
@@ -102,7 +103,8 @@ public class ChatController {
     @GetMapping("/chat_list")
     public String showAllChats(Map<String, Object> model) {
         User currentUser = userWishesService.findByAuthentication();
-        model.put("chats", currentUser.getUserChats());
+        Set<Participants> participants = participantsRepository.findByUserForChat(currentUser);
+        model.put("chats", chatService.getChatParticipants(participants));
         return "chat_list";
     }
 }

@@ -18,7 +18,7 @@
         <div th:fragment="group" class="m-3">
             <div class="list-group list-group-flush my-3" style="width: 200px;">
                 <div th:each="p : ${participants}">
-                    <label>[[${p.username}]]</label>
+                    <label>[[${p.getInfo().getFirstName()}]] [[${p.getInfo().getLastName()}]]</label>
                 </div>
             </div>
         </div>
