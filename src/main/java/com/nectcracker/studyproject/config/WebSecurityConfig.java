@@ -47,16 +47,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final DataSource dataSource;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
 
-    public WebSecurityConfig(UserService userService, DataSource dataSource, @Qualifier("oauth2ClientContext") OAuth2ClientContext oAuth2ClientContext, AuthProvider authProvider) {
+    public WebSecurityConfig(UserService userService, DataSource dataSource, @Qualifier("oauth2ClientContext") OAuth2ClientContext oAuth2ClientContext, AuthProvider authProvider, PasswordEncoder passwordEncoder) {
         this.userService = userService;
         this.dataSource = dataSource;
         this.oAuth2ClientContext = oAuth2ClientContext;
         this.authProvider = authProvider;
 
+        this.passwordEncoder = passwordEncoder;
     }
 
 

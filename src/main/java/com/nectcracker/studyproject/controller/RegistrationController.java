@@ -1,6 +1,5 @@
 package com.nectcracker.studyproject.controller;
 import com.nectcracker.studyproject.domain.UserRegistrationRequest;
-import com.nectcracker.studyproject.service.UserInfoService;
 import com.nectcracker.studyproject.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.propertyeditors.CustomDateEditor;

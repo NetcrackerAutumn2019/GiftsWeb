@@ -15,12 +15,10 @@ import java.util.*;
 public class NewsService {
     private final NewsRepository newsRepository;
     private final NewsUsersRepository newsUsersRepository;
-    private final UserRepository userRepository;
 
-    public NewsService(NewsRepository newsRepository, NewsUsersRepository newsUsersRepository, UserRepository userRepository) {
+    public NewsService(NewsRepository newsRepository, NewsUsersRepository newsUsersRepository) {
         this.newsRepository = newsRepository;
         this.newsUsersRepository = newsUsersRepository;
-        this.userRepository = userRepository;
     }
 
     public void createNew(Chat chat, User user){
