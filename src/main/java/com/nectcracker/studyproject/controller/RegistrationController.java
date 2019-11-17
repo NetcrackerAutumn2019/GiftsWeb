@@ -12,6 +12,7 @@ import org.thymeleaf.util.StringUtils;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
@@ -38,7 +39,7 @@ public class RegistrationController {
     }
 
     @PostMapping()
-    public String addUser(@ModelAttribute("userRegistrationRequest") UserRegistrationRequest userRegistrationRequest, Map<String, Object> model) throws IOException, GeneralSecurityException {
+    public String addUser(@ModelAttribute("userRegistrationRequest") UserRegistrationRequest userRegistrationRequest, Map<String, Object> model) throws IOException, GeneralSecurityException, ParseException {
 
         String message = userService.addUser(userRegistrationRequest);
 

@@ -15,6 +15,7 @@ import com.nectcracker.studyproject.json.friendsFromVK.FriendsFromVk;
 import com.nectcracker.studyproject.json.friendsFromVK.Nickname;
 import com.nectcracker.studyproject.repos.UserInfoRepository;
 import com.nectcracker.studyproject.repos.UserRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -26,15 +27,17 @@ import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
 
 import java.util.regex.Pattern;
 
+@Slf4j
 @Service
 public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
-
+    private EventsService eventsService;
 
     @Value("${spring.security.oauth2.vk.client.clientId}")
     private String vkClientId;
@@ -79,7 +82,7 @@ public class UserService implements UserDetailsService {
         this.accessToken = accessToken;
     }
 
-    public String addUser(UserRegistrationRequest userRegistrationRequest) throws IOException, GeneralSecurityException {
+    public String addUser(UserRegistrationRequest userRegistrationRequest) throws IOException, GeneralSecurityException, ParseException {
 
         if(!Pattern.matches(".*@.*", userRegistrationRequest.getEmail()))
             return "Wrong e-mail address";
@@ -90,12 +93,11 @@ public class UserService implements UserDetailsService {
         User newUser = new User(userRegistrationRequest.getLogin(), userRegistrationRequest.getPassword(), userRegistrationRequest.getEmail());
         newUser.setRoles(Collections.singleton(Role.USER));
         newUser.setActivationCode(UUID.randomUUID().toString());
-
-        String userCalendarId = CalendarService.createCalendar();
-        CalendarService.createEvent(userCalendarId, userRegistrationRequest.getBirthday(), "Ваш День Рождения ");
-
-        newUser.setUserCalendarId(userCalendarId);
+//        Date date = new SimpleDateFormat("dd-MM-yyyy").parse("17-11-2019");
         userRepository.save(newUser);
+//        eventsService.createEvent("Birthday", date, newUser);
+
+
 
         if(!StringUtils.isEmpty(newUser.getEmail())) {
             String message = String.format("Hello %s \n" +

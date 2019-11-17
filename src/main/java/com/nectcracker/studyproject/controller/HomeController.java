@@ -2,7 +2,6 @@ package com.nectcracker.studyproject.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import com.nectcracker.studyproject.service.CalendarService.*;
 
 import java.security.Principal;
 
