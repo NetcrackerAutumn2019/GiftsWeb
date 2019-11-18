@@ -8,8 +8,54 @@
           integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <title>GiftsWeb!</title>
     <script defer type="text/javascript" th:inline="javascript">
+        async function updateChatLog() {
+            const userLogin = [[${userId}]];
+             const chatId = [[${wishId}]];
+             const form =  new FormData();
+             form.append("userId", userLogin);
+             form.append("chatId", chatId);
+
+             const resp = await fetch("/showMessages", {
+                method: 'POST',
+                body: form
+              }).then((resp) => {
+                return resp.json()
+              }).catch((err) => {
+                console.log("ERROR!");
+                console.log(err);
+               })
+
+            var suggestHolder = document.getElementById("container-hold");
+            suggestHolder.innerHTML = '';
+            for (var key in resp) {
+                suggestHolder.innerHTML += resp[key];
+                suggestHolder.innerHTML += "<br/>";
+            }
+
+        }
+        setInterval(updateChatLog, 1500);
+
+
 
     </script>
+    <style>
+        span {
+          padding: 10px;
+          display: block;
+        }
+<!--        div {-->
+<!--          display: inline-block;-->
+<!--          max-width: 200px;-->
+<!--          vertical-align: top;-->
+<!--        }-->
+
+        .holder {
+          border: 1px black solid;
+          overflow: auto;
+          height: 300px;
+        }
+
+    </style>
 </head>
 <body>
 <div th:insert="fragments/navbar :: header"></div>
@@ -48,6 +94,22 @@
     <div class="m-3">
         <form method="post" th:action="@{/leave/{id}(id=${wishId})}" class="form-inline m-3">
             <button type="submit" class="btn btn-primary mx-3">Покинуть чат</button>
+            <p>Chat</p>
+            <div style="display: inline-block;
+             width: 500px;
+             vertical-align: top;"
+                 class="holder">
+            <span style="padding: 10px;
+                         display: block;"
+                  id="container-hold"></span>
+            </div>
+        </form>
+    </div>
+    <div>
+        <iframe name="mytarget" style="display: none;"></iframe>
+        <form th:action="@{/sendMessage/{id}(id=${wishId})}" class="form-inline m-3" method="post" target="mytarget">
+            <input type="text" class="form-control" name="sentMessage" placeholder="Text"/>
+            <button type="submit" class="btn btn-primary mx-3">Send</button>
         </form>
     </div>
 </div>

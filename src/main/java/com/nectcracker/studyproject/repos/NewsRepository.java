@@ -8,7 +8,4 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.Set;
 
 public interface NewsRepository extends JpaRepository<News, Long> {
-
-    //Set<News> findAllByUsersNewsContains(User user);
-
 }

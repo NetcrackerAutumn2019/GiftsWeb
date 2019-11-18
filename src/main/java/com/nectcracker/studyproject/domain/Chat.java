@@ -39,6 +39,9 @@ public class Chat {
     @OneToMany(fetch = FetchType.LAZY, targetEntity = Participants.class, cascade = CascadeType.ALL,  orphanRemoval = true)
     private Set<Participants> chatForParticipants = new HashSet<>();
 
+    @OneToMany(fetch = FetchType.LAZY ,targetEntity = Messages.class)
+    private Set<Messages> messages = new HashSet<>();
+
     public Chat() {
     }
 

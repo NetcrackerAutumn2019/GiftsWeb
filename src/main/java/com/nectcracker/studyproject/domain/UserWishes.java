@@ -72,9 +72,6 @@ public class UserWishes implements Serializable {
 
     @Override
     public String toString() {
-        return "UserWishes{" +
-                "id=" + id +
-                ", wishName='" + wishName + '\'' +
-                '}';
+        return "Wish " + wishName + " for user " + user.getInfo().getFirstName();
     }
 }
