@@ -36,31 +36,18 @@
         setInterval(updateChatLog, 1500);
 
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 730c0db68e32ad3b3f631d77d9e3185a94c9d4ff
     </script>
     <style>
         span {
           padding: 10px;
           display: block;
         }
-<!--        div {-->
-<!--          display: inline-block;-->
-<!--          max-width: 200px;-->
-<!--          vertical-align: top;-->
-<!--        }-->
-
         .holder {
           border: 1px black solid;
           overflow: auto;
           height: 300px;
         }
-<<<<<<< HEAD
 
-=======
->>>>>>> 730c0db68e32ad3b3f631d77d9e3185a94c9d4ff
     </style>
 </head>
 <body>
@@ -98,31 +85,20 @@
         <progress th:value="${currentPrice}" th:max="${price}"></progress>
     </div>
     <div class="m-3">
-<<<<<<< HEAD
         <form method="post" th:action="@{/leave/{id}(id=${wishId})}" class="form-inline m-3">
             <button type="submit" class="btn btn-primary mx-3">Покинуть чат</button>
-            <p>Chat</p>
-            <div style="display: inline-block;
-             width: 500px;
-             vertical-align: top;"
-                 class="holder">
-            <span style="padding: 10px;
-                         display: block;"
-                  id="container-hold"></span>
-            </div>
         </form>
-=======
+
         <p>Chat</p>
         <div style="display: inline-block;
              width: 500px;
              vertical-align: top;"
-        class="holder">
+             class="holder">
             <span style="padding: 10px;
                          display: block;"
                   id="container-hold"></span>
         </div>
 
->>>>>>> 730c0db68e32ad3b3f631d77d9e3185a94c9d4ff
     </div>
     <div>
         <iframe name="mytarget" style="display: none;"></iframe>
