@@ -1,6 +1,7 @@
 package com.nectcracker.studyproject.domain;
 
 import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -8,6 +9,7 @@ import java.util.Objects;
 
 @Entity
 @Table
+@Slf4j
 @Data
 public class UserWishes implements Serializable {
     @Id
@@ -33,7 +35,7 @@ public class UserWishes implements Serializable {
 
     public int getNumberOfChatParticipants() {
         if (chatForWish != null) {
-            return chatForWish.getParticipants().size();
+            return chatForWish.getChatForParticipants().size();
         } else {
             return 0;
         }
@@ -41,7 +43,7 @@ public class UserWishes implements Serializable {
 
     public double getCurrentSum() {
         if (chatForWish != null) {
-            return chatForWish.getCurrentPrice();
+            return chatForWish.sumCurrentPrice();
         } else {
             return 0;
         }
