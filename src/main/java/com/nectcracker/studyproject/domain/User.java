@@ -2,6 +2,7 @@ package com.nectcracker.studyproject.domain;
 
 import lombok.Data;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -13,6 +14,7 @@ import java.util.Set;
 
 @Entity(name = "Users")
 @Table(name = "users")
+@Slf4j
 @Data
 public class User implements UserDetails {
     @Id
@@ -57,10 +59,10 @@ public class User implements UserDetails {
             inverseJoinColumns = @JoinColumn(name = "interest_id", referencedColumnName = "id"))
     private Set<Interests> interestsSet = new HashSet<>();
 
-    @ManyToMany(mappedBy = "participants")
-    private Set<Chat> userChats;
+    @OneToMany(fetch = FetchType.LAZY, targetEntity = Participants.class, orphanRemoval = true)
+    private Set<Participants> participantsForChat = new HashSet<>();
 
-    @OneToMany(fetch = FetchType.LAZY ,targetEntity = Chat.class)
+    @OneToMany(fetch = FetchType.LAZY, targetEntity = Chat.class)
     private Set<Chat> chatsOwner;
 
     @OneToMany(mappedBy = "users")

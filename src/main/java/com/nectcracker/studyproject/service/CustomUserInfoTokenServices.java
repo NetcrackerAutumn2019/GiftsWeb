@@ -11,9 +11,11 @@ import com.nectcracker.studyproject.repos.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.*;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.ExecutionException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -99,7 +101,15 @@ public class CustomUserInfoTokenServices implements ResourceServerTokenServices 
         Map<String ,Object> userInfoMap = null;
         if(map.containsKey("response")){
             userInfoMap = (Map<String, Object>) ((List) map.get("response")).get(0);
-            userService.addUserFromVk(userInfoMap);
+            try {
+                userService.addUserFromVk(userInfoMap);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             userService.setAccessToken(accessToken);
         }
 

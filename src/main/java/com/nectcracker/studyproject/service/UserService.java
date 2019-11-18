@@ -110,7 +110,7 @@ public class UserService implements UserDetailsService {
         return "";
     }
 
-    public void addUserFromVk(Map<String, Object> userInfoMap) {
+    public void addUserFromVk(Map<String, Object> userInfoMap) throws InterruptedException, ExecutionException, IOException {
         Long vkId = Long.valueOf((Integer) userInfoMap.get("id"));
         User user = userRepository.findByVkId(vkId);
         if (user == null) {
@@ -136,7 +136,6 @@ public class UserService implements UserDetailsService {
                     .user(user).build();
 
             userInfoRepository.save(userInfo);
-
         }
     }
 

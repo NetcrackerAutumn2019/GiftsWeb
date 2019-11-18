@@ -8,7 +8,6 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-
 @Entity
 @Table
 @Data
@@ -33,16 +32,12 @@ public class Chat {
 
     private Double currentPrice;
 
-
     @ManyToOne(fetch = FetchType.LAZY, targetEntity = User.class)
     @JoinColumn(name = "user_id")
     private User owner;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "chat_participants",
-            joinColumns = @JoinColumn(name = "chat_id", referencedColumnName = "wish_for_chat"),
-            inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"))
-    private Set<User> participants = new HashSet<>();
+    @OneToMany(fetch = FetchType.LAZY, targetEntity = Participants.class, cascade = CascadeType.ALL,  orphanRemoval = true)
+    private Set<Participants> chatForParticipants = new HashSet<>();
 
     public Chat() {
     }
@@ -54,6 +49,7 @@ public class Chat {
         this.currentPrice = 0.0;
     }
 
+
     public String getWishName(){
         return wishForChat.getWishName();
     }
@@ -63,11 +59,18 @@ public class Chat {
     }
 
     public int getNumberOfParticipants(){
-        return participants.size();
+        return chatForParticipants.size();
     }
 
     public void updateCurrentPrice(Double sum) {
         currentPrice += sum;
+    }
+
+    public double sumCurrentPrice() {
+        for (Participants p : chatForParticipants) {
+            currentPrice += p.getSumFromUser();
+        }
+        return currentPrice;
     }
 
     @Override
@@ -87,7 +90,6 @@ public class Chat {
     @Override
     public String toString() {
         return "Chat{" +
-                "id=" + id +
                 ", wishForChat=" + wishForChat +
                 ", description='" + description + '\'' +
                 ", deadline=" + deadline +

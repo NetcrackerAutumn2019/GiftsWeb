@@ -6,15 +6,20 @@ import com.nectcracker.studyproject.domain.User;
 import com.nectcracker.studyproject.domain.UserWishes;
 import com.nectcracker.studyproject.repos.ChatRepository;
 import com.nectcracker.studyproject.repos.NewsRepository;
+import com.nectcracker.studyproject.domain.Participants;
+import com.nectcracker.studyproject.domain.User;
+import com.nectcracker.studyproject.domain.UserWishes;
+import com.nectcracker.studyproject.repos.ChatRepository;
+import com.nectcracker.studyproject.repos.ParticipantsRepository;
 import com.nectcracker.studyproject.repos.UserRepository;
 import com.nectcracker.studyproject.repos.UserWishesRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import javax.mail.Part;
+import javax.persistence.EntityManager;
 import java.text.SimpleDateFormat;
-import java.util.Locale;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -24,16 +29,20 @@ public class ChatService {
     private final ChatRepository chatRepository;
     private final UserRepository userRepository;
     private final NewsService newsService;
+    private final ParticipantsRepository participantsRepository;
 
     public ChatService(UserWishesService userWishesService,
                        UserWishesRepository userWishesRepository,
                        ChatRepository chatRepository,
-                       UserRepository userRepository, NewsService newsService) {
+                       NewsService newsService,
+                       UserRepository userRepository,
+                       ParticipantsRepository participantsRepository) {
         this.userWishesService = userWishesService;
         this.userWishesRepository = userWishesRepository;
         this.chatRepository = chatRepository;
         this.userRepository = userRepository;
         this.newsService = newsService;
+        this.participantsRepository = participantsRepository;
     }
 
     public boolean createNewChat(Long id, String description, String deadline, String sum) {
@@ -48,8 +57,15 @@ public class ChatService {
                     tmp.setOwner(user);
                 }
 
-                tmp.getParticipants().add(user);
                 chatRepository.save(tmp);
+                userRepository.save(user);
+                Participants participants = new Participants(user, tmp);
+                participantsRepository.save(participants);
+                log.error(tmp.getChatForParticipants().toString());
+                tmp.getChatForParticipants().add(participants);
+                user.getParticipantsForChat().add(participants);
+                chatRepository.save(tmp);
+                userRepository.save(user);
 
                 newsService.createNew(tmp, user);
 
@@ -67,34 +83,67 @@ public class ChatService {
     public Set<User> getChatParticipants(Long wishId) {
         UserWishes userWishes = userWishesService.getById(wishId);
         Chat currentChat = chatRepository.findByWishForChat(userWishes);
-        return currentChat.getParticipants();
+        Set<Participants> participantsForCurrentChat = participantsRepository.findByChat(currentChat);
+        Set<User> users = new HashSet<>();
+        for (Participants i : participantsForCurrentChat) {
+            users.add(i.getUserForChat());
+        }
+        return users;
     }
 
     public Optional<Chat> findByWishForChat(UserWishes wishForChat) {
         return chatRepository.findById(wishForChat.getId());
     }
 
-    public Chat findByOwner(User user){
+    public Chat findByOwner(User user) {
         return chatRepository.findByOwner(user);
     }
 
     public void checkUser(UserWishes wish) {
         User currentUser = userWishesService.findByAuthentication();
         Chat currentChat = chatRepository.findByWishForChat(wish);
-        currentChat.getParticipants().add(currentUser);
-        chatRepository.save(currentChat);
-        userRepository.save(currentUser);
+        if (participantsRepository.findByUserForChatAndChat(currentUser, currentChat) == null) {
+            Participants participants = new Participants(currentUser, currentChat);
+            currentChat.getChatForParticipants().add(participants);
+            currentUser.getParticipantsForChat().add(participants);
+            participantsRepository.save(participants);
+            chatRepository.save(currentChat);
+            userRepository.save(currentUser);
+        }
     }
 
     public void donateMoneyForWish(Long wishId, String sum) {
         UserWishes wish = userWishesService.getById(wishId);
         Chat currentChat = chatRepository.findByWishForChat(wish);
-        currentChat.updateCurrentPrice(Double.parseDouble(sum));
+        User currentUser = userWishesService.findByAuthentication();
+        Participants currentParticipant = participantsRepository.findByUserForChatAndChat(currentUser, currentChat);
+        currentParticipant.updateSumFromUser(Double.parseDouble(sum));
+        participantsRepository.save(currentParticipant);
         chatRepository.save(currentChat);
     }
 
     public Chat getById(Long wishId) {
         UserWishes wish = userWishesService.getById(wishId);
         return chatRepository.findByWishForChat(wish);
+    }
+
+    public Set<Chat> getChatParticipants(Set<Participants> participants) {
+        Set<Chat> chatSet = new HashSet<>();
+        for (Participants i : participants) {
+            chatSet.add(i.getChat());
+        }
+        return chatSet;
+    }
+
+    public void leaveChat(Long wishId) {
+        UserWishes wish = userWishesService.getById(wishId);
+        User currentUser = userWishesService.findByAuthentication();
+        Chat currentChat = chatRepository.findByWishForChat(wish);
+        Participants participants = participantsRepository.findByUserForChatAndChat(currentUser, currentChat);
+        currentChat.getChatForParticipants().remove(participants);
+        currentUser.getParticipantsForChat().remove(participants);
+        participantsRepository.save(participants);
+        chatRepository.save(currentChat);
+        userRepository.save(currentUser);
     }
 }

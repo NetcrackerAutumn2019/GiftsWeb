@@ -11,6 +11,4 @@ public interface NewsRepository extends JpaRepository<News, Long> {
 
     //Set<News> findAllByUsersNewsContains(User user);
 
-//    @Query("Delete u from ")
-//    void deleteUsetFromUserSet()
 }
