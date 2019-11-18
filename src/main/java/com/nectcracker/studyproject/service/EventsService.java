@@ -17,8 +17,11 @@ import java.util.Set;
 @Slf4j
 @Service
 public class EventsService implements UserRepositoryCustom {
+    @Autowired
     private EventsRepository eventsRepository;
+    @Autowired
     private UserRepository userRepository;
+    @Autowired
     private UserService userService;
 
     @Override

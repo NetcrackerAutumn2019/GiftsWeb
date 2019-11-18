@@ -6,10 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
-
+import java.util.*;
 
 
 @Data
@@ -20,7 +17,7 @@ public class Events  {
     private Long id;
 
     @ManyToMany(mappedBy = "eventsSet")
-    private Set<User> eventParticipants;
+    private Set<User> eventParticipants = new HashSet<>();
 
     private String title;
 
@@ -36,15 +33,28 @@ public class Events  {
         this.allDay = allDay;
     }
 
+    @Override
+    public String toString(){
+        Iterator usersIterator = eventParticipants.iterator();
+        List<String> userNames = new ArrayList<>();
+        while(usersIterator.hasNext()){
+            User user = (User) usersIterator.next();
+            String userName = user.getUsername();
+            userNames.add(userName);
+        }
+        return "{" +
+                "\"id\": " + id + ", " +
+                "\"title\": \"" + title + "\", " +
+                "\"start\": \"" + start + "\", " +
+                "\"allDay\": true, " +
+                "\"description\": " + userNames.toString() + "}";
+    }
 //    @Override
 //    public String toString(){
-//        return "{" +
-//                "\"id\": " + id + ", " +
-//                "\"title\": \'" + title + "\', " +
-//                "\"start\": \'" + start + "\', " +
-//                "\"allDay\": true, " +
-//                "\"description\": \'" + getEventParticipants() +
-//                "\'}";
+//        StringBuilder builder = new StringBuilder();
+//        Formatter formatter = new Formatter(builder);
+//        formatter.format("{id: %d, title: '%s', start: '%s'}", id, title, start);
+//        return builder.toString();
 //    }
 
 

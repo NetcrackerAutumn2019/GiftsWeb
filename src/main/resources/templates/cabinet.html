@@ -7,228 +7,100 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
           integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <link rel="stylesheet" href="css/fullcalendar.css" />
-    <link  rel="stylesheet" media="print" href="css/fullcalendar.print.css"/>
-    <script type="text/javascript" src="js/jquery-1.10.2.js"></script>
-    <script type="text/javascript" src="js/jquery-ui.custom.min.js"></script>
-    <script type="text/javascript" src="js/fullcalendar.js"></script>
+    <link href='core/main.css' rel='stylesheet' />
+    <link href='daygrid/main.css' rel='stylesheet' />
+    <link href="popper-style.css" rel="stylesheet" />
+    <script src='https://unpkg.com/popper.js/dist/umd/popper.min.js'></script>
+    <script src='https://unpkg.com/tooltip.js/dist/umd/tooltip.min.js'></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src='core/main.js'></script>
+    <script src='interaction/main.js'></script>
+    <script src='daygrid/main.js'></script>
     <script defer type="text/javascript" th:inline="javascript">
+        document.addEventListener('DOMContentLoaded', function() {
 
-        $(document).ready(function() {
             var date = new Date();
             var d = date.getDate();
             var m = date.getMonth();
             var y = date.getFullYear();
 
-            /*  className colors
+            var calendarEl = document.getElementById('calendar');
 
-            className: default(transparent), important(red), chill(pink), success(green), info(blue)
-
-            */
-
-
-            /* initialize the external events
-            -----------------------------------------------------------------*/
-
-            $('#external-events div.external-event').each(function() {
-
-                // create an Event Object (http://arshaw.com/fullcalendar/docs/event_data/Event_Object/)
-                // it doesn't need to have a start or end
-                var eventObject = {
-                    title: $.trim($(this).text()),
-                    className: 'chill'
-                    // use the element's text as the event title
-                };
-
-                // store the Event Object in the DOM element so we can get to it later
-                $(this).data('eventObject', eventObject);
-
-                // make the event draggable using jQuery UI
-                $(this).draggable({
-                    zIndex: 999,
-                    revert: true,      // will cause the event to go back to its
-                    revertDuration: 0  //  original position after the drag
-                });
-
-            });
-
-
-            /* initialize the calendar
-            -----------------------------------------------------------------*/
-
-            var calendar =  $('#calendar').fullCalendar({
-                header: {
-                    left: 'title',
-                    center: 'agendaDay,agendaWeek,month',
-                    right: 'prev,next today'
-                },
-                editable: true,
-                firstDay: 1, //  1(Monday) this can be changed to 0(Sunday) for the USA system
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                plugins: ['interaction', 'dayGrid'],
+                editable: false,
                 selectable: true,
-                defaultView: 'month',
-
-                axisFormat: 'h:mm',
-                columnFormat: {
-                    month: 'ddd',    // Mon
-                    week: 'ddd d', // Mon 7
-                    day: 'dddd M/d',  // Monday 9/7
-                    agendaDay: 'dddd d'
-                },
-                titleFormat: {
-                    month: 'MMMM yyyy', // September 2009
-                    week: "MMMM yyyy", // September 2009
-                    day: 'MMMM yyyy'                  // Tuesday, Sep 8, 2009
-                },
-                allDaySlot: false,
-                selectHelper: true,
-                select: function(start, end, allDay) {
+                firstDay: 1,
+                eventLimit: true, // allow "more" link when too many events
+                select: function (arg) {
                     var title = prompt('Event Title:');
                     if (title) {
-                        calendar.fullCalendar('renderEvent',
-                            {
-                                title: title,
-                                start: start,
-                                end: end,
-                                allDay: allDay
+                        var data = {};
+                        data["title"] = title;
+                        data["start"] = arg.startStr;
+                        data["allDay"] = true;
+                        calendar.addEvent({
+                            title: title,
+                            start: arg.start,
+                            end: arg.end,
+                            allDay: arg.allDay,
+                            textColor: 'yellow'
+                        });
+                        $.ajax({
+                            type : "POST",
+                            url : "http://localhost:8080/addEvent",
+                            data : JSON.stringify({
+                                "title": title,
+                                "start": arg.startStr,
+                                "allDay": true
+                            }),
+                            dataType : 'json',
+                            timeout : 100000,
+                            contentType:'application/json',
+                            success : function(data) {
+                                console.log("SUCCESS: ", data);
                             },
-                            true // make the event "stick"
-                        );
+                            error : function(e) {
+                                console.log("ERROR: ", e);
+                            },
+                            done : function(e) {
+                                console.log("DONE");
+                            }
+
+                        });
                     }
-                    calendar.fullCalendar('unselect');
+                    calendar.unselect()
                 },
-                droppable: true, // this allows things to be dropped onto the calendar !!!
-                drop: function(date, allDay) { // this function is called when something is dropped
-
-                    // retrieve the dropped element's stored Event Object
-                    var originalEventObject = $(this).data('eventObject');
-
-                    // we need to copy it, so that multiple events don't have a reference to the same object
-                    var copiedEventObject = $.extend({}, originalEventObject);
-
-                    // assign it the date that was reported
-                    copiedEventObject.start = date;
-                    copiedEventObject.allDay = allDay;
-
-                    // render the event on the calendar
-                    // the last `true` argument determines if the event "sticks" (http://arshaw.com/fullcalendar/docs/event_rendering/renderEvent/)
-                    $('#calendar').fullCalendar('renderEvent', copiedEventObject, true);
-
-                    // is the "remove after drop" checkbox checked?
-                    if ($('#drop-remove').is(':checked')) {
-                        // if so, remove the element from the "Draggable Events" list
-                        $(this).remove();
-                    }
-
+                eventRender: function (info) {
+                    var tooltip = new Tooltip(info.el, {
+                        title: info.event.extendedProps.description,
+                        placement: 'bottom',
+                        trigger: 'hover',
+                        container: 'body'
+                    });
                 },
-
-                events: [
-                    {
-                        title: 'All Day Event',
-                        start: new Date(y, m, 1),
-                        className: 'chill'
-                    },
-                    {
-                        id: 999,
-                        title: 'Repeating Event',
-                        start: new Date(y, m, d-3, 16, 0),
-                        allDay: false,
-                        className: 'info'
-                    },
-                    {
-                        id: 999,
-                        title: 'Repeating Event',
-                        start: new Date(y, m, d+4, 16, 0),
-                        allDay: false,
-                        className: 'info'
-                    },
-                    {
-                        title: 'Meeting',
-                        start: new Date(y, m, d, 10, 30),
-                        allDay: false,
-                        className: 'important'
-                    },
-                    {
-                        title: 'Lunch',
-                        start: new Date(y, m, d, 12, 0),
-                        end: new Date(y, m, d, 14, 0),
-                        allDay: false,
-                        className: 'important'
-                    },
-                    {
-                        title: 'Birthday Party',
-                        start: new Date(y, m, d+1, 19, 0),
-                        end: new Date(y, m, d+1, 22, 30),
-                        allDay: false,
-                    },
-                    {
-                        title: 'Click for Google',
-                        start: new Date(y, m, 28),
-                        end: new Date(y, m, 29),
-                        url: 'http://google.com/',
-                        className: 'success'
-                    }
-                ],
+                events: [[${eventsData}]]
             });
 
-
+            calendar.render();
         });
 
     </script>
     <style>
 
-        body {
-            margin-top: 10px;
-            text-align: center;
-            font-size: 14px;
-            font-family: "Helvetica Nueue",Arial,Verdana,sans-serif;
-            background-color: #DDDDDD;
-        }
-
-        #wrap {
-            width: 1100px;
-            margin: 0 auto;
-        }
-
-        #external-events {
-            float: left;
-            width: 150px;
-            padding: 0 10px;
-            text-align: left;
-        }
-
-        #external-events h4 {
-            font-size: 16px;
-            margin-top: 0;
-            padding-top: 1em;
-        }
-
-        .external-event { /* try to mimick the look of a real event */
-            margin: 10px 0;
-            padding: 2px 4px;
-            background: #3366CC;
-            color: #fff;
-            font-size: .85em;
-            cursor: pointer;
-        }
-
-        #external-events p {
-            margin: 1.5em 0;
-            font-size: 11px;
-            color: #666;
-        }
-
-        #external-events p input {
-            margin: 0;
-            vertical-align: middle;
-        }
-
         #calendar {
-            /* 		float: right; */
+            max-width: 600px;
             margin: 0 auto;
-            width: 900px;
+            font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
+            font-size: 14px;
             background-color: #FFFFFF;
             border-radius: 6px;
-            box-shadow: 0 1px 2px #C3C3C3;
+            box-shadow: 0 3px 6px #C3C3C3;
+            position: absolute;
+            right: 150px;
+            top: 150px;
+            padding: 0;
+            color: black;
         }
 
     </style>
@@ -281,15 +153,7 @@
         </div>
     </div>
 </div>
-<div id='wrap'>
-
-    <div id='calendar'></div>
-
-    <div style='clear:both'></div>
-</div>
-<!--<div th:insert="fragments/calendar :: calendar"></div>-->
+<div id='calendar'></div>
 <div th:insert="fragments/settings :: settings"></div>
-<!--<iframe th:src="${calendarId}"style="border: 0" width="800" height="600" frameborder="0" scrolling="no"></iframe>-->
-<!--<iframe src="https://calendar.google.com/calendar/embed?src=vitalyvv14%40gmail.com&ctz=Europe%2FMoscow" style="border: 0" width="800" height="600" frameborder="0" scrolling="no"></iframe>-->
 </body>
 </html>

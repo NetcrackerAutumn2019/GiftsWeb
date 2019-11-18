@@ -5,114 +5,16 @@
     <title>GiftsWeb!</title>
 
     <meta charset="utf-8"/>
-    <<link href='core/main.css' rel='stylesheet' />
+    <link href='core/main.css' rel='stylesheet' />
     <link href='daygrid/main.css' rel='stylesheet' />
+    <link href="popper-style.css" rel="stylesheet" />
     <script src='https://unpkg.com/popper.js/dist/umd/popper.min.js'></script>
     <script src='https://unpkg.com/tooltip.js/dist/umd/tooltip.min.js'></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src='core/main.js'></script>
     <script src='interaction/main.js'></script>
     <script src='daygrid/main.js'></script>
-    <style>
-        .popper,
-        .tooltip {
-            position: absolute;
-            z-index: 9999;
-            background: #FFC107;
-            color: black;
-            width: 150px;
-            border-radius: 3px;
-            box-shadow: 0 0 2px rgba(0,0,0,0.5);
-            padding: 10px;
-            text-align: center;
-        }
-        .style5 .tooltip {
-            background: #1E252B;
-            color: #FFFFFF;
-            max-width: 200px;
-            width: auto;
-            font-size: .8rem;
-            padding: .5em 1em;
-        }
-        .popper .popper__arrow,
-        .tooltip .tooltip-arrow {
-            width: 0;
-            height: 0;
-            border-style: solid;
-            position: absolute;
-            margin: 5px;
-        }
-
-        .tooltip .tooltip-arrow,
-        .popper .popper__arrow {
-            border-color: #FFC107;
-        }
-        .style5 .tooltip .tooltip-arrow {
-            border-color: #1E252B;
-        }
-        .popper[x-placement^="top"],
-        .tooltip[x-placement^="top"] {
-            margin-bottom: 5px;
-        }
-        .popper[x-placement^="top"] .popper__arrow,
-        .tooltip[x-placement^="top"] .tooltip-arrow {
-            border-width: 5px 5px 0 5px;
-            border-left-color: transparent;
-            border-right-color: transparent;
-            border-bottom-color: transparent;
-            bottom: -5px;
-            left: calc(50% - 5px);
-            margin-top: 0;
-            margin-bottom: 0;
-        }
-        .popper[x-placement^="bottom"],
-        .tooltip[x-placement^="bottom"] {
-            margin-top: 5px;
-        }
-        .tooltip[x-placement^="bottom"] .tooltip-arrow,
-        .popper[x-placement^="bottom"] .popper__arrow {
-            border-width: 0 5px 5px 5px;
-            border-left-color: transparent;
-            border-right-color: transparent;
-            border-top-color: transparent;
-            top: -5px;
-            left: calc(50% - 5px);
-            margin-top: 0;
-            margin-bottom: 0;
-        }
-        .tooltip[x-placement^="right"],
-        .popper[x-placement^="right"] {
-            margin-left: 5px;
-        }
-        .popper[x-placement^="right"] .popper__arrow,
-        .tooltip[x-placement^="right"] .tooltip-arrow {
-            border-width: 5px 5px 5px 0;
-            border-left-color: transparent;
-            border-top-color: transparent;
-            border-bottom-color: transparent;
-            left: -5px;
-            top: calc(50% - 5px);
-            margin-left: 0;
-            margin-right: 0;
-        }
-        .popper[x-placement^="left"],
-        .tooltip[x-placement^="left"] {
-            margin-right: 5px;
-        }
-        .popper[x-placement^="left"] .popper__arrow,
-        .tooltip[x-placement^="left"] .tooltip-arrow {
-            border-width: 5px 0 5px 5px;
-            border-top-color: transparent;
-            border-right-color: transparent;
-            border-bottom-color: transparent;
-            right: -5px;
-            top: calc(50% - 5px);
-            margin-left: 0;
-            margin-right: 0;
-        }
-    </style>
-    <script>
-
+    <script defer type="text/javascript" th:inline="javascript">
         document.addEventListener('DOMContentLoaded', function() {
 
             var date = new Date();
@@ -124,17 +26,17 @@
 
             var calendar = new FullCalendar.Calendar(calendarEl, {
                 plugins: ['interaction', 'dayGrid'],
-                // themeSystem: 'bootstrap',
-                editable: true,
+                editable: false,
                 selectable: true,
                 firstDay: 1,
                 eventLimit: true, // allow "more" link when too many events
                 select: function (arg) {
                     var title = prompt('Event Title:');
                     if (title) {
-                        var data = new FormData();
-                        data.append("title", title);
-                        data.append("start", arg.startStr);
+                        var data = {};
+                        data["title"] = title;
+                        data["start"] = arg.startStr;
+                        data["allDay"] = true;
                         calendar.addEvent({
                             title: title,
                             start: arg.start,
@@ -142,15 +44,28 @@
                             allDay: arg.allDay,
                             textColor: 'yellow'
                         });
-                        var ajaxCall = new XMLHttpRequest();
-                        ajaxCall.onreadystatechange = function () {
-                            if (this.readyState == 4 && this.status == 200) {
-                                console.log("Printing the response here");
-                                console.log(this);
+                        $.ajax({
+                            type : "POST",
+                            url : "http://localhost:8080/addEvent",
+                            data : JSON.stringify({
+                                "title": title,
+                                "start": arg.startStr,
+                                "allDay": true
+                            }),
+                            dataType : 'json',
+                            timeout : 100000,
+                            contentType:'application/json',
+                            success : function(data) {
+                                console.log("SUCCESS: ", data);
+                            },
+                            error : function(e) {
+                                console.log("ERROR: ", e);
+                            },
+                            done : function(e) {
+                                console.log("DONE");
                             }
-                        };
-                        ajaxCall.open("GET", "http://localhost:8080/addEvent", true);
-                        ajaxCall.send(data);
+
+                        });
                     }
                     calendar.unselect()
                 },
@@ -163,68 +78,6 @@
                     });
                 },
                 events: [[${eventsData}]]
-                //     {
-                //         title: 'All Day Event',
-                //         start: new Date(y, m, 1),
-                //         description: 'aaaaaaaaaaaaaaaaaaaaaa'
-                //
-                //     },
-                //     {
-                //         id: 999,
-                //         title: 'Repeating Event',
-                //         start: new Date(y, m, d-3, 16, 0),
-                //         allDay: false,
-                //         className: 'info'
-                //     },
-                //     {
-                //         id: 999,
-                //         title: 'Repeating Event',
-                //         start: new Date(y, m, d+4, 16, 0),
-                //         allDay: false,
-                //         className: 'info'
-                //     },
-                //     {
-                //         title: 'Meeting',
-                //         start: new Date(y, m, d, 10, 30),
-                //         allDay: false,
-                //         className: 'important'
-                //     },
-                //     {
-                //         title: 'Lunch',
-                //         start: new Date(y, m, d, 12, 0),
-                //         end: new Date(y, m, d, 14, 0),
-                //         allDay: false,
-                //         className: 'important'
-                //     },
-                //     {
-                //         title: 'Lunch',
-                //         start: new Date(y, m, d, 14, 0),
-                //         end: new Date(y, m, d, 16, 0),
-                //         allDay: false,
-                //         className: 'important'
-                //     },
-                //     {
-                //         title: 'Lunch',
-                //         start: new Date(y, m, d, 16, 0),
-                //         end: new Date(y, m, d, 18, 0),
-                //         allDay: false,
-                //         className: 'important'
-                //     },
-                //     {
-                //         title: 'Birthday Party',
-                //         start: new Date(y, m, d+1, 19, 0),
-                //         end: new Date(y, m, d+1, 22, 30),
-                //         allDay: false,
-                //     },
-                //     {
-                //         title: 'Click for Google',
-                //         start: new Date(y, m, 28),
-                //         end: new Date(y, m, 29),
-                //         url: 'http://google.com/',
-                //         className: 'success'
-                //     }
-                // ]
-
             });
 
             calendar.render();
@@ -232,13 +85,6 @@
 
     </script>
     <style>
-
-        body {
-            margin: 40px 10px;
-            padding: 0;
-
-        }
-
 
         #calendar {
             max-width: 600px;
@@ -248,6 +94,9 @@
             background-color: #FFFFFF;
             border-radius: 6px;
             box-shadow: 0 3px 6px #C3C3C3;
+            position: absolute;
+            right: 150px;
+            top: 150px;
             padding: 0;
             color: black;
         }
