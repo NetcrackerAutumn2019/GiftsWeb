@@ -30,7 +30,6 @@ public class Chat {
 
     private Double currentPrice;
 
-
     @ManyToOne(fetch = FetchType.LAZY, targetEntity = User.class)
     @JoinColumn(name = "user_id")
     private User owner;
@@ -40,6 +39,9 @@ public class Chat {
             joinColumns = @JoinColumn(name = "chat_id", referencedColumnName = "wish_for_chat"),
             inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"))
     private Set<User> participants = new HashSet<>();
+
+    @OneToMany(fetch = FetchType.LAZY ,targetEntity = Messages.class)
+    private Set<Messages> messages = new HashSet<>();
 
     public Chat() {
 

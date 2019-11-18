@@ -1,38 +1,36 @@
 package com.nectcracker.studyproject.controller;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.nectcracker.studyproject.domain.Chat;
+import com.nectcracker.studyproject.domain.Messages;
 import com.nectcracker.studyproject.domain.User;
 import com.nectcracker.studyproject.domain.UserWishes;
-import com.nectcracker.studyproject.repos.UserRepository;
-import com.nectcracker.studyproject.repos.UserWishesRepository;
 import com.nectcracker.studyproject.service.ChatService;
+import com.nectcracker.studyproject.service.MessagesService;
 import com.nectcracker.studyproject.service.UserWishesService;
 import lombok.extern.slf4j.Slf4j;
+import org.json.JSONObject;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.List;
 import java.util.Map;
 
 @Slf4j
 @Controller
 public class ChatController {
     private final UserWishesService userWishesService;
-    private final UserWishesRepository userWishesRepository;
     private final ChatService chatService;
-    private final UserRepository userRepository;
+    private final MessagesService messagesService;
 
     public ChatController(UserWishesService userWishesService,
-                          UserWishesRepository userWishesRepository,
-                          ChatService chatService,
-                          UserRepository userRepository) {
+                          ChatService chatService, MessagesService messagesService) {
         this.userWishesService = userWishesService;
-        this.userWishesRepository = userWishesRepository;
         this.chatService = chatService;
-        this.userRepository = userRepository;
+        this.messagesService = messagesService;
     }
 
     @PostMapping("/join_chat/{id}")
@@ -53,6 +51,7 @@ public class ChatController {
     public String showChat(@RequestParam Long wishId, Map<String, Object> model) {
         UserWishes currentWish = userWishesService.getById(wishId);
         User currentUser = currentWish.getUser();
+        model.put("userId", currentUser.getId());
         model.put("username", currentUser.getInfo().getFirstName());
         model.put("wishInfo", currentWish.getWishName());
         model.put("wishId", wishId);
@@ -104,5 +103,19 @@ public class ChatController {
         User currentUser = userWishesService.findByAuthentication();
         model.put("chats", currentUser.getUserChats());
         return "chat_list";
+    }
+
+    @PostMapping("/sendMessage/{wishId}")
+    public ModelAndView sendMessageToDB(@PathVariable Long wishId, @RequestParam String sentMessage) {
+        messagesService.receiveMessage(sentMessage, wishId);
+        ModelAndView modelAndView = new ModelAndView("redirect:/chat");
+        modelAndView.addObject("wishId", wishId);
+        return modelAndView;
+    }
+
+    @PostMapping(value = "/showMessages", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public Map<String, String> showMessages(@RequestParam Long chatId, @RequestParam Long userId) {
+        return messagesService.findMessagesForChat(chatId);
     }
 }

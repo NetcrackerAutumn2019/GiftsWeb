@@ -1,7 +1,5 @@
 package com.nectcracker.studyproject.config;
 
-import com.nectcracker.studyproject.repos.UserInfoRepository;
-import com.nectcracker.studyproject.repos.UserRepository;
 import com.nectcracker.studyproject.service.CustomUserInfoTokenServices;
 import com.nectcracker.studyproject.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -16,7 +14,6 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.oauth2.client.OAuth2ClientContext;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
