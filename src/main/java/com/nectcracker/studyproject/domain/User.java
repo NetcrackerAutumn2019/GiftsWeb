@@ -65,6 +65,9 @@ public class User implements UserDetails {
     @OneToMany(fetch = FetchType.LAZY, targetEntity = Chat.class)
     private Set<Chat> chatsOwner;
 
+    @OneToMany(mappedBy = "users")
+    private Set<NewsUsers> news = new HashSet<>();
+
     public User() {
     }
 

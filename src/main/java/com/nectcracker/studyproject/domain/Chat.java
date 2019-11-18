@@ -21,6 +21,9 @@ public class Chat {
     @MapsId
     private UserWishes wishForChat;
 
+    @OneToOne
+    private News news;
+
     private String description;
 
     private Date deadline;
@@ -37,7 +40,6 @@ public class Chat {
     private Set<Participants> chatForParticipants = new HashSet<>();
 
     public Chat() {
-
     }
 
     public Chat(String description, Date deadline, Double presentPrice) {
@@ -45,6 +47,23 @@ public class Chat {
         this.deadline = deadline;
         this.presentPrice = presentPrice;
         this.currentPrice = 0.0;
+    }
+
+
+    public String getWishName(){
+        return wishForChat.getWishName();
+    }
+
+    public Long getWishId(){
+        return wishForChat.getId();
+    }
+
+    public int getNumberOfParticipants(){
+        return chatForParticipants.size();
+    }
+
+    public void updateCurrentPrice(Double sum) {
+        currentPrice += sum;
     }
 
     public double sumCurrentPrice() {

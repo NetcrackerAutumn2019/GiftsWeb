@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.util.StringUtils;
 
@@ -34,7 +35,9 @@ import java.util.regex.Pattern;
 @Service
 public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
-
+    private final UserInfoRepository userInfoRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final MailSender mailSender;
 
     @Value("${spring.security.oauth2.vk.client.clientId}")
     private String vkClientId;
@@ -58,16 +61,14 @@ public class UserService implements UserDetailsService {
 
     private Gson gson = new Gson();
 
-    private final MailSender mailSender;
-
     private Random random = new Random();
 
-    private final UserInfoRepository userInfoRepository;
 
-    public UserService(UserRepository userRepository, MailSender mailSender, UserInfoRepository userInfoRepository) {
+    public UserService(UserRepository userRepository, MailSender mailSender, UserInfoRepository userInfoRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.mailSender = mailSender;
         this.userInfoRepository = userInfoRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -87,14 +88,10 @@ public class UserService implements UserDetailsService {
         if (userRepository.findByUsername(userRegistrationRequest.getLogin()) != null || userRepository.findByEmail(userRegistrationRequest.getEmail()) != null)
             return "User exists!";
 
-        User newUser = new User(userRegistrationRequest.getLogin(), userRegistrationRequest.getPassword(), userRegistrationRequest.getEmail());
+        User newUser = new User(userRegistrationRequest.getLogin(), passwordEncoder.encode(userRegistrationRequest.getPassword()), userRegistrationRequest.getEmail());
         newUser.setRoles(Collections.singleton(Role.USER));
         newUser.setActivationCode(UUID.randomUUID().toString());
 
-        String userCalendarId = CalendarService.createCalendar();
-        CalendarService.createEvent(userCalendarId, userRegistrationRequest.getBirthday(), "Ваш День Рождения ");
-
-        newUser.setUserCalendarId(userCalendarId);
         userRepository.save(newUser);
 
         if(!StringUtils.isEmpty(newUser.getEmail())) {
@@ -113,13 +110,14 @@ public class UserService implements UserDetailsService {
         return "";
     }
 
-    public void addUserFromVk(Map<String, Object> userInfoMap) {
+    public void addUserFromVk(Map<String, Object> userInfoMap) throws InterruptedException, ExecutionException, IOException {
         Long vkId = Long.valueOf((Integer) userInfoMap.get("id"));
         User user = userRepository.findByVkId(vkId);
         if (user == null) {
-            user = new User(String.valueOf(vkId), String.valueOf(random.nextInt(2147483600)), vkId);
+            user = new User(String.valueOf(vkId), passwordEncoder.encode(String.valueOf(random.nextInt(2147483600))), vkId);
             user.setEmail("q");
             user.setRoles(Collections.singleton(Role.USER));
+            user.setConfirmed(true);
             userRepository.save(user);
 
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("d.M.yyyy");
@@ -138,7 +136,6 @@ public class UserService implements UserDetailsService {
                     .user(user).build();
 
             userInfoRepository.save(userInfo);
-
         }
     }
 
@@ -181,6 +178,11 @@ public class UserService implements UserDetailsService {
                 else
                     friendsNicknamesSetNotRegistered.add(friendsNickname);
             }
+        }
+        if(!user.getFriends().equals(friendsSetRegistered)) {
+            user.setFriends(friendsSetRegistered);
+            user.setFriendsOf(friendsSetRegistered);
+            userRepository.save(user);
         }
 
         HashMap<String, Set> friendMapForForm= new HashMap<>();

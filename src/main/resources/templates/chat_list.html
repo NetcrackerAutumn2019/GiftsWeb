@@ -7,6 +7,23 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
           integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <title>GiftsWeb!</title>
+    <style>
+        .people-icon {
+            background:url(https://image.flaticon.com/icons/svg/33/33308.svg) no-repeat left center;
+            background-size: 16px;
+            display:inline-block;
+            vertical-align:bottom;
+            padding-left: 25px;
+        }
+
+        .dollar-icon {
+            background:url(https://image.flaticon.com/icons/svg/1/1349.svg) no-repeat left center;
+            background-size: 16px;
+            display:inline-block;
+            vertical-align:bottom;
+            padding-left: 25px;
+        }
+    </style>
 </head>
 <body>
 <div th:insert="fragments/navbar :: header"></div>
@@ -20,7 +37,13 @@
             <div class="card-deck">
                 <div class="card border-info mb-3" style="max-width: 18rem;">
                     <div class="card-body text-info">
-                        <h5 class="card-title"><span th:text="${c.wishForChat}"></span></h5>
+                        <a href="chat.html" th:href="@{/chat(wishId=${c.getWishId()})}"><h5 class="card-title"><span th:text="${c.getWishName()}"></span></h5></a>
+                        <div class="card-text">
+                            <a class="people-icon" href="#"><span th:text="${c.getNumberOfParticipants()}"></span></a>
+                            <p></p>
+                            <a class="dollar-icon" href="#"><span th:text="${c.sumCurrentPrice()}"></span>
+                                / <span th:text="${c.presentPrice}"></span></a>
+                        </div>
                     </div>
                 </div>
             </div>

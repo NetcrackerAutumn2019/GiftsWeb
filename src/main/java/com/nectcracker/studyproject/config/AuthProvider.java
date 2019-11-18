@@ -3,12 +3,16 @@ package com.nectcracker.studyproject.config;
 import com.nectcracker.studyproject.domain.User;
 import com.nectcracker.studyproject.service.UserService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+import sun.security.util.Password;
 
 import java.util.Collection;;
 
@@ -18,8 +22,11 @@ public class AuthProvider implements AuthenticationProvider {
 
     private final UserService userService;
 
-    public AuthProvider(UserService userService) {
+    private final PasswordEncoder passwordEncoder;
+
+    public AuthProvider(UserService userService, PasswordEncoder passwordEncoder) {
         this.userService = userService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -28,9 +35,19 @@ public class AuthProvider implements AuthenticationProvider {
         String password = (String) authentication.getCredentials();
         User user = (User) userService.loadUserByUsername(username);
 
-        Collection<? extends GrantedAuthority> authorities = user.getAuthorities();
+        if(user != null) {
 
-        return new UsernamePasswordAuthenticationToken(user, password, authorities);
+            if(!passwordEncoder.matches(password, user.getPassword()))
+            {
+                throw new BadCredentialsException("Wrong password");
+            }
+
+            Collection<? extends GrantedAuthority> authorities = user.getAuthorities();
+
+            return new UsernamePasswordAuthenticationToken(user, password, authorities);
+        }
+        else
+            throw new BadCredentialsException("Username not found");
     }
 
 

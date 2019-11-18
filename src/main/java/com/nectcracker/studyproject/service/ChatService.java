@@ -1,6 +1,11 @@
 package com.nectcracker.studyproject.service;
 
 import com.nectcracker.studyproject.domain.Chat;
+import com.nectcracker.studyproject.domain.News;
+import com.nectcracker.studyproject.domain.User;
+import com.nectcracker.studyproject.domain.UserWishes;
+import com.nectcracker.studyproject.repos.ChatRepository;
+import com.nectcracker.studyproject.repos.NewsRepository;
 import com.nectcracker.studyproject.domain.Participants;
 import com.nectcracker.studyproject.domain.User;
 import com.nectcracker.studyproject.domain.UserWishes;
@@ -23,17 +28,20 @@ public class ChatService {
     private final UserWishesRepository userWishesRepository;
     private final ChatRepository chatRepository;
     private final UserRepository userRepository;
+    private final NewsService newsService;
     private final ParticipantsRepository participantsRepository;
 
     public ChatService(UserWishesService userWishesService,
                        UserWishesRepository userWishesRepository,
                        ChatRepository chatRepository,
+                       NewsService newsService,
                        UserRepository userRepository,
                        ParticipantsRepository participantsRepository) {
         this.userWishesService = userWishesService;
         this.userWishesRepository = userWishesRepository;
         this.chatRepository = chatRepository;
         this.userRepository = userRepository;
+        this.newsService = newsService;
         this.participantsRepository = participantsRepository;
     }
 
@@ -48,6 +56,7 @@ public class ChatService {
                 if (chatRepository.findByWishForChat(wishForChat) == null) {
                     tmp.setOwner(user);
                 }
+
                 chatRepository.save(tmp);
                 userRepository.save(user);
                 Participants participants = new Participants(user, tmp);
@@ -57,8 +66,12 @@ public class ChatService {
                 user.getParticipantsForChat().add(participants);
                 chatRepository.save(tmp);
                 userRepository.save(user);
+
+                newsService.createNew(tmp, user);
+
                 wishForChat.setChatForWish(tmp);
                 userWishesRepository.save(wishForChat);
+
                 return true;
             } else return false;
         } catch (Exception ex) {

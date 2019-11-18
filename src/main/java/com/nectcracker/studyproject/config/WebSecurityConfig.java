@@ -17,7 +17,9 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.OAuth2ClientContext;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 import org.springframework.security.oauth2.client.filter.OAuth2ClientAuthenticationProcessingFilter;
@@ -45,13 +47,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final DataSource dataSource;
 
+    private final PasswordEncoder passwordEncoder;
 
-    public WebSecurityConfig(UserService userService, DataSource dataSource, @Qualifier("oauth2ClientContext") OAuth2ClientContext oAuth2ClientContext, AuthProvider authProvider) {
+
+    public WebSecurityConfig(UserService userService, DataSource dataSource, @Qualifier("oauth2ClientContext") OAuth2ClientContext oAuth2ClientContext, AuthProvider authProvider, PasswordEncoder passwordEncoder) {
         this.userService = userService;
         this.dataSource = dataSource;
         this.oAuth2ClientContext = oAuth2ClientContext;
         this.authProvider = authProvider;
 
+        this.passwordEncoder = passwordEncoder;
     }
 
 
@@ -80,7 +85,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configAuthentication(AuthenticationManagerBuilder auth) throws Exception {
         auth.jdbcAuthentication()
                 .dataSource(dataSource)
-                .passwordEncoder(NoOpPasswordEncoder.getInstance())
+                .passwordEncoder(passwordEncoder)
                 .usersByUsernameQuery(
                         "select username, password, 1 from users where username=?")
                 .authoritiesByUsernameQuery("select u.username, ur.roles from users u inner join user_role ur on u.id = ur.user_id where u.username=?");
@@ -93,21 +98,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     @ConfigurationProperties("spring.security.oauth2.vk.client")
-    public AuthorizationCodeResourceDetails vk()
-    {
+    public AuthorizationCodeResourceDetails vk() {
         return new AuthorizationCodeResourceDetails();
     }
 
     @Bean
     @ConfigurationProperties("spring.security.oauth2.vk.resource")
-    public ResourceServerProperties vkResource()
-    {
+    public ResourceServerProperties vkResource() {
         return new ResourceServerProperties();
     }
 
     @Bean
-    public FilterRegistrationBean oAuth2ClientFilterRegistration(OAuth2ClientContextFilter oAuth2ClientContextFilter)
-    {
+    public FilterRegistrationBean oAuth2ClientFilterRegistration(OAuth2ClientContextFilter oAuth2ClientContextFilter) {
         FilterRegistrationBean registration = new FilterRegistrationBean();
         registration.setFilter(oAuth2ClientContextFilter);
         registration.setOrder(-100);
@@ -118,6 +120,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public RequestContextListener requestContextListener() {
         return new RequestContextListener();
     }
+
+
 
     private Filter ssoFilter()
     {
@@ -131,4 +135,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         log.info("Token Service started", tokenServices);
         return vkFilter;
     }
+
+
 }
