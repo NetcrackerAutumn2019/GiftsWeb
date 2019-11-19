@@ -3,7 +3,6 @@ package com.nectcracker.studyproject.config;
 import com.nectcracker.studyproject.domain.User;
 import com.nectcracker.studyproject.service.UserService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -12,9 +11,10 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-import sun.security.util.Password;
 
-import java.util.Collection;;
+import java.util.Collection;
+
+;
 
 @Slf4j
 @Component
@@ -34,22 +34,17 @@ public class AuthProvider implements AuthenticationProvider {
         String username = authentication.getName();
         String password = (String) authentication.getCredentials();
         User user = (User) userService.loadUserByUsername(username);
-
         if(user != null) {
-
-            if(!passwordEncoder.matches(password, user.getPassword()))
-            {
+            if(!passwordEncoder.matches(password, user.getPassword())) {
                 throw new BadCredentialsException("Wrong password");
             }
-
             Collection<? extends GrantedAuthority> authorities = user.getAuthorities();
-
             return new UsernamePasswordAuthenticationToken(user, password, authorities);
         }
-        else
+        else {
             throw new BadCredentialsException("Username not found");
+        }
     }
-
 
     @Override
     public boolean supports(Class<?> arg) {

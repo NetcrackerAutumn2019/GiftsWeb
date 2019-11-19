@@ -38,8 +38,8 @@ public class User implements UserDetails {
 
     @ManyToMany
     @JoinTable(name = "tbl_friends",
-                joinColumns = @JoinColumn(name = "user_id"),
-                inverseJoinColumns = @JoinColumn(name = "friend_id"))
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "friend_id"))
     private Set<User> friends;
 
     @ManyToMany
@@ -67,6 +67,9 @@ public class User implements UserDetails {
 
     @OneToMany(mappedBy = "users")
     private Set<NewsUsers> news = new HashSet<>();
+
+    @OneToMany(fetch = FetchType.LAZY, targetEntity = Messages.class)
+    private Set<Messages> messages = new HashSet<>();
 
     public User() {
     }
@@ -116,8 +119,8 @@ public class User implements UserDetails {
     }
 
     @Override
-    public String toString(){
-        return "id: " + id +"; username: " + username;
+    public String toString() {
+        return "name: " + info.getFirstName();
     }
 
 

@@ -4,36 +4,33 @@ import com.nectcracker.studyproject.domain.Chat;
 import com.nectcracker.studyproject.domain.Participants;
 import com.nectcracker.studyproject.domain.User;
 import com.nectcracker.studyproject.domain.UserWishes;
-import com.nectcracker.studyproject.repos.ChatRepository;
 import com.nectcracker.studyproject.repos.ParticipantsRepository;
-import com.nectcracker.studyproject.repos.UserRepository;
-import com.nectcracker.studyproject.repos.UserWishesRepository;
 import com.nectcracker.studyproject.service.ChatService;
+import com.nectcracker.studyproject.service.MessagesService;
 import com.nectcracker.studyproject.service.UserWishesService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Map;
 import java.util.Set;
-import java.util.stream.Stream;
 
 @Slf4j
 @Controller
 public class ChatController {
     private final UserWishesService userWishesService;
     private final ChatService chatService;
+    private final MessagesService messagesService;
     private final ParticipantsRepository participantsRepository;
 
     public ChatController(UserWishesService userWishesService,
-                          ChatService chatService,
+                          ChatService chatService, MessagesService messagesService,
                           ParticipantsRepository participantsRepository) {
         this.userWishesService = userWishesService;
         this.chatService = chatService;
+        this.messagesService = messagesService;
         this.participantsRepository = participantsRepository;
     }
 
@@ -56,6 +53,7 @@ public class ChatController {
         UserWishes currentWish = userWishesService.getById(wishId);
         User wishUser = currentWish.getUser();
         model.put("username", wishUser.getInfo().getFirstName());
+        model.put("userId", wishUser.getId());
         model.put("wishInfo", currentWish.getWishName());
         model.put("wishId", wishId);
         chatService.checkUser(currentWish);
@@ -119,5 +117,19 @@ public class ChatController {
     public String leaveChat(@PathVariable Long id) {
         chatService.leaveChat(id);
         return "redirect:/chat_list";
+    }
+
+    @PostMapping("/sendMessage/{wishId}")
+    public ModelAndView sendMessageToDB(@PathVariable Long wishId, @RequestParam String sentMessage) {
+        messagesService.receiveMessage(sentMessage, wishId);
+        ModelAndView modelAndView = new ModelAndView("redirect:/chat");
+        modelAndView.addObject("wishId", wishId);
+        return modelAndView;
+    }
+
+    @PostMapping(value = "/showMessages", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public Map<String, String> showMessages(@RequestParam Long chatId, @RequestParam Long userId) {
+        return messagesService.findMessagesForChat(chatId);
     }
 }

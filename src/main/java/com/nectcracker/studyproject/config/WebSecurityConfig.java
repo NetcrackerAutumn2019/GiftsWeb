@@ -1,7 +1,5 @@
 package com.nectcracker.studyproject.config;
 
-import com.nectcracker.studyproject.repos.UserInfoRepository;
-import com.nectcracker.studyproject.repos.UserRepository;
 import com.nectcracker.studyproject.service.CustomUserInfoTokenServices;
 import com.nectcracker.studyproject.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -16,9 +14,6 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.OAuth2ClientContext;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
@@ -49,7 +44,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final PasswordEncoder passwordEncoder;
 
-
     public WebSecurityConfig(UserService userService, DataSource dataSource, @Qualifier("oauth2ClientContext") OAuth2ClientContext oAuth2ClientContext, AuthProvider authProvider, PasswordEncoder passwordEncoder) {
         this.userService = userService;
         this.dataSource = dataSource;
@@ -58,7 +52,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         this.passwordEncoder = passwordEncoder;
     }
-
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -121,10 +114,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return new RequestContextListener();
     }
 
-
-
-    private Filter ssoFilter()
-    {
+    private Filter ssoFilter() {
         OAuth2ClientAuthenticationProcessingFilter vkFilter = new OAuth2ClientAuthenticationProcessingFilter("/vk/logins");
         OAuth2RestTemplate vkTemplate = new OAuth2RestTemplate(vk(), oAuth2ClientContext);
         vkFilter.setRestTemplate(vkTemplate);
@@ -135,6 +125,4 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         log.info("Token Service started", tokenServices);
         return vkFilter;
     }
-
-
 }
