@@ -1,0 +1,15 @@
+.people-icon {
+    background:url(https://image.flaticon.com/icons/svg/33/33308.svg) no-repeat left center;
+    background-size: 16px;
+    display:inline-block;
+    vertical-align:bottom;
+    padding-left: 25px;
+}
+
+.dollar-icon {
+    background:url(https://image.flaticon.com/icons/svg/1/1349.svg) no-repeat left center;
+    background-size: 16px;
+    display:inline-block;
+    vertical-align:bottom;
+    padding-left: 25px;
+}
