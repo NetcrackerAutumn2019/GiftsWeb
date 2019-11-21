@@ -42,7 +42,7 @@ public class CalendarController {
             JSONParser parser = new JSONParser();
             while(events.hasNext()) {
                 Events event = (Events) events.next();
-                String jsonString = event.toString();
+                String jsonString = eventsService.toString(event);
                 org.json.simple.JSONObject json = (org.json.simple.JSONObject) parser.parse(jsonString);
                 data.add(json);
             }

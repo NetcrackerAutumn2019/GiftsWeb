@@ -56,14 +56,14 @@ public class EventsService implements UserRepositoryCustom {
         while(userIterator.hasNext()){
             User user = userIterator.next();
             UserInfo userInfo = userInfoRepository.findByUser(user);
-            String userName = userInfo.getFirstName() + " " + userInfo.getLastName();
+            String userName = "\"" + userInfo.getFirstName() + " " + userInfo.getLastName() + "\"";
             userNames.add(userName);
             if (user.equals(currentUser)){
-                String userPageUrl = "http://localhost:8080/cabinet";
+                String userPageUrl = "\"http://localhost:8080/cabinet\"";
                 userPageUrls.add(userPageUrl);
             }
             else {
-                String userPageUrl = "http://localhost:8080/friend_page/" + user.getUsername();
+                String userPageUrl = "\"http://localhost:8080/friend_page/" + user.getUsername() + "\"";
                 userPageUrls.add(userPageUrl);
             }
 
@@ -73,7 +73,8 @@ public class EventsService implements UserRepositoryCustom {
                 "\"title\": \"" + event.getTitle() + "\", " +
                 "\"start\": \"" + event.getStart() + "\", " +
                 "\"allDay\": true, " +
-                "\"description\": " + userNames.toString() + "}";
+                "\"userNames\": " + userNames.toString() + ", " +
+                "\"userPageUrls\": " + userPageUrls.toString() + "}";
 
     }
 

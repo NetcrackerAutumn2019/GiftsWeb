@@ -71,11 +71,13 @@
                     calendar.unselect()
                 },
                 eventRender: function(info) {
-                    var result = "";
-                    for (var i = 0; i < 10; i++) {
-                        var str = "helo";
-                        var linka = str.link("http://localhost:8080/cabinet");
-                        result = result + linka + ", ";
+                    let userNames = info.event.extendedProps.userNames;
+                    let userPageUrls = info.event.extendedProps.userPageUrls;
+                    let result = "";
+                    for (var i = 0; i < userNames.length; i++) {
+                        let userName = userNames[i];
+                        let userPageHyperlink = userName.link(userPageUrls[i]);
+                        result = result + userPageHyperlink + ", ";
                     }
                     // var str2 = "snova domoy";
                     // var str = "domoy";
