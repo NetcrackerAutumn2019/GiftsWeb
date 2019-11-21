@@ -134,8 +134,9 @@ public class UserService implements UserDetailsService {
                     .lastName((String) userInfoMap.get("last_name"))
                     .birthday(bDate)
                     .user(user).build();
-
             userInfoRepository.save(userInfo);
+            user.setInfo(userInfo);
+            takeFriendFromVk(user);
         }
     }
 
@@ -179,7 +180,7 @@ public class UserService implements UserDetailsService {
                     friendsNicknamesSetNotRegistered.add(friendsNickname);
             }
         }
-        if(!user.getFriends().equals(friendsSetRegistered)) {
+        if(friendsSetRegistered.size() != 0 && (user.getFriends() == null || !user.getFriends().equals(friendsSetRegistered))) {
             user.setFriends(friendsSetRegistered);
             user.setFriendsOf(friendsSetRegistered);
             userRepository.save(user);

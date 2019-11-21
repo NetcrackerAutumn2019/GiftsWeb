@@ -101,6 +101,7 @@ public class CustomUserInfoTokenServices implements ResourceServerTokenServices 
         Map<String ,Object> userInfoMap = null;
         if(map.containsKey("response")){
             userInfoMap = (Map<String, Object>) ((List) map.get("response")).get(0);
+            userService.setAccessToken(accessToken);
             try {
                 userService.addUserFromVk(userInfoMap);
             } catch (InterruptedException e) {
@@ -110,7 +111,6 @@ public class CustomUserInfoTokenServices implements ResourceServerTokenServices 
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            userService.setAccessToken(accessToken);
         }
 
         return extractAuthentication(userInfoMap);
