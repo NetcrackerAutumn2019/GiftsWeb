@@ -2,7 +2,9 @@ package com.nectcracker.studyproject.service;
 
 import com.nectcracker.studyproject.domain.Events;
 import com.nectcracker.studyproject.domain.User;
+import com.nectcracker.studyproject.domain.UserInfo;
 import com.nectcracker.studyproject.repos.EventsRepository;
+import com.nectcracker.studyproject.repos.UserInfoRepository;
 import com.nectcracker.studyproject.repos.UserRepository;
 import com.nectcracker.studyproject.repos.UserRepositoryCustom;
 import lombok.extern.slf4j.Slf4j;
@@ -11,9 +13,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+
 @Slf4j
 @Service
 public class EventsService implements UserRepositoryCustom {
@@ -23,6 +24,10 @@ public class EventsService implements UserRepositoryCustom {
     private UserRepository userRepository;
     @Autowired
     private UserService userService;
+    @Autowired
+    private UserInfoService userInfoService;
+    @Autowired
+    private UserInfoRepository userInfoRepository;
 
     @Override
     public User findByAuthentication() {
@@ -42,8 +47,34 @@ public class EventsService implements UserRepositoryCustom {
         eventsRepository.save(event);
     }
 
-    public void updateEvent(Events event, List<User> participants){
-        event.getEventParticipants().addAll(participants);
-        eventsRepository.save(event);
+    public String toString(Events event){
+        User currentUser = findByAuthentication();
+        Set<User> participants = event.getEventParticipants();
+        Iterator<User> userIterator = participants.iterator();
+        List<String> userNames = new ArrayList<>();
+        List<String> userPageUrls = new ArrayList<>();
+        while(userIterator.hasNext()){
+            User user = userIterator.next();
+            UserInfo userInfo = userInfoRepository.findByUser(user);
+            String userName = userInfo.getFirstName() + " " + userInfo.getLastName();
+            userNames.add(userName);
+            if (user.equals(currentUser)){
+                String userPageUrl = "http://localhost:8080/cabinet";
+                userPageUrls.add(userPageUrl);
+            }
+            else {
+                String userPageUrl = "http://localhost:8080/friend_page/" + user.getUsername();
+                userPageUrls.add(userPageUrl);
+            }
+
+        }
+        return "{" +
+                "\"id\": " + event.getId() + ", " +
+                "\"title\": \"" + event.getTitle() + "\", " +
+                "\"start\": \"" + event.getStart() + "\", " +
+                "\"allDay\": true, " +
+                "\"description\": " + userNames.toString() + "}";
+
     }
+
 }

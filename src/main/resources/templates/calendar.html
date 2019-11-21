@@ -70,9 +70,21 @@
                     }
                     calendar.unselect()
                 },
-                eventRender: function (info) {
+                eventRender: function(info) {
+                    var result = "";
+                    for (var i = 0; i < 10; i++) {
+                        var str = "helo";
+                        var linka = str.link("http://localhost:8080/cabinet");
+                        result = result + linka + ", ";
+                    }
+                    // var str2 = "snova domoy";
+                    // var str = "domoy";
+                    // var result = str.link("http://localhost:8080/cabinet");
+                    // var result2 = str2.link("http://localhost:8080/cabinet");
+                    // var result3 = result + ", " + result2;
                     var tooltip = new Tooltip(info.el, {
-                        title: info.event.extendedProps.description,
+                        html: true,
+                        title: result,
                         placement: 'bottom',
                         trigger: 'hover',
                         container: 'body'
