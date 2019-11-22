@@ -35,49 +35,68 @@
         }
         setInterval(updateChatLog, 1500);
 
+
     </script>
-    <link rel="stylesheet" type="text/css" href="./css/chatWindow.css" />
+    <link rel="stylesheet" type="text/css" href="./css/chatWindow.css"/>
+    <link rel="stylesheet" type="text/css" href="./css/smallColumns.css"/>
+
 </head>
 <body>
 <div th:insert="fragments/navbar :: header"></div>
 <div th:insert="fragments/listgroup :: group" style="display : inline-block; vertical-align: top;"></div>
 <div style="display : inline-block; vertical-align: top;">
     <h1 class="m-3">Обсуждение желания [[${wishInfo}]] для пользователя [[${username}]]</h1>
-    <div style="vertical-align: text-bottom">
-        <h5 class="font-italic m-3">Участники</h5>
-        <div th:fragment="group" class="m-3">
-            <div class="list-group list-group-flush my-3" style="width: 200px;">
-                <div th:each="p : ${participants}">
-                    <label>[[${p.getUserForChat().getInfo().getFirstName()}]]
-                        [[${p.getUserForChat().getInfo().getLastName()}]]</label>
-                    <div th:if="${ownerPage}">
-                        <label>[[${p.getSumFromUser()}]]</label>
+
+    <div>
+        <div class="smallcolumns" style="vertical-align: text-bottom">
+            <h5 class="font-italic m-3">Участники</h5>
+            <div th:fragment="group" class="m-3">
+                <div class="list-group list-group-flush my-3" style="width: 200px;">
+                    <div th:each="p : ${participants}">
+                        <label>[[${p.getUserForChat().getInfo().getFirstName()}]]
+                            [[${p.getUserForChat().getInfo().getLastName()}]]
+                            <div th:if="${ownerPage}">
+                                <label class="text-success">[[${p.getSumFromUser()}]]</label>
+                            </div>
+                        </label>
                     </div>
                 </div>
             </div>
         </div>
-        <form method="post" th:action="@{/donate/{id}(id=${wishId})}" class="form-inline m-3">
-            <div>
-                <input type="text" class="form-control" name="sum" placeholder="Сумма"/>
+        <div class="smallcolumns">
+            <h5 class="font-italic m-3">Внести деньги</h5>
+            <form method="post" th:action="@{/donate/{id}(id=${wishId})}" class="form-inline m-3">
+                <div>
+                    <input type="text" class="form-control" name="sum" placeholder="Сумма"/>
+                </div>
+                <div>
+                    <button type="submit" class="btn btn-primary mx-3">Внести!</button>
+                </div>
+            </form>
+            <div class="container m-1">
+                <span class="left">Собрано: </span>
+                <span class="right" th:text="${currentPrice}"> </span>
             </div>
-            <div>
-                <button type="submit" class="btn btn-primary mx-3">Donate</button>
+            <div class="container m-1">
+                <span class="left">Цель: </span>
+                <span class="right" th:text="${price}"></span>
             </div>
-        </form>
-    </div>
-    <div class="m-3">
-        <h5 class="font-italic m-1">Прогресс / Цель</h5>
-        <span th:text="${currentPrice}"> / </span>
-        <span th:text="${price}"></span>
-        <br>
-        <progress th:value="${currentPrice}" th:max="${price}"></progress>
-    </div>
-    <div class="m-3">
-        <form method="post" th:action="@{/leave/{id}(id=${wishId})}" class="form-inline m-3">
-            <button type="submit" class="btn btn-primary mx-3">Покинуть чат</button>
-        </form>
+            <progress  style="width: 250px;" class="m-2" th:value="${currentPrice}" th:max="${price}"></progress>
+        </div>
+        <div class="smallcolumns">
+            <form method="post" th:action="@{/leave/{id}(id=${wishId})}" class="form-inline m-3">
+                <button type="submit" class="btn btn-primary mx-3">Покинуть чат</button>
+            </form>
+            <div>
+                <label class="h5 font-italic">Описание: </label>
+                <span th:text="${description}"></span>
+                <label class="h5 font-italic">Дата окончания: </label>
+                <span th:text="${deadline}"></span>
 
-        <p>Chat</p>
+            </div>
+        </div>
+    </div>
+    <div class="m-3">
         <div style="display: inline-block;
              width: 500px;
              vertical-align: top;"
