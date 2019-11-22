@@ -21,8 +21,11 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.thymeleaf.util.StringUtils;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.text.ParseException;
@@ -132,12 +135,17 @@ public class UserService implements UserDetailsService {
             UserInfo userInfo = UserInfo.builder()
                     .firstName((String) userInfoMap.get("first_name"))
                     .lastName((String) userInfoMap.get("last_name"))
+                    .photo50((String) userInfoMap.get("photo_50"))
                     .birthday(bDate)
                     .user(user).build();
             userInfoRepository.save(userInfo);
             user.setInfo(userInfo);
             takeFriendFromVk(user);
         }
+        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+        HttpServletRequest request = attributes.getRequest();
+        request.getSession().setAttribute("name", user.getInfo().getFirstName() + " " + user.getInfo().getLastName());
+        request.getSession().setAttribute("photo", user.getInfo().getPhoto50());
     }
 
     public boolean activateUser(String code) {
@@ -163,7 +171,7 @@ public class UserService implements UserDetailsService {
                 .callback(vkCallback)
                 .build(VkontakteApi.instance());
 
-            final OAuthRequest friendsRequest = new OAuthRequest(Verb.GET, "https://api.vk.com/method/friends.get?user_id=" + user.getVkId() + "&fields=nickname&v=" + VkontakteApi.VERSION);
+            final OAuthRequest friendsRequest = new OAuthRequest(Verb.GET, "https://api.vk.com/method/friends.get?user_id=" + user.getVkId() + "&fields=nickname,photo_50&v=" + VkontakteApi.VERSION);
             vkScribejavaService.signRequest(accessToken, friendsRequest);
             final Response friendsResponse = vkScribejavaService.execute(friendsRequest);
 

@@ -52,11 +52,15 @@ public class NewsService {
             }
         }
 
-
         resultMap.put("oldNews", oldNews);
         resultMap.put("newNews", newNews);
 
         return resultMap;
+    }
+
+    public int sizeOfNewsByUser(User user){
+        return newsUsersRepository.countAllByUsers(user);
+
     }
 
 }

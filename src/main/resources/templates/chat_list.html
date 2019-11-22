@@ -33,6 +33,7 @@
         <h1>Список моих чатов</h1>
     </div>
     <div class="m-3">
+        <div th:if="${chats.isEmpty()}">Пока чатов нет</div>
         <div th:each="c : ${chats}">
             <div class="card-deck">
                 <div class="card border-info mb-3" style="max-width: 18rem;">

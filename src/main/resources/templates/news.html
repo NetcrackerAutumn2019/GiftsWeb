@@ -19,6 +19,7 @@
         <div class="m-3">
             <h2>Новые события</h2>
         </div>
+        <div th:if="${newNews.isEmpty()}">Пока новостей нет</div>
         <div th:each="newNews : ${newNews}">
             <div class="card-deck">
                 <div class="card border-info mb-3" style="max-width: 42rem;">
@@ -34,6 +35,7 @@
         <div class="m-3">
             <h2>Старые события</h2>
         </div>
+        <div th:if="${oldNews.isEmpty()}">Пока новостей нет</div>
         <div th:each="oldNews : ${oldNews}">
             <div class="card-deck">
                 <div class="card border-info mb-3" style="max-width: 42rem;">

@@ -80,6 +80,8 @@ public class ChatService {
         }
     }
 
+
+
     public Set<User> getChatParticipants(Long wishId) {
         UserWishes userWishes = userWishesService.getById(wishId);
         Chat currentChat = chatRepository.findByWishForChat(userWishes);

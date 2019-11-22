@@ -19,6 +19,7 @@ public class UserInfo implements Serializable {
     private Long id;
     private String firstName;
     private String lastName;
+    private String photo50;
 
     @Temporal(TemporalType.DATE)
     private Date birthday;
@@ -28,9 +29,10 @@ public class UserInfo implements Serializable {
     private User user;
 
     @Builder(toBuilder = true)
-    public UserInfo(String firstName, String lastName, Date birthday, User user) {
+    public UserInfo(String firstName, String lastName, String photo50, Date birthday, User user) {
         this.firstName = firstName;
         this.lastName = lastName;
+        this.photo50 = photo50;
         this.birthday = birthday;
         this.user = user;
     }

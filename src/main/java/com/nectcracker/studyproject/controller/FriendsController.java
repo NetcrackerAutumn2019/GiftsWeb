@@ -11,6 +11,7 @@ import com.nectcracker.studyproject.repos.UserInfoRepository;
 import com.nectcracker.studyproject.service.InterestsService;
 import com.nectcracker.studyproject.service.UserService;
 import com.nectcracker.studyproject.service.UserWishesService;
+import com.sun.media.sound.MidiOutDeviceProvider;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -19,6 +20,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
@@ -61,15 +64,29 @@ public class FriendsController {
         return "friends";
     }
 
-    @PostMapping("/friend_page/{name}")
+    @GetMapping("/friend_page/{name}")
     public String friendPage(@PathVariable String name, Map<String, Object> model) {
+        model.put("name", name);
         User friend = (User) userService.loadUserByUsername(name);
+
         UserInfo currentUserInfo = userInfoRepository.findByUser(friend);
         model.put("info", currentUserInfo);
+
         Iterable<Interests> list = interestsService.getSmbInterests(friend);
         model.put("interests", list);
+
         Iterable<UserWishes> wishes = userWishesService.getUserWishes(friend);
-        model.put("messages", wishes);
+        Set<UserWishes> friendWishes = new HashSet<>();
+        Set<UserWishes> userWishes = new HashSet<>();
+        for(UserWishes wish : wishes){
+            if(wish.isFriendCreateWish())
+                friendWishes.add(wish);
+            else
+                userWishes.add(wish);
+        }
+        model.put("friendWishes", friendWishes);
+        model.put("userWishes", userWishes);
+
         return "friend_page";
     }
 

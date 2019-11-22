@@ -15,6 +15,7 @@
         <span th:text="${info.firstName}"></span>
         <span th:text="${info.lastName}"></span>
     </div>
+    <a href="/news"><span>Количество нвостей: [[${newsNumber}]]</span></a>
 
     <div class="font-italic m-3">Мои интересы</div>
     <div class="card-deck m-3">
@@ -44,13 +45,13 @@
             </div>
         </div>
     </div>
-    <div th:if="${messages.empty}">No wish yet</div>
+    <div th:if="${wishes.isEmpty()}">Пока у вас нет желаний</div>
 
-    <div th:each="m : ${messages}">
-        <div class="card-deck">
+    <div th:each="w : ${wishes}">
+        <div th:if="!${w.friendCreateWish}" class="card-deck">
             <div class="card border-info mb-3" style="max-width: 18rem;">
                 <div class="card-body text-info">
-                    <h5 class="card-title"><span th:text="${m.wishName}"></span></h5>
+                    <h5 class="card-title"><span th:text="${w.wishName}"></span></h5>
                 </div>
             </div>
         </div>
