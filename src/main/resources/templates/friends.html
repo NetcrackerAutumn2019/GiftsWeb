@@ -15,15 +15,14 @@
     <h1>Список друзей</h1>
     <div th:insert="fragments/settings :: settings"></div>
     <h2>Ваши друзья которые уже в системе</h2>
+    <div th:if="${registeredFriends.isEmpty()}">Пока у вас нет друзей нет</div>
     <div th:each="friend : ${registeredFriends}">
-        <span th:text="${friend.getInfo().getFirstName()}"> </span> <span th:text="${friend.getInfo().getLastName()}"></span>
-        <form method="post" th:action="@{/friend_page/{name}(name=${friend.username})}">
-            <button type="submit" class="btn btn-primary m-1">x</button>
-        </form>
+        <a href="friend_page.html" th:href="@{/friend_page/{name}(name=${friend.username})}"><img th:src="${friend.getInfo().photo50}"> <span hre th:text="${friend.getInfo().getFirstName()}"> </span> <span th:text="${friend.getInfo().getLastName()}"></span></a>
     </div>
     <h2>Ваши друзья которых ещё нет в системе</h2>
+    <div th:if="${notRegisteredFriends.isEmpty()}">Печально такое говорить, но кажется у вас нет друзей</div>
     <div th:each="notRegisteredFriend : ${notRegisteredFriends}">
-        <p><span th:text="${notRegisteredFriend.first_name}"></span>  <span th:text="${notRegisteredFriend.last_name}"></span>
+        <p><img th:src="${notRegisteredFriend.photo_50}"> <span th:text="${notRegisteredFriend.first_name}"></span>  <span th:text="${notRegisteredFriend.last_name}"></span>
         </p>
     </div>
 </div>

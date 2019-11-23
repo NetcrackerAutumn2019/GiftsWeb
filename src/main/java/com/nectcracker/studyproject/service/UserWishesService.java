@@ -18,7 +18,6 @@ import java.util.Optional;
 @Service
 public class UserWishesService implements UserRepositoryCustom {
     private final UserWishesRepository userWishesRepository;
-
     private final UserRepository userRepository;
 
     public UserWishesService(UserWishesRepository userWishesRepository, UserRepository userRepository) {
@@ -40,6 +39,18 @@ public class UserWishesService implements UserRepositoryCustom {
         try {
             User currentUser = findByAuthentication();
             UserWishes m = new UserWishes(currentUser, text);
+            m.setFriendCreateWish(false);
+            userWishesRepository.save(m);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    public boolean addWishfromFriend(User user, String wishName){
+        try {
+            UserWishes m = new UserWishes(user, wishName);
+            m.setFriendCreateWish(true);
             userWishesRepository.save(m);
             return true;
         } catch (Exception e) {

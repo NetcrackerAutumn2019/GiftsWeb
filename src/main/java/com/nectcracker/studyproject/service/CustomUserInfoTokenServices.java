@@ -35,6 +35,10 @@ import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.OAuth2Request;
 import org.springframework.security.oauth2.provider.token.ResourceServerTokenServices;
 import org.springframework.util.Assert;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * {@link ResourceServerTokenServices} that uses a user info REST service.
@@ -101,6 +105,7 @@ public class CustomUserInfoTokenServices implements ResourceServerTokenServices 
         Map<String ,Object> userInfoMap = null;
         if(map.containsKey("response")){
             userInfoMap = (Map<String, Object>) ((List) map.get("response")).get(0);
+            userService.setAccessToken(accessToken);
             try {
                 userService.addUserFromVk(userInfoMap);
             } catch (InterruptedException e) {
@@ -110,7 +115,6 @@ public class CustomUserInfoTokenServices implements ResourceServerTokenServices 
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            userService.setAccessToken(accessToken);
         }
 
         return extractAuthentication(userInfoMap);

@@ -4,6 +4,7 @@ public class Nickname {
     private Long id;
     private String first_name;
     private String last_name;
+    private String photo_50;
 
     public Long getId() {
         return id;
@@ -15,5 +16,9 @@ public class Nickname {
 
     public String getLast_name() {
         return last_name;
+    }
+
+    public String getPhoto_50(){
+        return photo_50;
     }
 }

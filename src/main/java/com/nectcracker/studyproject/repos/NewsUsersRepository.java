@@ -11,4 +11,5 @@ import java.util.Set;
 public interface NewsUsersRepository extends JpaRepository<NewsUsers, NewsUsersId> {
     Set<NewsUsers> findAllByUsers(User user);
     Set<NewsUsers> findAllByNewsContains(News news);
+    int countAllByUsers(User user);
 }
