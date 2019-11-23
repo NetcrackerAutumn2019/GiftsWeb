@@ -8,9 +8,12 @@ import com.nectcracker.studyproject.domain.User;
 import com.nectcracker.studyproject.domain.UserInfo;
 import com.nectcracker.studyproject.domain.UserWishes;
 import com.nectcracker.studyproject.repos.UserInfoRepository;
+import com.nectcracker.studyproject.service.EventsService;
 import com.nectcracker.studyproject.service.InterestsService;
 import com.nectcracker.studyproject.service.UserService;
 import com.nectcracker.studyproject.service.UserWishesService;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.ParseException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -19,6 +22,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
@@ -32,6 +37,7 @@ public class FriendsController {
     private final InterestsService interestsService;
     private final UserWishesService userWishesService;
     private final UserInfoRepository userInfoRepository;
+    private final EventsService eventsService;
 
     private CacheLoader<User, Map> loader = new CacheLoader<User, Map>() {
         @Override
@@ -42,11 +48,12 @@ public class FriendsController {
     private LoadingCache<User, Map> cache = CacheBuilder.newBuilder().refreshAfterWrite(30, TimeUnit.MINUTES).build(loader);;
 
     public FriendsController(UserService userService, InterestsService interestsService,
-                             UserWishesService userWishesService, UserInfoRepository userInfoRepository) {
+                             UserWishesService userWishesService, UserInfoRepository userInfoRepository, EventsService eventsService) {
         this.userService = userService;
         this.interestsService = interestsService;
         this.userWishesService = userWishesService;
         this.userInfoRepository = userInfoRepository;
+        this.eventsService = eventsService;
     }
 
     @GetMapping("/friends")
@@ -61,10 +68,12 @@ public class FriendsController {
         return "friends";
     }
 
-    @PostMapping("/friend_page/{name}")
-    public String friendPage(@PathVariable String name, Map<String, Object> model) {
+    @RequestMapping("/friend_page/{name}")
+    public String friendPage(@PathVariable String name, Map<String, Object> model) throws ParseException {
         User friend = (User) userService.loadUserByUsername(name);
         UserInfo currentUserInfo = userInfoRepository.findByUser(friend);
+        List<JSONObject> friendEventsData = eventsService.getUserEvents(friend);
+        model.put("eventsData", friendEventsData);
         model.put("info", currentUserInfo);
         Iterable<Interests> list = interestsService.getSmbInterests(friend);
         model.put("interests", list);

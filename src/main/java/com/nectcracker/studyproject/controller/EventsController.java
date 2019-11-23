@@ -39,7 +39,7 @@ public class EventsController {
         User user = userRepository.findByUsername(auth.getName());
         Gson gson = new Gson();
         Events event = gson.fromJson(data, Events.class);
-        System.out.println(data);
+        event = eventsService.checkEventDuplicate(event);
         event.getEventParticipants().add(user);
         user.getEventsSet().add(event);
         eventsRepository.save(event);

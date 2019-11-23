@@ -8,6 +8,8 @@ import com.nectcracker.studyproject.repos.UserInfoRepository;
 import com.nectcracker.studyproject.repos.UserRepository;
 import com.nectcracker.studyproject.repos.UserRepositoryCustom;
 import lombok.extern.slf4j.Slf4j;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -36,15 +38,32 @@ public class EventsService implements UserRepositoryCustom {
         return user;
     }
 
-    public Set<Events> getUserEvents() {
-        User currentUser = findByAuthentication();
-        return currentUser.getEventsSet();
+    public List<org.json.simple.JSONObject> getUserEvents(User user) throws ParseException {
+        Set<Events> events = user.getEventsSet();
+        Iterator eventsIterator = events.iterator();
+        List<org.json.simple.JSONObject> data = new ArrayList<>();
+        JSONParser parser = new JSONParser();
+        while(eventsIterator.hasNext()) {
+            Events event = (Events) eventsIterator.next();
+            String jsonString = toString(event);
+            org.json.simple.JSONObject json = (org.json.simple.JSONObject) parser.parse(jsonString);
+            data.add(json);
+        }
+        return data;
     }
 
     public void createEvent (String title, String start, User user, Boolean allDay){
         Events event = new Events(title, start, allDay);
         event.getEventParticipants().add(user);
         eventsRepository.save(event);
+    }
+
+    public Events checkEventDuplicate(Events event){
+        Events dbEvent = eventsRepository.findByStartAndTitle(event.getStart(), event.getTitle());
+        if (dbEvent != null){
+            return dbEvent;
+        }
+        else return event;
     }
 
     public String toString(Events event){
