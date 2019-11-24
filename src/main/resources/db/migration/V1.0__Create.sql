@@ -11,7 +11,6 @@ SET row_security = off;
 
 SET default_tablespace = '';
 
-SET default_table_access_method = heap;
 
 CREATE TABLE public.chat(
     current_price double precision,
