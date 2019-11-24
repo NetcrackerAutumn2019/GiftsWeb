@@ -7,7 +7,10 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.util.*;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 
 @Entity(name = "Users")
 @Table(name = "users")
@@ -62,8 +65,6 @@ public class User implements UserDetails {
             inverseJoinColumns = @JoinColumn(name = "event_id", referencedColumnName = "id"))
     private Set<Events> eventsSet = new HashSet<>();
 
-    @ManyToMany(mappedBy = "participants")
-    private Set<Chat> userChats;
     @OneToMany(fetch = FetchType.LAZY, targetEntity = Participants.class, orphanRemoval = true)
     private Set<Participants> participantsForChat = new HashSet<>();
 

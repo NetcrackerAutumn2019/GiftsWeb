@@ -49,9 +49,7 @@ public class UserPageController {
 
     public UserPageController(UserWishesService userWishesService, UserInfoRepository userInfoRepository,
                               UserRepository userRepository, InterestsService interestsService,
-                              NewsService newsService) {
-                              UserRepository userRepository,
-                              InterestsService interestsService,
+                              NewsService newsService,
                               EventsService eventsService, UserService userService) {
         this.userWishesService = userWishesService;
         this.userInfoRepository = userInfoRepository;

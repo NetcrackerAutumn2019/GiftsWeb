@@ -1,28 +1,19 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
-<div th:fragment="calendar1">
+
 <head>
     <title>GiftsWeb!</title>
 
     <meta charset="utf-8"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link href='core/main.css' rel='stylesheet' />
     <link href='daygrid/main.css' rel='stylesheet' />
-    <link href="popper-style.css" rel="stylesheet" />
-    <script src='https://unpkg.com/popper.js/dist/umd/popper.min.js'></script>
-    <script src='https://unpkg.com/tooltip.js/dist/umd/tooltip.min.js'></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src='core/main.js'></script>
     <script src='interaction/main.js'></script>
     <script src='daygrid/main.js'></script>
     <script defer type="text/javascript" th:inline="javascript">
         document.addEventListener('DOMContentLoaded', function() {
-
-            var date = new Date();
-            var d = date.getDate();
-            var m = date.getMonth();
-            var y = date.getFullYear();
-
             var calendarEl = document.getElementById('calendar');
 
             var calendar = new FullCalendar.Calendar(calendarEl, {
@@ -30,7 +21,34 @@
                 editable: false,
                 selectable: true,
                 firstDay: 1,
+                locale: 'ru',
                 eventLimit: true, // allow "more" link when too many events
+                customButtons: {
+                    switchButton: {
+                        text: 'Друзья',
+                        click: function() {
+                            calendar.setOption('selectable', false);
+                            calendar.removeAllEvents();
+                            calendar.addEventSource([[${friendsEventsData}]]);
+                            calendar.render();
+                        }
+
+                    },
+                    backButton:{
+                        text: 'Я',
+                        click: function () {
+                            calendar.setOption('selectable', true);
+                            calendar.removeAllEvents();
+                            calendar.addEventSource([[${eventsData}]]);
+                            calendar.render();
+                        }
+                    }
+                },
+                header: {
+                    left: 'switchButton, backButton',
+                    center: 'title',
+                    right: 'prev,next today'
+                },
                 select: function (arg) {
                     var title = prompt('Event Title:');
                     if (title) {
@@ -43,7 +61,9 @@
                             start: arg.start,
                             end: arg.end,
                             allDay: arg.allDay,
-                            textColor: 'yellow'
+                            textColor: 'yellow',
+                            userNames: null,
+                            userPageUrls: null
                         });
                         $.ajax({
                             type : "POST",
@@ -65,42 +85,45 @@
                             done : function(e) {
                                 console.log("DONE");
                             }
-
                         });
                     }
                     calendar.unselect()
                 },
                 eventRender: function(info) {
+                    let result = "";
                     let userNames = info.event.extendedProps.userNames;
                     let userPageUrls = info.event.extendedProps.userPageUrls;
-                    let result = "";
-                    for (var i = 0; i < userNames.length; i++) {
-                        let userName = userNames[i];
-                        let userPageHyperlink = userName.link(userPageUrls[i]);
-                        result = result + userPageHyperlink + ", ";
+                    if (userNames || userPageUrls != null){
+                        for (var i = 0; i < userNames.length; i++) {
+                            let userName = userNames[i];
+                            let userPageHyperlink = userName.link(userPageUrls[i]);
+                            result = result + userPageHyperlink + ", ";
+                        }
+                    } else {
+                        result = "Здесь будет информация об участниках события."
                     }
-                    // var str2 = "snova domoy";
-                    // var str = "domoy";
-                    // var result = str.link("http://localhost:8080/cabinet");
-                    // var result2 = str2.link("http://localhost:8080/cabinet");
-                    // var result3 = result + ", " + result2;
-                    var tooltip = new Tooltip(info.el, {
+                    $(info.el).tooltip({
                         html: true,
                         title: result,
                         placement: 'bottom',
-                        trigger: 'hover',
+                        trigger: 'click',
                         container: 'body'
                     });
+                    // var tooltip = new tooltip(info.el, {
+                    //     html: true,
+                    //     title: result,
+                    //     placement: 'bottom',
+                    //     trigger: 'hover',
+                    //     container: 'body'
+                    // });
                 },
                 events: [[${eventsData}]]
             });
-
             calendar.render();
         });
 
     </script>
     <style>
-
         #calendar {
             max-width: 600px;
             margin: 0 auto;
@@ -119,7 +142,10 @@
     </style>
 </head>
 <body>
-    <div id='calendar'></div>
+<div id='calendar'></div>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script src='https://unpkg.com/tooltip.js/dist/umd/tooltip.min.js'></script>
 </body>
-</div>
 </html>
