@@ -15,6 +15,7 @@ import com.nectcracker.studyproject.json.friendsFromVK.FriendsFromVk;
 import com.nectcracker.studyproject.json.friendsFromVK.Nickname;
 import com.nectcracker.studyproject.repos.UserInfoRepository;
 import com.nectcracker.studyproject.repos.UserRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -30,14 +31,17 @@ import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
 
 import java.util.regex.Pattern;
 
+@Slf4j
 @Service
 public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
+    private EventsService eventsService;
     private final UserInfoRepository userInfoRepository;
     private final PasswordEncoder passwordEncoder;
     private final MailSender mailSender;
