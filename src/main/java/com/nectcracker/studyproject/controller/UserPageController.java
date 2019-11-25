@@ -49,7 +49,7 @@ public class UserPageController {
         model.put("wishes", list);
         Iterable<Interests> interests = interestsService.getUserInterests();
         model.put("interests", interests);
-        model.put("newsNumber", newsService.sizeOfNewsByUser(user));
+        model.put("newsNumber", newsService.findByUser(user).get("newNews").size());
         return "cabinet";
     }
 }

@@ -32,7 +32,7 @@ public class Chat {
 
     private Double currentPrice;
 
-    @ManyToOne(fetch = FetchType.LAZY, targetEntity = User.class)
+    @ManyToOne(fetch = FetchType.EAGER, targetEntity = User.class)
     @JoinColumn(name = "user_id")
     private User owner;
 
