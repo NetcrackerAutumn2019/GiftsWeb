@@ -18,14 +18,13 @@ import java.util.Set;
 @Slf4j
 @Service
 public class InterestsService implements UserRepositoryCustom {
-    @Autowired
-    private InterestsRepository interestsRepository;
+    private final InterestsRepository interestsRepository;
+    private final UserRepository userRepository;
 
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private UserInfoRepository userInfoRepository;
+    public InterestsService(InterestsRepository interestsRepository, UserRepository userRepository) {
+        this.interestsRepository = interestsRepository;
+        this.userRepository = userRepository;
+    }
 
     @Override
     public User findByAuthentication() {

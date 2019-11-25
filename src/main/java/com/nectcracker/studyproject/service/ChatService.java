@@ -61,7 +61,6 @@ public class ChatService {
                 userRepository.save(user);
                 Participants participants = new Participants(user, tmp);
                 participantsRepository.save(participants);
-                log.error(tmp.getChatForParticipants().toString());
                 tmp.getChatForParticipants().add(participants);
                 user.getParticipantsForChat().add(participants);
                 chatRepository.save(tmp);
@@ -79,8 +78,6 @@ public class ChatService {
             return false;
         }
     }
-
-
 
     public Set<User> getChatParticipants(Long wishId) {
         UserWishes userWishes = userWishesService.getById(wishId);
