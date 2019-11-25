@@ -1,4 +1,5 @@
 delete from participants;
+delete from messages;
 delete from chat;
 delete from user_wishes;
 delete from user_info;
@@ -17,7 +18,11 @@ insert into user_wishes(id, wish_name, user_id, friend_create_wish) values
 (2, 'book', 2, false);
 
 insert into chat (current_price, description, present_price, wish_for_chat, user_id) values
-(0.0, 'AAA', 150, 1, 2);
+(0.1, 'AAA', 150, 1, 2);
 
 insert into participants (id, chat_for_participants, participants_for_chat, sum_from_user) values
-(1, 1, 2, 0.0);
+(1, 1, 2, 0.1);
+
+insert into messages (id, text, user_id, wish_for_chat) values
+(1, 'first message', 2, 1),
+(2, 'second message', 2, 1);

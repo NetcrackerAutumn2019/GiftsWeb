@@ -59,7 +59,7 @@ public class User implements UserDetails {
             inverseJoinColumns = @JoinColumn(name = "interest_id", referencedColumnName = "id"))
     private Set<Interests> interestsSet = new HashSet<>();
 
-    @OneToMany(fetch = FetchType.EAGER, targetEntity = Participants.class, orphanRemoval = true, cascade = CascadeType.MERGE)
+    @OneToMany(targetEntity = Participants.class, orphanRemoval = true, cascade = CascadeType.MERGE)
     private Set<Participants> participantsForChat = new HashSet<>();
 
     @OneToMany(fetch = FetchType.EAGER, targetEntity = Chat.class)

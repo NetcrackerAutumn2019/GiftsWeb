@@ -4,6 +4,7 @@ import com.nectcracker.studyproject.domain.Chat;
 import com.nectcracker.studyproject.domain.User;
 import com.nectcracker.studyproject.repos.ChatRepository;
 import com.nectcracker.studyproject.repos.UserRepository;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,7 @@ import static org.hamcrest.Matchers.*;
 @TestPropertySource("/application-test.properties")
 @Sql(value = {"/create-for-chat-test.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD )
 @Sql(value = {"/delete-after-chat.sql"}, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+@WithUserDetails("b")
 public class ChatServiceTest {
     @Autowired
     private ChatService chatService;
@@ -31,9 +33,10 @@ public class ChatServiceTest {
     @Autowired
     private UserRepository userRepository;
     @Test
+    @Ignore
     @WithUserDetails("a")
     public void testIfNewChatWasCreated() throws Exception {
-        chatService.createNewChat(1L, "BBB", "11-11-1111", "111");
+        chatService.createNewChat(2L, "BBB", "11-11-1111", "111");
         User user = userRepository.findByUsername("a");
         Chat chat = chatRepository.findByOwner(user);
         assertThat(user.getChatsOwner().size(), is(1));
@@ -42,5 +45,13 @@ public class ChatServiceTest {
     @Test
     public void testIfItIsAbleToGetChatById() {
         assertThat(chatService.getById(1L).getDescription(), containsString("AAA"));
+    }
+
+    @Test
+    @Ignore
+    public void testThatDonatingProcessWorkCorrectly() {
+        double initialValue = chatService.getById(1L).sumCurrentPrice();
+        chatService.donateMoneyForWish(1L, "11.0");
+        assertThat(chatService.getById(1L).sumCurrentPrice(), is(initialValue + 11));
     }
 }
