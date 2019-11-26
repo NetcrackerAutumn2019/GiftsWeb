@@ -40,9 +40,11 @@ public class UserInfoService implements UserRepositoryCustom {
             UserInfo currentUserInfo = userInfoRepository.findByUser(currentUser);
             if (!name.equals("")) {
                 currentUserInfo.setFirstName(name);
+                currentUser.getInfo().setFirstName(name);
             }
             if (!surname.equals("")) {
                 currentUserInfo.setLastName(surname);
+                currentUser.getInfo().setLastName(surname);
             }
             if (!oldPassword.equals("") && !newPassword.equals("") && oldPassword.equals(currentUser.getPassword())) {
                 currentUser.setPassword(newPassword);

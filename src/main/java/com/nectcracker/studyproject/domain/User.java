@@ -30,10 +30,10 @@ public class User implements UserDetails {
     @Column(unique = true)
     private Long vkId;
 
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL)
     private UserInfo info;
 
-    @OneToMany(fetch = FetchType.LAZY, targetEntity = UserWishes.class)
+    @OneToMany(fetch = FetchType.EAGER, targetEntity = UserWishes.class, cascade = CascadeType.MERGE)
     private Set<UserWishes> wishes;
 
     @ManyToMany
@@ -53,22 +53,22 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "user_has_interest",
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "interest_id", referencedColumnName = "id"))
     private Set<Interests> interestsSet = new HashSet<>();
 
-    @OneToMany(fetch = FetchType.LAZY, targetEntity = Participants.class, orphanRemoval = true)
+    @OneToMany(targetEntity = Participants.class, orphanRemoval = true, cascade = CascadeType.MERGE)
     private Set<Participants> participantsForChat = new HashSet<>();
 
-    @OneToMany(fetch = FetchType.LAZY, targetEntity = Chat.class)
+    @OneToMany(fetch = FetchType.EAGER, targetEntity = Chat.class)
     private Set<Chat> chatsOwner;
 
     @OneToMany(mappedBy = "users")
     private Set<NewsUsers> news = new HashSet<>();
 
-    @OneToMany(fetch = FetchType.LAZY, targetEntity = Messages.class)
+    @OneToMany(fetch = FetchType.EAGER, targetEntity = Messages.class)
     private Set<Messages> messages = new HashSet<>();
 
     public User() {

@@ -12,7 +12,7 @@ public class Interests {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToMany(mappedBy = "interestsSet")
+    @ManyToMany(mappedBy = "interestsSet", fetch = FetchType.EAGER)
     private Set<User> userSet;
 
     private String interestName;
@@ -23,5 +23,12 @@ public class Interests {
 
     public Interests() {
 
+    }
+
+    @Override
+    public String toString() {
+        return "Interests{" +
+                "interestName='" + interestName + '\'' +
+                '}';
     }
 }

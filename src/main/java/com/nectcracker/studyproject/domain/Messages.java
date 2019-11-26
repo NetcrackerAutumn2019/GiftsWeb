@@ -11,11 +11,11 @@ public class Messages {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY, targetEntity = Chat.class)
+    @ManyToOne(fetch = FetchType.EAGER, targetEntity = Chat.class)
     @JoinColumn(name = "wish_for_chat")
     private Chat chat;
 
-    @ManyToOne(fetch = FetchType.LAZY, targetEntity = User.class)
+    @ManyToOne(fetch = FetchType.EAGER, targetEntity = User.class)
     @JoinColumn(name = "user_id")
     private User author;
 

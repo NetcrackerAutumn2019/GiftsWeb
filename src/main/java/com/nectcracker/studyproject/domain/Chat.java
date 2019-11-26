@@ -32,14 +32,14 @@ public class Chat {
 
     private Double currentPrice;
 
-    @ManyToOne(fetch = FetchType.LAZY, targetEntity = User.class)
+    @ManyToOne(fetch = FetchType.EAGER, targetEntity = User.class)
     @JoinColumn(name = "user_id")
     private User owner;
 
-    @OneToMany(fetch = FetchType.LAZY, targetEntity = Participants.class, cascade = CascadeType.ALL,  orphanRemoval = true)
+    @OneToMany(fetch = FetchType.EAGER, targetEntity = Participants.class, cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Participants> chatForParticipants = new HashSet<>();
 
-    @OneToMany(fetch = FetchType.LAZY ,targetEntity = Messages.class)
+    @OneToMany(fetch = FetchType.EAGER ,targetEntity = Messages.class)
     private Set<Messages> messages = new HashSet<>();
 
     public Chat() {
