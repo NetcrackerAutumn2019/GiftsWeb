@@ -1,11 +1,6 @@
 package com.nectcracker.studyproject.service;
 
 import com.nectcracker.studyproject.domain.Chat;
-import com.nectcracker.studyproject.domain.News;
-import com.nectcracker.studyproject.domain.User;
-import com.nectcracker.studyproject.domain.UserWishes;
-import com.nectcracker.studyproject.repos.ChatRepository;
-import com.nectcracker.studyproject.repos.NewsRepository;
 import com.nectcracker.studyproject.domain.Participants;
 import com.nectcracker.studyproject.domain.User;
 import com.nectcracker.studyproject.domain.UserWishes;
@@ -16,10 +11,11 @@ import com.nectcracker.studyproject.repos.UserWishesRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import javax.mail.Part;
-import javax.persistence.EntityManager;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.HashSet;
+import java.util.Locale;
+import java.util.Optional;
+import java.util.Set;
 
 @Slf4j
 @Service

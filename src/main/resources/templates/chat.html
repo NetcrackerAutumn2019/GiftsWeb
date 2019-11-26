@@ -10,20 +10,20 @@
     <script defer type="text/javascript" th:inline="javascript">
         async function updateChatLog() {
             const userLogin = [[${userId}]];
-             const chatId = [[${wishId}]];
-             const form =  new FormData();
-             form.append("userId", userLogin);
-             form.append("chatId", chatId);
+            const chatId = [[${wishId}]];
+            const form = new FormData();
+            form.append("userId", userLogin);
+            form.append("chatId", chatId);
 
-             const resp = await fetch("/showMessages", {
+            const resp = await fetch("/showMessages", {
                 method: 'POST',
                 body: form
-              }).then((resp) => {
+            }).then((resp) => {
                 return resp.json()
-              }).catch((err) => {
+            }).catch((err) => {
                 console.log("ERROR!");
                 console.log(err);
-               })
+            })
 
             var suggestHolder = document.getElementById("container-hold");
             suggestHolder.innerHTML = '';
@@ -33,6 +33,7 @@
             }
 
         }
+
         setInterval(updateChatLog, 1500);
 
 
@@ -45,8 +46,12 @@
 <div th:insert="fragments/navbar :: header"></div>
 <div th:insert="fragments/listgroup :: group" style="display : inline-block; vertical-align: top;"></div>
 <div style="display : inline-block; vertical-align: top;">
-    <h1 class="m-3">Обсуждение желания [[${wishInfo}]] для пользователя [[${username}]]</h1>
-
+    <div style="display: inline">
+        <h1 class="m-3">Обсуждение желания [[${wishInfo}]] для пользователя [[${username}]]</h1>
+        <form method="post" th:action="@{/leave/{id}(id=${wishId})}" class="form-inline m-3">
+            <button type="submit" class="btn btn-primary mx-3">Покинуть чат</button>
+        </form>
+    </div>
     <div>
         <div class="smallcolumns" style="vertical-align: text-bottom">
             <h5 class="font-italic m-3">Участники</h5>
@@ -81,13 +86,10 @@
                 <span class="left">Цель: </span>
                 <span class="right" th:text="${price}"></span>
             </div>
-            <progress  style="width: 250px;" class="m-2" th:value="${currentPrice}" th:max="${price}"></progress>
+            <progress style="width: 250px;" class="m-2" th:value="${currentPrice}" th:max="${price}"></progress>
         </div>
-        <div class="smallcolumns">
-            <form method="post" th:action="@{/leave/{id}(id=${wishId})}" class="form-inline m-3">
-                <button type="submit" class="btn btn-primary mx-3">Покинуть чат</button>
-            </form>
-            <div>
+        <div >
+            <div class="smallcolumns">
                 <label class="h5 font-italic">Описание: </label>
                 <span th:text="${description}"></span>
                 <label class="h5 font-italic">Дата окончания: </label>

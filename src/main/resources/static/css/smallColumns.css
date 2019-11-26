@@ -1,11 +1,11 @@
 .smallcolumns {
-    float: left;
-    font-size: 14px;
-    width: 375px;
+  float: left;
+  font-size: 14px;
+  width: 375px;
 }
 
 .container {
-  width: 250px;
+  width: 300px;
   display: flex;
 }
 .left {
@@ -20,6 +20,6 @@
 .right {
   border: 1px solid;
   display: inline-block;
-  width: 50px;
+  width: 100px;
   white-space: nowrap;
 }
