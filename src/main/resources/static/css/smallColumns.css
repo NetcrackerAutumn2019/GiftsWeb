@@ -1,0 +1,25 @@
+.smallcolumns {
+    float: left;
+    font-size: 14px;
+    width: 375px;
+}
+
+.container {
+  width: 250px;
+  display: flex;
+}
+.left {
+  border: 1px solid;
+  display: inline-block;
+  overflow: hidden;
+  width: 200px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.right {
+  border: 1px solid;
+  display: inline-block;
+  width: 50px;
+  white-space: nowrap;
+}
