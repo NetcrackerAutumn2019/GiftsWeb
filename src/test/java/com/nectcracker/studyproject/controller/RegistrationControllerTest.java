@@ -1,4 +1,4 @@
-package com.nectcracker.studyproject;
+package com.nectcracker.studyproject.controller;
 
 import com.nectcracker.studyproject.domain.UserRegistrationRequest;
 import com.nectcracker.studyproject.service.UserService;
@@ -16,22 +16,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-public class RegistrationTest {
+public class RegistrationControllerTest {
 
     @Autowired
     private UserService userService;
-
-    @Test
-    public void correctRegistration() throws Exception{
-        UserRegistrationRequest userRegistrationRequest = new UserRegistrationRequest();
-        userRegistrationRequest.setLogin("newUser");
-        userRegistrationRequest.setPassword("newUser");
-        userRegistrationRequest.setEmail("a@gmail.com");
-        userRegistrationRequest.setFirst_name("Вася");
-        userRegistrationRequest.setLast_name("Пупкин");
-        userRegistrationRequest.setBirthday(new Date());
-        assertEquals(userService.addUser(userRegistrationRequest), "");
-    }
 
     @Test
     public void wrongEmail()throws Exception{

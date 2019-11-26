@@ -1,4 +1,4 @@
-package com.nectcracker.studyproject;
+package com.nectcracker.studyproject.controller;
 
 import com.nectcracker.studyproject.controller.FriendsController;
 import com.nectcracker.studyproject.domain.User;
@@ -23,7 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @WithUserDetails("179197505")
-public class FriendsTest {
+public class FriendsControllerTest {
 
     @Autowired
     private MockMvc mockMvc;

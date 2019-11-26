@@ -32,7 +32,6 @@ public class MessagesService {
         for (Messages m : messages) {
             result.put(m.getId().toString(), m.getAuthor().getInfo().getFirstName() + " " + m.getText());
         }
-//        return messages.toString();
         return result;
     }
 
