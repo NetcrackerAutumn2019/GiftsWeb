@@ -2,6 +2,7 @@ package com.nectcracker.studyproject;
 
 import com.nectcracker.studyproject.controller.FriendsController;
 import com.nectcracker.studyproject.domain.User;
+import com.nectcracker.studyproject.repos.UserRepository;
 import com.nectcracker.studyproject.service.UserService;
 import com.nectcracker.studyproject.service.UserWishesService;
 import org.junit.Test;
@@ -31,15 +32,20 @@ public class FriendsTest {
     private UserWishesService userWishesService;
 
     @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
     private UserService userService;
 
 
     @Test
     public void correctLastName() throws Exception {
-        this.mockMvc.perform(get("/friend_page/133344005"))
+        User user = userWishesService.findByAuthentication();
+        User friend = userRepository.findAllByFriends(user).iterator().next();
+        this.mockMvc.perform(get("/friend_page/" + friend.getUsername()))
                 .andDo(print())
                 .andExpect(authenticated())
-                .andExpect(xpath("/html/body/div[3]/div[1]/span[2]").string("Бурцева"));
+                .andExpect(xpath("/html/body/div[3]/div[1]/span[2]").string(friend.getInfo().getLastName()));
     }
 
     @Test
