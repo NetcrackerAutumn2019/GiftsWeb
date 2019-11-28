@@ -164,6 +164,7 @@
                 <form th:action="@{/new_wish}" method="post" class="form-inline">
                     <div>
                         <input type="text" class="form-control" name="text" placeholder="Название"/>
+                        <input type="text" class="form-control" name="imgURL" placeholder="Ссылка на картинку"/>
                     </div>
                     <div>
                         <button type="submit" class="btn btn-primary mx-3">Добавить</button>
@@ -177,6 +178,9 @@
     <div th:each="w : ${wishes}">
         <div th:if="!${w.friendCreateWish}" class="card-deck">
             <div class="card border-info mb-3" style="max-width: 18rem;">
+                <div th::if="${w.getImgURL()}">
+                    <img class="card-img-top" th:attr="src=${w.getImgURL()},title=${w.getImgURL()},alt=${w.getImgURL()}" >
+                </div>
                 <div class="card-body text-info">
                     <h5 class="card-title"><span th:text="${w.wishName}"></span></h5>
                 </div>

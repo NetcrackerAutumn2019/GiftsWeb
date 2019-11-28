@@ -22,13 +22,15 @@ public class UserWishes implements Serializable {
 
     private String wishName;
     private boolean friendCreateWish;
+    private String imgURL;
 
     @OneToOne(mappedBy = "wishForChat", cascade = CascadeType.ALL)
     private Chat chatForWish;
 
-    public UserWishes(User user, String wish) {
+    public UserWishes(User user, String wish, String imgURL) {
         this.user = user;
         this.wishName = wish;
+        this.imgURL = imgURL;
     }
 
     public UserWishes() {
