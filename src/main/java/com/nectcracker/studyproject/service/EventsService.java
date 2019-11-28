@@ -8,8 +8,6 @@ import com.nectcracker.studyproject.repos.UserInfoRepository;
 import com.nectcracker.studyproject.repos.UserRepository;
 import com.nectcracker.studyproject.repos.UserRepositoryCustom;
 import lombok.extern.slf4j.Slf4j;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -38,18 +36,9 @@ public class EventsService implements UserRepositoryCustom {
         return user;
     }
 
-    public List<org.json.simple.JSONObject> getUserEvents(User user) throws ParseException {
+    public Set<Events> getUserEvents(User user)  {
         Set<Events> events = user.getEventsSet();
-        Iterator eventsIterator = events.iterator();
-        List<org.json.simple.JSONObject> data = new ArrayList<>();
-        JSONParser parser = new JSONParser();
-        while(eventsIterator.hasNext()) {
-            Events event = (Events) eventsIterator.next();
-            String jsonString = toString(event);
-            org.json.simple.JSONObject json = (org.json.simple.JSONObject) parser.parse(jsonString);
-            data.add(json);
-        }
-        return data;
+        return events;
     }
 
     public void createEvent (String title, String start, User user, Boolean allDay){

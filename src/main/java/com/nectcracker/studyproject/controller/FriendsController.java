@@ -1,34 +1,26 @@
 package com.nectcracker.studyproject.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
-import com.nectcracker.studyproject.domain.Interests;
-import com.nectcracker.studyproject.domain.User;
-import com.nectcracker.studyproject.domain.UserInfo;
-import com.nectcracker.studyproject.domain.UserWishes;
+import com.nectcracker.studyproject.domain.*;
 import com.nectcracker.studyproject.repos.UserInfoRepository;
 import com.nectcracker.studyproject.service.EventsService;
 import com.nectcracker.studyproject.service.InterestsService;
 import com.nectcracker.studyproject.service.UserService;
 import com.nectcracker.studyproject.service.UserWishesService;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.ParseException;
-import com.sun.media.sound.MidiOutDeviceProvider;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.List;
+import java.io.IOException;
+import java.util.*;
 
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
@@ -72,11 +64,17 @@ public class FriendsController {
     }
 
     @RequestMapping("/friend_page/{name}")
-    public String friendPage(@PathVariable String name, Map<String, Object> model) throws ParseException {
+    public String friendPage(@PathVariable String name, Map<String, Object> model) throws IOException {
         model.put("name", name);
         User friend = (User) userService.loadUserByUsername(name);
         UserInfo currentUserInfo = userInfoRepository.findByUser(friend);
-        List<JSONObject> friendEventsData = eventsService.getUserEvents(friend);
+        List<Object> friendEventsData = new ArrayList<>();
+        Set<Events> friendEvents = eventsService.getUserEvents(friend);
+        ObjectMapper objectMapper = new ObjectMapper();
+        for (Events event : friendEvents) {
+            String eventStr = eventsService.toString(event);
+            friendEventsData.add(objectMapper.readTree(eventStr));
+        }
         model.put("eventsData", friendEventsData);
         model.put("info", currentUserInfo);
         Iterable<Interests> list = interestsService.getSmbInterests(friend);

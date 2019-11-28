@@ -49,13 +49,6 @@ public class Events  {
                 "\"allDay\": true, " +
                 "\"description\": " + userNames.toString() + "}";
     }
-//    @Override
-//    public String toString(){
-//        StringBuilder builder = new StringBuilder();
-//        Formatter formatter = new Formatter(builder);
-//        formatter.format("{id: %d, title: '%s', start: '%s'}", id, title, start);
-//        return builder.toString();
-//    }
 
 
 }
