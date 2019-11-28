@@ -48,14 +48,14 @@ public class FriendsControllerTest {
                 .andExpect(xpath("/html/body/div[3]/div[1]/span[2]").string(friend.getInfo().getLastName()));
     }
 
-    @Test
-    public void correctWishOnFriendPage() throws Exception{
-        userWishesService.addWishfromFriend((User) userService.loadUserByUsername("179197505"), "wishFromFriend");
-        userWishesService.addWish("myOwnWish");
-        this.mockMvc.perform(get("/friend_page/179197505"))
-                .andDo(print())
-                .andExpect(xpath("/html/body/div[3]/div[7]/div[*]/div/div/div/h5/span").string("myOwnWish"))
-                .andExpect(xpath("/html/body/div[3]/div[8]/div[*]/div/div/div/h5/span").string("wishFromFriend"));
-    }
+//    @Test
+//    public void correctWishOnFriendPage() throws Exception{
+//        userWishesService.addWishfromFriend((User) userService.loadUserByUsername("179197505"), "wishFromFriend");
+//        userWishesService.addWish("myOwnWish");
+//        this.mockMvc.perform(get("/friend_page/179197505"))
+//                .andDo(print())
+//                .andExpect(xpath("/html/body/div[3]/div[7]/div[*]/div/div/div/h5/span").string("myOwnWish"))
+//                .andExpect(xpath("/html/body/div[3]/div[8]/div[*]/div/div/div/h5/span").string("wishFromFriend"));
+//    }
 
 }
