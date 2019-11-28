@@ -1,12 +1,12 @@
 package com.nectcracker.studyproject.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.scribejava.apis.VkontakteApi;
 import com.github.scribejava.core.builder.ServiceBuilder;
 import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuth20Service;
-import com.google.gson.Gson;
 import com.nectcracker.studyproject.domain.Role;
 import com.nectcracker.studyproject.domain.User;
 import com.nectcracker.studyproject.domain.UserInfo;
@@ -27,12 +27,10 @@ import org.thymeleaf.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.security.GeneralSecurityException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
-
 import java.util.regex.Pattern;
 
 @Service
@@ -41,6 +39,7 @@ public class UserService implements UserDetailsService {
     private final UserInfoRepository userInfoRepository;
     private final PasswordEncoder passwordEncoder;
     private final MailSender mailSender;
+    private final ObjectMapper objectMapper;
 
     @Value("${spring.security.oauth2.vk.client.clientId}")
     private String vkClientId;
@@ -62,16 +61,15 @@ public class UserService implements UserDetailsService {
 
     private String accessToken;
 
-    private Gson gson = new Gson();
-
     private Random random = new Random();
 
 
-    public UserService(UserRepository userRepository, MailSender mailSender, UserInfoRepository userInfoRepository, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, MailSender mailSender, UserInfoRepository userInfoRepository, PasswordEncoder passwordEncoder, ObjectMapper objectMapper) {
         this.userRepository = userRepository;
         this.mailSender = mailSender;
         this.userInfoRepository = userInfoRepository;
         this.passwordEncoder = passwordEncoder;
+        this.objectMapper = objectMapper;
     }
 
     @Override
@@ -83,7 +81,7 @@ public class UserService implements UserDetailsService {
         this.accessToken = accessToken;
     }
 
-    public String addUser(UserRegistrationRequest userRegistrationRequest) throws IOException, GeneralSecurityException {
+    public String addUser(UserRegistrationRequest userRegistrationRequest) {
 
         if(!Pattern.matches(".*@.*", userRegistrationRequest.getEmail()))
             return "Wrong e-mail address";
@@ -176,7 +174,7 @@ public class UserService implements UserDetailsService {
             final Response friendsResponse = vkScribejavaService.execute(friendsRequest);
 
             String UserFriendsFromVk = friendsResponse.getBody();
-            Set<Nickname> friendsNicknames = gson.fromJson(UserFriendsFromVk, FriendsFromVk.class).response.getItems();
+            Set<Nickname> friendsNicknames = objectMapper.readValue(UserFriendsFromVk, FriendsFromVk.class).getResponse().getItems();
 
 
             User friend;
