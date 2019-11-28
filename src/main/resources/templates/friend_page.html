@@ -2,8 +2,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
           integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link href='core/main.css' rel='stylesheet' />
@@ -12,6 +12,7 @@
     <script src='interaction/main.js'></script>
     <script src='daygrid/main.js'></script>
     <title>GiftsWeb!</title>
+    <link rel="stylesheet" type="text/css" href="/css/icons.css"/>
     <style>
         .people-icon {
             background:url(https://image.flaticon.com/icons/svg/33/33308.svg) no-repeat left center;
@@ -110,7 +111,7 @@
     </div>
 
     <div class="font-italic m-3">Желания</div>
-<!--    <div th:if="${friendWishes.empty} && ${userWishes.empty}">No wish yet</div>-->
+    <!--    <div th:if="${friendWishes.empty} && ${userWishes.empty}">No wish yet</div>-->
 
     <div class="font-italic m-3">Вы можете сами создать желания длz вашего друга</div>
     <div class="m-3">
@@ -122,7 +123,7 @@
                 <form th:action="@{/new_wish_from_friend}" method="post" class="form-inline">
                     <div>
                         <input type="text" class="form-control" name="text" placeholder="Название"/>
-                        <input type="hidden" name = "name" th:value="${name}">
+                        <input type="hidden" name="name" th:value="${name}"/>
                     </div>
                     <div>
                         <button type="submit" class="btn btn-primary mx-3">Добавить</button>
@@ -131,40 +132,42 @@
             </div>
         </div>
     </div>
-    <div class="font-italic m-3">Желания созданные пользователем</div>
-    <div th:each="uw : ${userWishes}">
-        <div class="card-deck">
-            <div class="card border-info mb-3" style="max-width: 18rem;">
-                <div class="card-body text-info">
-                    <h5 class="card-title"><span th:text="${uw.wishName}"></span></h5>
-                    <div class="card-text">
-                        <a class="people-icon" href="#"><span th:text="${uw.getNumberOfChatParticipants()}"></span></a>
-                        <p></p>
-                        <a class="dollar-icon" href="#"><span th:text="${uw.getCurrentSum()}"></span>
-                            / <span th:text="${uw.getPrice()}"></span></a>
+    <div class="font-italic m-3">Желания созданные пользователем
+        <div th:each="uw : ${userWishes}">
+            <div class="card-deck">
+                <div class="card border-info mb-3" style="max-width: 18rem;">
+                    <div class="card-body text-info">
+                        <h5 class="card-title"><span th:text="${uw.wishName}"></span></h5>
+                        <div class="card-text">
+                            <a class="people-icon" href="#"><span th:text="${uw.getNumberOfChatParticipants()}"></span></a>
+                            <p></p>
+                            <a class="dollar-icon" href="#"><span th:text="${uw.getCurrentSum()}"></span>
+                                / <span th:text="${uw.getPrice()}"></span></a>
+                        </div>
+                        <form th:action="@{/join_chat/{id}(id=${uw.id})}" method="post">
+                            <button type="submit" class="btn btn-primary m-3">+</button>
+                        </form>
                     </div>
-                    <form th:action="@{/join_chat/{id}(id=${uw.id})}" method="post">
-                        <button type="submit" class="btn btn-primary m-3">+</button>
-                    </form>
                 </div>
             </div>
         </div>
     </div>
-    <div class="font-italic m-3">Желания созданные друзьями</div>
-    <div th:each="fw : ${friendWishes}">
-        <div class="card-deck">
-            <div class="card border-info mb-3" style="max-width: 18rem;">
-                <div class="card-body text-info">
-                    <h5 class="card-title"><span th:text="${fw.wishName}"></span></h5>
-                    <div class="card-text">
-                        <a class="people-icon" href="#"><span th:text="${fw.getNumberOfChatParticipants()}"></span></a>
-                        <p></p>
-                        <a class="dollar-icon" href="#"><span th:text="${fw.getCurrentSum()}"></span>
-                            / <span th:text="${fw.getPrice()}"></span></a>
+    <div class="font-italic m-3">Желания созданные друзьями
+        <div th:each="fw : ${friendWishes}">
+            <div class="card-deck">
+                <div class="card border-info mb-3" style="max-width: 18rem;">
+                    <div class="card-body text-info">
+                        <h5 class="card-title"><span th:text="${fw.wishName}"></span></h5>
+                        <div class="card-text">
+                            <a class="people-icon" href="#"><span th:text="${fw.getNumberOfChatParticipants()}"></span></a>
+                            <p></p>
+                            <a class="dollar-icon" href="#"><span th:text="${fw.getCurrentSum()}"></span>
+                                / <span th:text="${fw.getPrice()}"></span></a>
+                        </div>
+                        <form th:action="@{/join_chat/{id}(id=${fw.id})}" method="post">
+                            <button type="submit" class="btn btn-primary m-3">+</button>
+                        </form>
                     </div>
-                    <form th:action="@{/join_chat/{id}(id=${fw.id})}" method="post">
-                        <button type="submit" class="btn btn-primary m-3">+</button>
-                    </form>
                 </div>
             </div>
         </div>

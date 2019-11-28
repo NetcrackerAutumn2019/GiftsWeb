@@ -67,6 +67,8 @@ public class ChatController {
         }
         model.put("participants", participants);
         model.put("currentPrice", currentChat.sumCurrentPrice());
+        model.put("description", currentChat.getDescription());
+        model.put("deadline", currentChat.getDeadline());
         model.put("price", currentChat.getPresentPrice());
         return "chat";
     }

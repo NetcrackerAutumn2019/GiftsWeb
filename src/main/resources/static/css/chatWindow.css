@@ -1,0 +1,10 @@
+span {
+    padding: 10px;
+    display: block;
+}
+
+.holder {
+    border: 1px black solid;
+    overflow: auto;
+    height: 300px;
+}
