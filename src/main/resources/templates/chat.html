@@ -68,15 +68,11 @@
                 </div>
             </div>
         </div>
-        <div class="smallcolumns">
+        <div class="smallcolumns" >
             <h5 class="font-italic m-3">Внести деньги</h5>
             <form method="post" th:action="@{/donate/{id}(id=${wishId})}" class="form-inline m-3">
-                <div>
                     <input type="text" class="form-control" name="sum" placeholder="Сумма"/>
-                </div>
-                <div>
                     <button type="submit" class="btn btn-primary mx-3">Внести!</button>
-                </div>
             </form>
             <div class="container m-1">
                 <span class="left">Собрано: </span>
@@ -88,33 +84,36 @@
             </div>
             <progress style="width: 250px;" class="m-2" th:value="${currentPrice}" th:max="${price}"></progress>
         </div>
-        <div >
-            <div class="smallcolumns">
-                <label class="h5 font-italic">Описание: </label>
-                <span th:text="${description}"></span>
-                <label class="h5 font-italic">Дата окончания: </label>
-                <span th:text="${deadline}"></span>
 
-            </div>
+        <div class="smallcolumns">
+            <label class="h5 font-italic">Описание: </label>
+            <span th:text="${description}"></span>
+            <label class="h5 font-italic">Дата окончания: </label>
+            <span th:text="${deadline}"></span>
+
         </div>
+
     </div>
-    <div class="m-3">
-        <div style="display: inline-block;
+    <div style="display: inline-block">
+        <div class="m-3">
+            <div style="display: inline-block;
              width: 500px;
              vertical-align: top;"
-             class="holder">
+                 class="holder">
             <span style="padding: 10px;
                          display: block;"
                   id="container-hold"></span>
-        </div>
+            </div>
 
-    </div>
-    <div>
-        <iframe name="mytarget" style="display: none;"></iframe>
-        <form th:action="@{/sendMessage/{id}(id=${wishId})}" class="form-inline m-3" method="post" target="mytarget">
-            <input type="text" class="form-control" name="sentMessage" placeholder="Text"/>
-            <button type="submit" class="btn btn-primary mx-3">Send</button>
-        </form>
+        </div>
+        <div>
+            <iframe name="mytarget" style="display: none;"></iframe>
+            <form th:action="@{/sendMessage/{id}(id=${wishId})}" class="form-inline m-3" method="post"
+                  target="mytarget">
+                <input type="text" class="form-control" name="sentMessage" placeholder="Text"/>
+                <button type="submit" class="btn btn-primary mx-3">Send</button>
+            </form>
+        </div>
     </div>
 </div>
 <div th:insert="fragments/settings :: settings"></div>

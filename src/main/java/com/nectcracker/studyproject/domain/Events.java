@@ -19,6 +19,9 @@ public class Events  {
     @ManyToMany(mappedBy = "eventsSet")
     private Set<User> eventParticipants = new HashSet<>();
 
+    @OneToOne(mappedBy = "eventForWish")
+    private UserWishes wishForEvent;
+
     private String title;
 
     private String start;

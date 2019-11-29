@@ -1,6 +1,5 @@
 package com.nectcracker.studyproject.controller;
 
-import com.nectcracker.studyproject.controller.FriendsController;
 import com.nectcracker.studyproject.domain.User;
 import com.nectcracker.studyproject.repos.UserRepository;
 import com.nectcracker.studyproject.service.UserService;
@@ -50,8 +49,8 @@ public class FriendsControllerTest {
 
     @Test
     public void correctWishOnFriendPage() throws Exception{
-        userWishesService.addWishfromFriend((User) userService.loadUserByUsername("179197505"), "wishFromFriend");
-        userWishesService.addWish("myOwnWish");
+        userWishesService.addWishFromFriend("179197505", "wishFromFriend", "");
+        userWishesService.addWish("myOwnWish", "");
         this.mockMvc.perform(get("/friend_page/179197505"))
                 .andDo(print())
                 .andExpect(xpath("/html/body/div[3]/div[7]/div[*]/div/div/div/h5/span").string("myOwnWish"))

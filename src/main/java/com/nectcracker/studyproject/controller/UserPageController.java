@@ -73,6 +73,7 @@ public class UserPageController {
         ObjectMapper objectMapper = new ObjectMapper();
 
         Set<Events> currentUserEvents = eventsService.getUserEvents(user);
+        model.put("currentUserEvents", currentUserEvents);
         for (Events event : currentUserEvents) {
             String eventStr = eventsService.toString(event);
             currentUserData.add(objectMapper.readTree(eventStr));

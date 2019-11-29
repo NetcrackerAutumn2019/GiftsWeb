@@ -90,8 +90,6 @@
     </div>
 
     <div class="font-italic m-3">Желания</div>
-    <!--    <div th:if="${friendWishes.empty} && ${userWishes.empty}">No wish yet</div>-->
-
     <div class="font-italic m-3">Вы можете сами создать желания длz вашего друга</div>
     <div class="m-3">
         <a class="btn btn-primary btn-lg" data-toggle="collapse" href="#collapseExample" role="button"
@@ -101,8 +99,14 @@
             <div class="form-group my-3">
                 <form th:action="@{/new_wish_from_friend}" method="post" class="form-inline">
                     <div>
+                        <p>Название желания</p>
                         <input type="text" class="form-control" name="text" placeholder="Название"/>
                         <input type="hidden" name="name" th:value="${name}"/>
+                        <p>Событие к которому желание относится(не обязательно)</p>
+                        <p><select name="eventsId">
+                            <option></option>
+                            <option th:each="event : ${friendsEvents}" th:value="${event.id}">[[${event.title}]]</option>
+                        </select></p>
                     </div>
                     <div>
                         <button type="submit" class="btn btn-primary mx-3">Добавить</button>
@@ -116,7 +120,10 @@
             <div class="card-deck">
                 <div class="card border-info mb-3" style="max-width: 18rem;">
                     <div class="card-body text-info">
-                        <h5 class="card-title"><span th:text="${uw.wishName}"></span></h5>
+                        <h5 class="card-title">
+                            <p>Желание: [[${uw.wishName}]]</p>
+                            <p th:if="${uw.eventForWish}">Событие: [[${uw.eventForWish.title}]]</p>
+                        </h5>
                         <div class="card-text">
                             <a class="people-icon" href="#"><span th:text="${uw.getNumberOfChatParticipants()}"></span></a>
                             <p></p>
@@ -124,7 +131,7 @@
                                 / <span th:text="${uw.getPrice()}"></span></a>
                         </div>
                         <form th:action="@{/join_chat/{id}(id=${uw.id})}" method="post">
-                            <button type="submit" class="btn btn-primary m-3">+</button>
+                            <button type="submit" class="btn btn-primary m-3">Присоеденится</button>
                         </form>
                     </div>
                 </div>
@@ -136,7 +143,10 @@
             <div class="card-deck">
                 <div class="card border-info mb-3" style="max-width: 18rem;">
                     <div class="card-body text-info">
-                        <h5 class="card-title"><span th:text="${fw.wishName}"></span></h5>
+                        <h5 class="card-title">
+                            <p>Желание: [[${fw.wishName}]]</p>
+                            <p th:if="${fw.eventForWish}">Событие: [[${fw.eventForWish.title}]]</p>
+                        </h5>
                         <div class="card-text">
                             <a class="people-icon" href="#"><span th:text="${fw.getNumberOfChatParticipants()}"></span></a>
                             <p></p>
@@ -144,7 +154,7 @@
                                 / <span th:text="${fw.getPrice()}"></span></a>
                         </div>
                         <form th:action="@{/join_chat/{id}(id=${fw.id})}" method="post">
-                            <button type="submit" class="btn btn-primary m-3">+</button>
+                            <button type="submit" class="btn btn-primary m-3">Присоеденится</button>
                         </form>
                     </div>
                 </div>

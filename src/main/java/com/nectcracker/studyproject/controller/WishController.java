@@ -2,7 +2,6 @@ package com.nectcracker.studyproject.controller;
 
 import com.nectcracker.studyproject.domain.User;
 import com.nectcracker.studyproject.domain.UserWishes;
-import com.nectcracker.studyproject.repos.UserRepository;
 import com.nectcracker.studyproject.service.UserService;
 import com.nectcracker.studyproject.service.UserWishesService;
 import org.springframework.security.core.Authentication;
@@ -34,16 +33,16 @@ public class WishController {
     }
 
     @PostMapping("/new_wish")
-    public String addWish(@RequestParam String text, Map<String, Object> model) {
-        userWishesService.addWish(text);
+    public String addWish(@RequestParam String text, @RequestParam String eventsId, Map<String, Object> model) {
+        userWishesService.addWish(text, eventsId);
         return "redirect:/cabinet";
     }
 
 
     @PostMapping("/new_wish_from_friend")
-    public String addWishFromFriend(@RequestParam String name, @RequestParam String text, Map<String, Object> model) {
-        User friend = (User) userService.loadUserByUsername(name);
-        userWishesService.addWishfromFriend(friend, text);
+    public String addWishFromFriend(@RequestParam String name, @RequestParam String text,@RequestParam String eventsId, Map<String, Object> model) {
+        //User friend = (User) userService.loadUserByUsername(name);
+        userWishesService.addWishFromFriend(name, text, eventsId);
         return "redirect:/friend_page/" + name;
     }
 }

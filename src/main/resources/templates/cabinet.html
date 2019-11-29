@@ -163,9 +163,13 @@
             <div class="form-group my-3">
                 <form th:action="@{/new_wish}" method="post" class="form-inline">
                     <div>
+                        <p>Название желания</p>
                         <input type="text" class="form-control" name="text" placeholder="Название"/>
-                    </div>
-                    <div>
+                        <p>Событие к которому желание относится(не обязательно)</p>
+                        <p><select name="eventsId">
+                            <option></option>
+                            <option th:each="event : ${currentUserEvents}" th:value="${event.id}">[[${event.title}]]</option>
+                        </select></p>
                         <button type="submit" class="btn btn-primary mx-3">Добавить</button>
                     </div>
                 </form>
@@ -178,7 +182,10 @@
         <div th:if="!${w.friendCreateWish}" class="card-deck">
             <div class="card border-info mb-3" style="max-width: 18rem;">
                 <div class="card-body text-info">
-                    <h5 class="card-title"><span th:text="${w.wishName}"></span></h5>
+                    <h5 class="card-title">
+                        <p>Желание: [[${w.wishName}]]</p>
+                        <p th:if="${w.eventForWish}">Событие: [[${w.eventForWish.title}]]</p>
+                    </h5>
                 </div>
             </div>
         </div>
