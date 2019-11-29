@@ -1,5 +1,6 @@
 package com.nectcracker.studyproject.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.scribejava.apis.VkontakteApi;
 import com.github.scribejava.core.builder.ServiceBuilder;
 import com.github.scribejava.core.model.OAuthRequest;
@@ -16,6 +17,7 @@ import com.nectcracker.studyproject.json.friendsFromVK.Nickname;
 import com.nectcracker.studyproject.repos.UserInfoRepository;
 import com.nectcracker.studyproject.repos.UserRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -45,6 +47,7 @@ public class UserService implements UserDetailsService {
     private final UserInfoRepository userInfoRepository;
     private final PasswordEncoder passwordEncoder;
     private final MailSender mailSender;
+    private final ObjectMapper objectMapper;
 
     @Value("${spring.security.oauth2.vk.client.clientId}")
     private String vkClientId;
@@ -66,16 +69,17 @@ public class UserService implements UserDetailsService {
 
     private String accessToken;
 
-    private Gson gson = new Gson();
+
 
     private Random random = new Random();
 
 
-    public UserService(UserRepository userRepository, MailSender mailSender, UserInfoRepository userInfoRepository, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, MailSender mailSender, UserInfoRepository userInfoRepository, PasswordEncoder passwordEncoder, ObjectMapper objectMapper) {
         this.userRepository = userRepository;
         this.mailSender = mailSender;
         this.userInfoRepository = userInfoRepository;
         this.passwordEncoder = passwordEncoder;
+        this.objectMapper = objectMapper;
     }
 
     @Override
@@ -180,7 +184,7 @@ public class UserService implements UserDetailsService {
             final Response friendsResponse = vkScribejavaService.execute(friendsRequest);
 
             String UserFriendsFromVk = friendsResponse.getBody();
-            Set<Nickname> friendsNicknames = gson.fromJson(UserFriendsFromVk, FriendsFromVk.class).response.getItems();
+            Set<Nickname> friendsNicknames = objectMapper.readValue(UserFriendsFromVk, FriendsFromVk.class).getResponse().getItems();
 
 
             User friend;
