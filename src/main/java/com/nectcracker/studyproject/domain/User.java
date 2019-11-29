@@ -59,6 +59,12 @@ public class User implements UserDetails {
             inverseJoinColumns = @JoinColumn(name = "interest_id", referencedColumnName = "id"))
     private Set<Interests> interestsSet = new HashSet<>();
 
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "event_participants",
+            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "event_id", referencedColumnName = "id"))
+    private Set<Events> eventsSet = new HashSet<>();
+
     @OneToMany(targetEntity = Participants.class, orphanRemoval = true, cascade = CascadeType.MERGE)
     private Set<Participants> participantsForChat = new HashSet<>();
 

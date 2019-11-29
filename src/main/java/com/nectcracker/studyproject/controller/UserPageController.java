@@ -1,13 +1,15 @@
 package com.nectcracker.studyproject.controller;
 
-import com.nectcracker.studyproject.domain.Interests;
-import com.nectcracker.studyproject.domain.User;
-import com.nectcracker.studyproject.domain.UserInfo;
-import com.nectcracker.studyproject.domain.UserWishes;
-import com.nectcracker.studyproject.repos.InterestsRepository;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
+import com.nectcracker.studyproject.domain.*;
 import com.nectcracker.studyproject.repos.UserInfoRepository;
 import com.nectcracker.studyproject.repos.UserRepository;
+import com.nectcracker.studyproject.service.EventsService;
 import com.nectcracker.studyproject.service.InterestsService;
+import com.nectcracker.studyproject.service.UserService;
 import com.nectcracker.studyproject.service.NewsService;
 import com.nectcracker.studyproject.service.UserWishesService;
 import lombok.extern.slf4j.Slf4j;
@@ -16,9 +18,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.util.Map;
+import java.util.*;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Controller
@@ -28,19 +32,32 @@ public class UserPageController {
     private final UserRepository userRepository;
     private final InterestsService interestsService;
     private final NewsService newsService;
+    private final EventsService eventsService;
+    private final UserService userService;
+
+    private CacheLoader<User, Map> loader = new CacheLoader<User, Map>() {
+        @Override
+        public Map load(User user) throws Exception {
+            return userService.takeFriendFromVk(user);
+        }
+    };
+    private LoadingCache<User, Map> cache = CacheBuilder.newBuilder().refreshAfterWrite(30, TimeUnit.MINUTES).build(loader);;
 
     public UserPageController(UserWishesService userWishesService, UserInfoRepository userInfoRepository,
                               UserRepository userRepository, InterestsService interestsService,
-                              NewsService newsService) {
+                              NewsService newsService,
+                              EventsService eventsService, UserService userService) {
         this.userWishesService = userWishesService;
         this.userInfoRepository = userInfoRepository;
         this.userRepository = userRepository;
         this.interestsService = interestsService;
         this.newsService = newsService;
+        this.eventsService = eventsService;
+        this.userService = userService;
     }
 
     @GetMapping("/cabinet")
-    public String cabinet(Map<String, Object> model) {
+    public String cabinet(Map<String, Object> model) throws ExecutionException, IOException {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userRepository.findByUsername(auth.getName());
         UserInfo currentUserInfo = userInfoRepository.findByUser(user);
@@ -50,6 +67,30 @@ public class UserPageController {
         Iterable<Interests> interests = interestsService.getUserInterests();
         model.put("interests", interests);
         model.put("newsNumber", newsService.findByUser(user).get("newNews").size());
+
+        List<Object> friendsEventsData = new ArrayList<>();
+        List<Object> currentUserData = new ArrayList<>();
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        Set<Events> currentUserEvents = eventsService.getUserEvents(user);
+        for (Events event : currentUserEvents) {
+            String eventStr = eventsService.toString(event);
+            currentUserData.add(objectMapper.readTree(eventStr));
+        }
+
+        Map<String, Set> friendsMapForForm = cache.get(user);
+        Set<User> friends = friendsMapForForm.get("registered");
+        for (User friend : friends) {
+            Set<Events> friendEvents = eventsService.getUserEvents(friend);
+            for (Events event : friendEvents) {
+                String eventStr = eventsService.toString(event);
+                friendsEventsData.add(objectMapper.readTree(eventStr));
+            }
+        }
+
+
+        model.put("eventsData", currentUserData);
+        model.put("friendsEventsData", friendsEventsData);
         return "cabinet";
     }
 }
