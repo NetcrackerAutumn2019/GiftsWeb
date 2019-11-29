@@ -108,11 +108,7 @@ public class CustomUserInfoTokenServices implements ResourceServerTokenServices 
             userService.setAccessToken(accessToken);
             try {
                 userService.addUserFromVk(userInfoMap);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            } catch (ExecutionException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
+            } catch (InterruptedException | ExecutionException | IOException e) {
                 e.printStackTrace();
             }
         }
