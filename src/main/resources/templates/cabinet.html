@@ -169,7 +169,7 @@
                         <p>Событие к которому желание относится(не обязательно)</p>
                         <p><select name="eventsId">
                             <option></option>
-                            <option th:each="event : ${currentUserEvents}" th:value="${event.id}">[[${event.title}]]</option>
+                            <option th:each="event : ${currentUserActualEvents}" th:value="${event.id}">[[${event.title}]]</option>
                         </select></p>
                     </div>
                 </form>

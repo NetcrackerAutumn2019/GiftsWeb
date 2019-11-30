@@ -19,6 +19,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.Map;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
@@ -57,7 +58,7 @@ public class UserPageController {
     }
 
     @GetMapping("/cabinet")
-    public String cabinet(Map<String, Object> model) throws ExecutionException, IOException {
+    public String cabinet(Map<String, Object> model) throws ExecutionException, IOException, ParseException {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userRepository.findByUsername(auth.getName());
         UserInfo currentUserInfo = userInfoRepository.findByUser(user);
@@ -73,7 +74,7 @@ public class UserPageController {
         ObjectMapper objectMapper = new ObjectMapper();
 
         Set<Events> currentUserEvents = eventsService.getUserEvents(user);
-        model.put("currentUserEvents", currentUserEvents);
+        model.put("currentUserActualEvents", eventsService.actualEvents(currentUserEvents));
         for (Events event : currentUserEvents) {
             String eventStr = eventsService.toString(event);
             currentUserData.add(objectMapper.readTree(eventStr));
