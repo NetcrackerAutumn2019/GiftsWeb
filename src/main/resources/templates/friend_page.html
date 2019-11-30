@@ -6,15 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
           integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <link href='/core/main.css' rel='stylesheet' />
-    <link href='/daygrid/main.css' rel='stylesheet' />
+    <link href='/core/main.css' rel='stylesheet'/>
+    <link href='/daygrid/main.css' rel='stylesheet'/>
     <script src='/core/main.js'></script>
     <script src='/interaction/main.js'></script>
     <script src='/daygrid/main.js'></script>
     <title>GiftsWeb!</title>
     <link rel="stylesheet" type="text/css" href="/css/icons.css"/>
     <script defer type="text/javascript" th:inline="javascript">
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             var calendarEl = document.getElementById('calendar');
 
             var calendar = new FullCalendar.Calendar(calendarEl, {
@@ -24,11 +24,11 @@
                 firstDay: 1,
                 locale: 'ru',
                 eventLimit: true, // allow "more" link when too many events
-                eventRender: function(info) {
+                eventRender: function (info) {
                     let result = "";
                     let userNames = info.event.extendedProps.userNames;
                     let userPageUrls = info.event.extendedProps.userPageUrls;
-                    if (userNames || userPageUrls != null){
+                    if (userNames || userPageUrls != null) {
                         for (var i = 0; i < userNames.length; i++) {
                             let userName = userNames[i];
                             let userPageHyperlink = userName.link(userPageUrls[i]);
@@ -90,7 +90,7 @@
     </div>
 
     <div class="font-italic m-3">Желания</div>
-    <div class="font-italic m-3">Вы можете сами создать желания длz вашего друга</div>
+    <div class="font-italic m-3">Вы можете сами создать желания для вашего друга</div>
     <div class="m-3">
         <a class="btn btn-primary btn-lg" data-toggle="collapse" href="#collapseExample" role="button"
            aria-expanded="false"
@@ -101,15 +101,16 @@
                     <div>
                         <p>Название желания</p>
                         <input type="text" class="form-control" name="text" placeholder="Название"/>
+                        <button type="submit" class="btn btn-primary mx-3">Добавить</button>
                         <input type="hidden" name="name" th:value="${name}"/>
+                    </div>
+                    <div>
                         <p>Событие к которому желание относится(не обязательно)</p>
                         <p><select name="eventsId">
                             <option></option>
-                            <option th:each="event : ${friendsEvents}" th:value="${event.id}">[[${event.title}]]</option>
+                            <option th:each="event : ${friendsEvents}" th:value="${event.id}">[[${event.title}]]
+                            </option>
                         </select></p>
-                    </div>
-                    <div>
-                        <button type="submit" class="btn btn-primary mx-3">Добавить</button>
                     </div>
                 </form>
             </div>

@@ -165,12 +165,12 @@
                     <div>
                         <p>Название желания</p>
                         <input type="text" class="form-control" name="text" placeholder="Название"/>
+                        <button type="submit" class="btn btn-primary mx-3">Добавить</button>
                         <p>Событие к которому желание относится(не обязательно)</p>
                         <p><select name="eventsId">
                             <option></option>
                             <option th:each="event : ${currentUserEvents}" th:value="${event.id}">[[${event.title}]]</option>
                         </select></p>
-                        <button type="submit" class="btn btn-primary mx-3">Добавить</button>
                     </div>
                 </form>
             </div>

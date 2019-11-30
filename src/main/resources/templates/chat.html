@@ -68,11 +68,11 @@
                 </div>
             </div>
         </div>
-        <div class="smallcolumns" >
+        <div class="smallcolumns">
             <h5 class="font-italic m-3">Внести деньги</h5>
             <form method="post" th:action="@{/donate/{id}(id=${wishId})}" class="form-inline m-3">
-                    <input type="text" class="form-control" name="sum" placeholder="Сумма"/>
-                    <button type="submit" class="btn btn-primary mx-3">Внести!</button>
+                <input type="text" class="form-control" name="sum" placeholder="Сумма"/>
+                <button type="submit" class="btn btn-primary mx-3">Внести!</button>
             </form>
             <div class="container m-1">
                 <span class="left">Собрано: </span>
