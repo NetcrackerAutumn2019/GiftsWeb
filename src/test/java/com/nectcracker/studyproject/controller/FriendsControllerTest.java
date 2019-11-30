@@ -2,6 +2,7 @@ package com.nectcracker.studyproject.controller;
 
 import com.nectcracker.studyproject.controller.FriendsController;
 import com.nectcracker.studyproject.domain.User;
+import com.nectcracker.studyproject.domain.UserInfo;
 import com.nectcracker.studyproject.domain.UserWishes;
 import com.nectcracker.studyproject.repos.UserRepository;
 import com.nectcracker.studyproject.service.UserService;
@@ -46,14 +47,13 @@ public class FriendsControllerTest {
     private UserService userService;
 
     @Test
-    @Ignore
     public void correctLastName() throws Exception {
         User user = userWishesService.findByAuthentication();
         User friend = userRepository.findAllByFriends(user).iterator().next();
         this.mockMvc.perform(get("/friend_page/" + friend.getUsername()))
-                .andDo(print())
                 .andExpect(authenticated())
-                .andExpect(xpath("/html/body/div[3]/div[1]/span[2]").string(friend.getInfo().getLastName()));
+                .andExpect(status().isOk())
+                .andExpect(model().attribute("info", is(friend.getInfo()))) ;
     }
 
     @Test
@@ -66,8 +66,8 @@ public class FriendsControllerTest {
         wishes.forEach(result::add);
         this.mockMvc.perform(get("/friend_page/a"))
                 .andDo(print())
-                .andExpect(model().attribute("friendWishes", contains(result.get(0)))) //or your condition
-                .andExpect(model().attribute("userWishes", contains(result.get(1)))) //or your condition
+                .andExpect(model().attribute("friendWishes", contains(result.get(0))))
+                .andExpect(model().attribute("userWishes", contains(result.get(1))))
                 .andExpect(status().isOk());
     }
 
