@@ -90,8 +90,9 @@
         </div>
     </div>
 
+
     <div class="font-italic m-3">Желания:</div>
-    <div class="m-3">Вы можете сами создать желания для вашего друга</div>
+    <div class="font-italic m-3">Вы можете сами создать желания для вашего друга</div>
     <div class="m-3">
         <a class="btn btn-primary btn-lg" data-toggle="collapse" href="#collapseExample" role="button"
            aria-expanded="false"
@@ -102,8 +103,9 @@
                     <div>
                         <p>Название желания</p>
                         <input type="text" class="form-control" name="text" placeholder="Название"/>
-                        <button type="submit" class="btn btn-primary mx-3">Добавить</button>
+                        <input type="text" class="form-control" name="imgURL" placeholder="Ссылка на изображение"/>
                         <input type="hidden" name="name" th:value="${name}"/>
+                        <button type="submit" class="btn btn-primary mx-3">Добавить</button>
                         <p>Событие к которому желание относится(не обязательно)</p>
                         <p><select name="eventsId">
                             <option></option>
@@ -119,6 +121,10 @@
         <div th:each="uw : ${userWishes}">
             <div class="card-deck">
                 <div class="card border-info mb-3" style="max-width: 18rem;">
+                    <div th::if="${uw.getImgURL()}">
+                        <img class="card-img-top"
+                             th:attr="src=${uw.getImgURL()},title=${uw.getImgURL()},alt=${uw.getImgURL()}">
+                    </div>
                     <div class="card-body text-info">
                         <h5 class="card-title">
                             <p>Желание: [[${uw.wishName}]]</p>
@@ -142,6 +148,10 @@
         <div th:each="fw : ${friendWishes}">
             <div class="card-deck">
                 <div class="card border-info mb-3" style="max-width: 18rem;">
+                    <div th::if="${fw.getImgURL()}">
+                        <img class="card-img-top"
+                             th:attr="src=${fw.getImgURL()},title=${fw.getImgURL()},alt=${fw.getImgURL()}">
+                    </div>
                     <div class="card-body text-info">
                         <h5 class="card-title">
                             <p>Желание: [[${fw.wishName}]]</p>

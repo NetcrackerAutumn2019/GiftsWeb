@@ -82,11 +82,11 @@ public class EventsService implements UserRepositoryCustom {
             String userName = "\"" + userInfo.getFirstName() + " " + userInfo.getLastName() + "\"";
             userNames.add(userName);
             if (user.equals(currentUser)){
-                String userPageUrl = "\"http://localhost:8080/cabinet\"";
+                String userPageUrl = "\"cabinet\"";
                 userPageUrls.add(userPageUrl);
             }
             else {
-                String userPageUrl = "\"http://localhost:8080/friend_page/" + user.getUsername() + "\"";
+                String userPageUrl = "\"friend_page/" + user.getUsername() + "\"";
                 userPageUrls.add(userPageUrl);
             }
 

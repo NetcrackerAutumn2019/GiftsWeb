@@ -67,7 +67,7 @@
                         });
                         $.ajax({
                             type : "POST",
-                            url : "http://localhost:8080/addEvent",
+                            url : "addEvent",
                             data : JSON.stringify({
                                 "title": title,
                                 "start": arg.startStr,
@@ -165,6 +165,7 @@
                     <div>
                         <p>Название желания</p>
                         <input type="text" class="form-control" name="text" placeholder="Название"/>
+                        <input type="text" class="form-control" name="imgURL" placeholder="Ссылка на изображение"/>
                         <button type="submit" class="btn btn-primary mx-3">Добавить</button>
                         <p>Событие к которому желание относится(не обязательно)</p>
                         <p><select name="eventsId">
@@ -181,6 +182,9 @@
     <div th:each="w : ${wishes}">
         <div th:if="!${w.friendCreateWish}" class="card-deck">
             <div class="card border-info mb-3" style="max-width: 18rem;">
+                <div th::if="${w.getImgURL()}">
+                    <img class="card-img-top" th:attr="src=${w.getImgURL()},title=${w.getImgURL()},alt=${w.getImgURL()}" >
+                </div>
                 <div class="card-body text-info">
                     <h5 class="card-title">
                         <p>Желание: [[${w.wishName}]]</p>

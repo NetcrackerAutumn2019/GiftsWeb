@@ -82,14 +82,17 @@
                 <span class="left">Цель: </span>
                 <span class="right" th:text="${chat.getPresentPrice()}"></span>
             </div>
-            <progress style="width: 250px;" class="m-2" th:value="${chat.sumCurrentPrice()}" th:max="${chat.getPresentPrice()}"></progress>
+            <progress style="width: 250px;" class="m-2" th:value="${chat.sumCurrentPrice()}"
+                      th:max="${chat.getPresentPrice()}"></progress>
         </div>
 
         <div class="smallcolumns">
             <label class="h5 font-italic">Описание: </label>
             <span th:text="${chat.getDescription()}"></span>
-            <label class="h5 font-italic">К событию: </label>
-            <span th:text="${chat.wishForChat.eventForWish.title}"></span>
+            <div th:if="${chat.wishForChat.eventForWish}">
+                <label class="h5 font-italic">К событию: </label>
+                <span th:text="${chat.wishForChat.eventForWish.title}"></span>
+            </div>
             <label class="h5 font-italic">Дата окончания: </label>
             <span th:text="${chat.getDeadline()}"></span>
 

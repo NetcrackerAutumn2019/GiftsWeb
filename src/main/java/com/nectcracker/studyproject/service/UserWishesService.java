@@ -39,13 +39,14 @@ public class UserWishesService implements UserRepositoryCustom {
         return userWishesRepository.findByUserId(user.getId());
     }
 
-    public boolean addWish(String text, String eventId){
+    public boolean addWish(String text, String eventId, String imgURL) {
+
         try {
             Events event = null;
             if(!eventId.isEmpty())
                 event= eventsRepository.getOne(Long.parseLong(eventId));
             User currentUser = findByAuthentication();
-            UserWishes m = new UserWishes(currentUser, text);
+            UserWishes m = new UserWishes(currentUser, text, imgURL);
             m.setFriendCreateWish(false);
             m.setEventForWish(event);
             userWishesRepository.save(m);
@@ -57,13 +58,13 @@ public class UserWishesService implements UserRepositoryCustom {
         }
     }
 
-    public boolean addWishFromFriend(String username, String wishName, String eventId){
+    public boolean addWishFromFriend(String username, String wishName, String eventId, String imgURL){
         try {
             User user = userRepository.findByUsername(username);
             Events event = null;
             if(!eventId.isEmpty())
                 event= eventsRepository.getOne(Long.parseLong(eventId));
-            UserWishes m = new UserWishes(user, wishName);
+            UserWishes m = new UserWishes(user, wishName, imgURL);
             m.setFriendCreateWish(true);
             m.setEventForWish(event);
             userWishesRepository.save(m);
