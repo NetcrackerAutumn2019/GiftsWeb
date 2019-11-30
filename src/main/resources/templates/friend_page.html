@@ -79,6 +79,7 @@
     </div>
 
     <div class="font-italic m-3">Ваш друг интересуется:</div>
+    <span class="m-3" th:if="${interests.isEmpty()}">Кажется у вашего друга нет инетресов</span>
     <div class="card-deck m-3">
         <div th:each="i : ${interests}">
             <div class="card bg-light mb-3" style="max-width: 18rem;">
@@ -89,8 +90,8 @@
         </div>
     </div>
 
-    <div class="font-italic m-3">Желания</div>
-    <div class="font-italic m-3">Вы можете сами создать желания для вашего друга</div>
+    <div class="font-italic m-3">Желания:</div>
+    <div class="m-3">Вы можете сами создать желания для вашего друга</div>
     <div class="m-3">
         <a class="btn btn-primary btn-lg" data-toggle="collapse" href="#collapseExample" role="button"
            aria-expanded="false"
@@ -103,12 +104,10 @@
                         <input type="text" class="form-control" name="text" placeholder="Название"/>
                         <button type="submit" class="btn btn-primary mx-3">Добавить</button>
                         <input type="hidden" name="name" th:value="${name}"/>
-                    </div>
-                    <div>
                         <p>Событие к которому желание относится(не обязательно)</p>
                         <p><select name="eventsId">
                             <option></option>
-                            <option th:each="event : ${friendsEvents}" th:value="${event.id}">[[${event.title}]]
+                            <option th:each="event : ${friendsActualEvents}" th:value="${event.id}">[[${event.title}]]
                             </option>
                         </select></p>
                     </div>
@@ -116,7 +115,7 @@
             </div>
         </div>
     </div>
-    <div class="font-italic m-3">Желания созданные пользователем
+    <div class="font-italic m-3">Желания созданные пользователем:
         <div th:each="uw : ${userWishes}">
             <div class="card-deck">
                 <div class="card border-info mb-3" style="max-width: 18rem;">
@@ -139,7 +138,7 @@
             </div>
         </div>
     </div>
-    <div class="font-italic m-3">Желания созданные друзьями
+    <div class="font-italic m-3">Желания созданные друзьями:
         <div th:each="fw : ${friendWishes}">
             <div class="card-deck">
                 <div class="card border-info mb-3" style="max-width: 18rem;">

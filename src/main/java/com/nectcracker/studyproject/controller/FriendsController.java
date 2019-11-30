@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.*;
 
 import java.util.concurrent.ExecutionException;
@@ -67,7 +68,7 @@ public class FriendsController {
     }
 
     @RequestMapping("/friend_page/{name}")
-    public String friendPage(@PathVariable String name, Map<String, Object> model) throws IOException {
+    public String friendPage(@PathVariable String name, Map<String, Object> model) throws IOException, ParseException {
         model.put("name", name);
 
         User friend = (User) userService.loadUserByUsername(name);
@@ -76,7 +77,7 @@ public class FriendsController {
 
         List<Object> friendEventsData = new ArrayList<>();
         Set<Events> friendEvents = eventsService.getUserEvents(friend);
-        model.put("friendsEvents", friendEvents);
+        model.put("friendsActualEvents", eventsService.actualEvents(friendEvents));
         for (Events event : friendEvents) {
             String eventStr = eventsService.toString(event);
             friendEventsData.add(objectMapper.readTree(eventStr));
