@@ -59,6 +59,7 @@ public class ChatController {
         chatService.checkUser(currentWish);
         User currentUser = userWishesService.findByAuthentication();
         Chat currentChat = chatService.getById(wishId);
+        model.put("chat", currentChat);
         Iterable<Participants> participants = participantsRepository.findByChat(currentChat);
         if (currentUser.getId().equals(currentChat.getOwner().getId())) {
             model.put("ownerPage", "true");
@@ -66,10 +67,7 @@ public class ChatController {
             model.put("ownerPage", "false");
         }
         model.put("participants", participants);
-        model.put("currentPrice", currentChat.sumCurrentPrice());
-        model.put("description", currentChat.getDescription());
-        model.put("deadline", currentChat.getDeadline());
-        model.put("price", currentChat.getPresentPrice());
+
         return "chat";
     }
 
