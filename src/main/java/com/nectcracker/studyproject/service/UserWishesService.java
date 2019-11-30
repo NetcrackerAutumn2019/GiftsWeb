@@ -35,10 +35,10 @@ public class UserWishesService implements UserRepositoryCustom {
         return userWishesRepository.findByUserId(user.getId());
     }
 
-    public boolean addWish(String text) {
+    public boolean addWish(String text, String imgURL) {
         try {
             User currentUser = findByAuthentication();
-            UserWishes m = new UserWishes(currentUser, text);
+            UserWishes m = new UserWishes(currentUser, text, imgURL);
             m.setFriendCreateWish(false);
             userWishesRepository.save(m);
             return true;
@@ -47,9 +47,9 @@ public class UserWishesService implements UserRepositoryCustom {
         }
     }
 
-    public boolean addWishfromFriend(User user, String wishName){
+    public boolean addWishfromFriend(User user, String wishName, String imgURL){
         try {
-            UserWishes m = new UserWishes(user, wishName);
+            UserWishes m = new UserWishes(user, wishName, imgURL);
             m.setFriendCreateWish(true);
             userWishesRepository.save(m);
             return true;

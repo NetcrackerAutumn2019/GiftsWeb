@@ -90,9 +90,8 @@
     </div>
 
     <div class="font-italic m-3">Желания</div>
-    <!--    <div th:if="${friendWishes.empty} && ${userWishes.empty}">No wish yet</div>-->
 
-    <div class="font-italic m-3">Вы можете сами создать желания длz вашего друга</div>
+    <div class="font-italic m-3">Вы можете сами создать желания для вашего друга</div>
     <div class="m-3">
         <a class="btn btn-primary btn-lg" data-toggle="collapse" href="#collapseExample" role="button"
            aria-expanded="false"
@@ -102,6 +101,7 @@
                 <form th:action="@{/new_wish_from_friend}" method="post" class="form-inline">
                     <div>
                         <input type="text" class="form-control" name="text" placeholder="Название"/>
+                        <input type="text" class="form-control" name="imgURL" placeholder="Ссылка на изображение"/>
                         <input type="hidden" name="name" th:value="${name}"/>
                     </div>
                     <div>
@@ -115,6 +115,9 @@
         <div th:each="uw : ${userWishes}">
             <div class="card-deck">
                 <div class="card border-info mb-3" style="max-width: 18rem;">
+                    <div th::if="${uw.getImgURL()}">
+                        <img class="card-img-top" th:attr="src=${uw.getImgURL()},title=${uw.getImgURL()},alt=${uw.getImgURL()}" >
+                    </div>
                     <div class="card-body text-info">
                         <h5 class="card-title"><span th:text="${uw.wishName}"></span></h5>
                         <div class="card-text">
