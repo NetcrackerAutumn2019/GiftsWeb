@@ -2,6 +2,7 @@ package com.nectcracker.studyproject.controller;
 
 import com.nectcracker.studyproject.controller.FriendsController;
 import com.nectcracker.studyproject.domain.User;
+import com.nectcracker.studyproject.domain.UserWishes;
 import com.nectcracker.studyproject.repos.UserRepository;
 import com.nectcracker.studyproject.service.UserService;
 import com.nectcracker.studyproject.service.UserWishesService;
@@ -17,8 +18,10 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.hamcrest.Matchers.containsString;
-import static org.hamcrest.Matchers.equalTo;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.hamcrest.Matchers.*;
 import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.authenticated;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -58,11 +61,13 @@ public class FriendsControllerTest {
         User user = userRepository.findByUsername("a");
         userWishesService.addWishfromFriend(user, "wishFromFriend", "");
         userWishesService.addWish("myOwnWish", "");
-
+        Iterable<UserWishes> wishes = userWishesService.getUserWishes(user);
+        List<UserWishes> result = new ArrayList<>();
+        wishes.forEach(result::add);
         this.mockMvc.perform(get("/friend_page/a"))
                 .andDo(print())
-                .andExpect(content().string(containsString("myOwnWish")))
-                .andExpect(content().string(containsString("wishFromFriend")))
+                .andExpect(model().attribute("friendWishes", contains(result.get(0)))) //or your condition
+                .andExpect(model().attribute("userWishes", contains(result.get(1)))) //or your condition
                 .andExpect(status().isOk());
     }
 
