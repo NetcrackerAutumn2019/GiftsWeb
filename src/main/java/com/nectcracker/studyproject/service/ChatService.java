@@ -58,7 +58,7 @@ public class ChatService {
                 chatRepository.save(tmp);
                 userRepository.save(user);
 
-                newsService.createNew(tmp, user);
+                newsService.creatNewChatCreated(tmp, user);
 
                 wishForChat.setChatForWish(tmp);
                 userWishesRepository.save(wishForChat);
@@ -144,6 +144,8 @@ public class ChatService {
 
     public void closeChatBecauseDeadline(Long id){
         UserWishes userWishes = userWishesRepository.getOne(id);
+        Chat chat = chatRepository.findByWishForChat(userWishes);
+        newsService.createNewChatIsClosed(chat, chat.getOwner());
         userWishes.setChatForWish(null);
         chatRepository.deleteById(id);
     }
@@ -160,8 +162,9 @@ public class ChatService {
     }
 
     public void closeAfterMoneyCollected(Long wishId) {
-
         UserWishes wish = userWishesService.getById(wishId);
+        Chat chat = chatRepository.findByWishForChat(wish);
+        newsService.createNewMoneyCollected(chat, chat.getOwner());
         userWishesRepository.delete(wish);
     }
 

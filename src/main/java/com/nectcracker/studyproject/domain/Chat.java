@@ -21,8 +21,8 @@ public class Chat {
     @MapsId
     private UserWishes wishForChat;
 
-    @OneToOne
-    private News news;
+//    @OneToOne
+//    private News news;
 
     private String description;
 
@@ -32,7 +32,7 @@ public class Chat {
 
     private Double currentPrice;
 
-    @ManyToOne(fetch = FetchType.EAGER, targetEntity = User.class, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER, targetEntity = User.class)
     @JoinColumn(name = "user_id")
     private User owner;
 

@@ -21,13 +21,14 @@ public class NewsService {
         this.newsUsersRepository = newsUsersRepository;
     }
 
-    public void createNew(Chat chat, User user){
+    private void createNew(Chat chat, User user, String text) {
         News newForFriends = new News();
-        newForFriends.setChat(chat);
+ //       newForFriends.setChat(chat);
+        newForFriends.setText(text);
         Set<User> friends = new HashSet<>(user.getFriends());
         User wishOwnerUser = chat.getWishForChat().getUser();
         friends.retainAll(wishOwnerUser.getFriends());
-        if(!friends.isEmpty()) {
+        if (!friends.isEmpty()) {
             newForFriends.addAllUsers(friends);
 
             newsRepository.save(newForFriends);
@@ -35,15 +36,36 @@ public class NewsService {
         }
     }
 
-    public Map<String, Set<News>> findByUser(User user){
+    public void creatNewChatCreated(Chat chat, User user) {
+        String text = "Ваш друг " + user.getInfo().getFirstName() + " " + user.getInfo().getLastName() +
+                " начал сбор средств на " + chat.getWishForChat().getWishName() + " для другого вашего друга " + chat.getWishForChat().getUser().getInfo().getFirstName() +
+                " " + chat.getWishForChat().getUser().getInfo().getLastName();
+        createNew(chat, user, text);
+    }
+
+    public void createNewMoneyCollected(Chat chat, User user) {
+        String text = "Средства на " + chat.getWishForChat().getWishName() + " для другого вашего друга " + chat.getWishForChat().getUser().getInfo().getFirstName() +
+                " " + chat.getWishForChat().getUser().getInfo().getLastName() + " были успешно собраны";
+        createNew(chat, user, text);
+    }
+
+    public void createNewChatIsClosed(Chat chat, User user) {
+        String text = "Пришел дедлайн и " +  user.getInfo().getFirstName() + " " + user.getInfo().getLastName() + " решил, не продолжать сбор средств на" +
+                chat.getWishForChat().getWishName() + " для другого вашего друга " + chat.getWishForChat().getUser().getInfo().getFirstName() +
+                " " + chat.getWishForChat().getUser().getInfo().getLastName();
+        createNew(chat, user, text);
+    }
+
+
+    public Map<String, Set<News>> findByUser(User user) {
         Map<String, Set<News>> resultMap = new HashMap<>();
         Set<News> newNews = new HashSet<>();
         Set<News> oldNews = new HashSet<>();
 
         Set<NewsUsers> nu = newsUsersRepository.findAllByUsers(user);
 
-        for(NewsUsers iterator : nu){
-            if(iterator.isSaw()) {
+        for (NewsUsers iterator : nu) {
+            if (iterator.isSaw()) {
                 oldNews.add(iterator.getNews());
             } else {
                 newNews.add(iterator.getNews());
@@ -58,7 +80,7 @@ public class NewsService {
         return resultMap;
     }
 
-    public int sizeOfNewsByUser(User user){
+    public int sizeOfNewsByUser(User user) {
         return newsUsersRepository.countAllByUsers(user);
 
     }

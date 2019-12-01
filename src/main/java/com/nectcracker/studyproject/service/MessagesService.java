@@ -30,7 +30,7 @@ public class MessagesService {
     public Map<String, String> findMessagesForChat(Long chatId) {
         UserWishes currentWish = userWishesService.getById(chatId);
         Chat currentChat = chatRepository.findByWishForChat(currentWish);
-        Set<Messages> messages = messagesRepository.findByChat(currentChat);
+        List<Messages> messages = messagesRepository.findByChat(currentChat);
         Map<String, String> result = new HashMap<>();
         for (Messages m : messages) {
             result.put(m.getId().toString(), m.getAuthor().getInfo().getFirstName() + " " + m.getText());

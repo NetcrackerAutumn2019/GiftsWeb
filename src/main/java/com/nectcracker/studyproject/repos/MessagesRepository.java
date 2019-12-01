@@ -9,6 +9,6 @@ import java.util.List;
 import java.util.Set;
 
 public interface MessagesRepository extends JpaRepository<Messages, Long> {
-    Set<Messages> findByChat(Chat chat);
+    List<Messages> findByChat(Chat chat);
     Set<Messages> findByChatAndAuthor(Chat chat, User author);
 }

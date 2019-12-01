@@ -68,7 +68,7 @@ public class User implements UserDetails {
     @OneToMany(targetEntity = Participants.class, orphanRemoval = true, cascade = CascadeType.MERGE)
     private Set<Participants> participantsForChat = new HashSet<>();
 
-    @OneToMany(fetch = FetchType.EAGER, targetEntity = Chat.class, cascade = CascadeType.ALL,orphanRemoval = true)
+    @OneToMany(fetch = FetchType.EAGER, targetEntity = Chat.class, cascade = CascadeType.ALL)
     private Set<Chat> chatsOwner;
 
     @OneToMany(mappedBy = "users")
