@@ -32,7 +32,7 @@ public class Chat {
 
     private Double currentPrice;
 
-    @ManyToOne(fetch = FetchType.EAGER, targetEntity = User.class)
+    @ManyToOne(fetch = FetchType.EAGER, targetEntity = User.class, cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     private User owner;
 

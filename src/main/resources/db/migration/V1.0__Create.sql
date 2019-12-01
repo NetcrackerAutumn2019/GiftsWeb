@@ -452,6 +452,7 @@ ALTER TABLE ONLY public.users_chats_owner
         ON DELETE CASCADE;
 
 
+
 ALTER TABLE ONLY public.tbl_friends
     ADD CONSTRAINT fk37u6tdourritrsbwlq88ie1xt FOREIGN KEY(friend_id)REFERENCES public.users(id);
 
@@ -462,9 +463,11 @@ ALTER TABLE ONLY public.users_messages
 
 
 
+
 ALTER TABLE ONLY public.messages
     ADD CONSTRAINT fk46k1s8smmrjai295eulgyngww FOREIGN KEY(wish_for_chat)REFERENCES public.chat(wish_for_chat)
         ON DELETE CASCADE;
+
 
 
 
@@ -474,9 +477,11 @@ ALTER TABLE ONLY public.chat_messages
 
 
 
+
 ALTER TABLE ONLY public.users_participants_for_chat
     ADD CONSTRAINT fk7nfci8jocasdhxhdek08j74ec FOREIGN KEY(participants_for_chat)REFERENCES public.participants(id)
         ON DELETE CASCADE;
+
 
 
 
@@ -486,15 +491,18 @@ ALTER TABLE ONLY public.users_wishes
 
 
 
+
 ALTER TABLE ONLY public.users_messages
     ADD CONSTRAINT fka77hy4o72nxq6sito5i3q6h3c FOREIGN KEY(messages)REFERENCES public.messages(id)
         ON DELETE CASCADE;
 
 
 
+
 ALTER TABLE ONLY public.chat_messages
     ADD CONSTRAINT fkavdv6pl2k9mt62ffc3gl5x3s1 FOREIGN KEY(chat_wish_for_chat)REFERENCES public.chat(wish_for_chat)
         ON DELETE CASCADE;
+
 
 
 
@@ -532,6 +540,7 @@ ALTER TABLE ONLY public.chat_chat_for_participants
 
 
 
+
 ALTER TABLE ONLY public.news_users
     ADD CONSTRAINT fknlfpsdxum9qen414nvhy4bt0s FOREIGN KEY(users)REFERENCES public.users(id);
 
@@ -543,9 +552,11 @@ ALTER TABLE ONLY public.users_participants_for_chat
 
 
 
+
 ALTER TABLE ONLY public.chat_chat_for_participants
     ADD CONSTRAINT fko85x99m9cjbolcvj342mv0y57 FOREIGN KEY(chat_for_participants)REFERENCES public.participants(id)
         ON DELETE CASCADE;
+
 
 
 
@@ -570,6 +581,7 @@ ALTER TABLE ONLY public.messages
 
 
 
+
 ALTER TABLE ONLY public.news_users
     ADD CONSTRAINT fkr0hurjw20kst75jh4t0r8nuck FOREIGN KEY(news)REFERENCES public.news(id);
 
@@ -581,3 +593,4 @@ ALTER TABLE ONLY public.user_info
 ALTER TABLE ONLY public.news
     ADD CONSTRAINT fksgtlgjybdf5nsrxsuestllmo2 FOREIGN KEY(chat_id)REFERENCES public.chat(wish_for_chat)
         ON DELETE CASCADE;
+

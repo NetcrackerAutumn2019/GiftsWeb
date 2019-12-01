@@ -34,7 +34,8 @@
 
         }
 
-        setInterval(updateChatLog, 1500);
+        setInterval(updateChatLog, 2500);
+
 
 
     </script>
@@ -127,6 +128,13 @@
                   target="mytarget">
                 <input type="text" class="form-control" name="sentMessage" placeholder="Text"/>
                 <button type="submit" class="btn btn-primary mx-3">Send</button>
+            </form>
+        </div>
+    </div>
+    <div th:if="${isMoneyCollected}">
+        <div th:if="${ownerPage}">
+            <form th:action="@{/moneyCollected/{id}(id=${wishId})}" class="form-inline m-3" method="post">
+                <button type="submit" class="btn btn-success mx-3">Собрано!</button>
             </form>
         </div>
     </div>

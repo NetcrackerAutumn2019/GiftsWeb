@@ -1,11 +1,11 @@
 package com.nectcracker.studyproject.service;
 
-import com.nectcracker.studyproject.domain.*;
+import com.nectcracker.studyproject.domain.Chat;
+import com.nectcracker.studyproject.domain.Participants;
+import com.nectcracker.studyproject.domain.User;
+import com.nectcracker.studyproject.domain.UserWishes;
 import com.nectcracker.studyproject.repos.*;
-import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,13 +30,15 @@ public class ChatService {
                        ChatRepository chatRepository,
                        NewsService newsService,
                        UserRepository userRepository,
-                       ParticipantsRepository participantsRepository) {
+                       ParticipantsRepository participantsRepository,
+                       MessagesRepository messagesRepository) {
         this.userWishesService = userWishesService;
         this.userWishesRepository = userWishesRepository;
         this.chatRepository = chatRepository;
         this.userRepository = userRepository;
         this.newsService = newsService;
         this.participantsRepository = participantsRepository;
+        this.messagesRepository = messagesRepository;
     }
 
     public boolean createNewChat(Long id, String description, String deadline, String sum) {
@@ -159,5 +161,16 @@ public class ChatService {
             return true;
         }
         return false;
+    }
+
+    public void closeAfterMoneyCollected(Long wishId) {
+        UserWishes wish = userWishesService.getById(wishId);
+        userWishesRepository.delete(wish);
+    }
+
+    public Boolean isMoneyCollected(Long wishId) {
+        UserWishes wish = userWishesService.getById(wishId);
+        Chat currentChat = chatRepository.findByWishForChat(wish);
+        return wish.getCurrentSum() > currentChat.getPresentPrice();
     }
 }
