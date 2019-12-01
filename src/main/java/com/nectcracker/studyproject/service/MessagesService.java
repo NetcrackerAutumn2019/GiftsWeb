@@ -6,12 +6,15 @@ import com.nectcracker.studyproject.domain.User;
 import com.nectcracker.studyproject.domain.UserWishes;
 import com.nectcracker.studyproject.repos.ChatRepository;
 import com.nectcracker.studyproject.repos.MessagesRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
+@Slf4j
 @Service
 public class MessagesService {
     private final MessagesRepository messagesRepository;
@@ -27,11 +30,13 @@ public class MessagesService {
     public Map<String, String> findMessagesForChat(Long chatId) {
         UserWishes currentWish = userWishesService.getById(chatId);
         Chat currentChat = chatRepository.findByWishForChat(currentWish);
-        List<Messages> messages = messagesRepository.findByChat(currentChat);
+        Set<Messages> messages = messagesRepository.findByChat(currentChat);
         Map<String, String> result = new HashMap<>();
         for (Messages m : messages) {
             result.put(m.getId().toString(), m.getAuthor().getInfo().getFirstName() + " " + m.getText());
         }
+        currentChat.getMessages().addAll(messages);
+        chatRepository.save(currentChat);
         return result;
     }
 

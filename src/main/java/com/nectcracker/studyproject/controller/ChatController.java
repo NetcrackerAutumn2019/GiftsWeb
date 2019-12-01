@@ -68,8 +68,12 @@ public class ChatController {
             model.put("ownerPage", "false");
         }
         model.put("participants", participants);
-
         model.put("deadlinePassed", chatService.checkDeadlinePassed(currentChat));
+        model.put("currentPrice", currentChat.sumCurrentPrice());
+        model.put("description", currentChat.getDescription());
+        model.put("deadline", currentChat.getDeadline());
+        model.put("price", currentChat.getPresentPrice());
+        model.put("isMoneyCollected", chatService.isMoneyCollected(wishId));
         return "chat";
     }
 
@@ -147,4 +151,13 @@ public class ChatController {
     public Map<String, String> showMessages(@RequestParam Long chatId, @RequestParam Long userId) {
         return messagesService.findMessagesForChat(chatId);
     }
+
+    @PostMapping("/moneyCollected/{wishId}")
+    public ModelAndView closeChatAfterMoneyCollected(@PathVariable Long wishId) {
+        chatService.closeAfterMoneyCollected(wishId);
+        ModelAndView modelAndView = new ModelAndView("redirect:/cabinet");
+        modelAndView.addObject("wishId", wishId);
+        return modelAndView;
+    }
 }
+

@@ -13,5 +13,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
     User findByEmail(String email);
     User findByVkId(Long id);
     Set<User> findAllByFriends(User user);
-    Set<User> findByParticipantsForChat(Participants participants);
+    User findByParticipantsForChat(Participants participants);
 }
