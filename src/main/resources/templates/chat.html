@@ -51,6 +51,16 @@
         <form method="post" th:action="@{/leave/{id}(id=${wishId})}" class="form-inline m-3">
             <button type="submit" class="btn btn-primary mx-3">Покинуть чат</button>
         </form>
+        <div th:if="${ownerPage and deadlinePassed}" style="display: inline-block;">
+            <p class="m-3">Пришел дедлайн, вы можете прекратить сбор средств или продлить дедлайн</p>
+            <form method="post" th:action="@{/closeChatBecauseDeadline/{id}(id=${wishId})}" class="form-inline m-3">
+                <button type="submit" class="btn btn-primary mx-3">Прекратить сбор средств</button>
+            </form>
+            <form method="post" th:action="@{/updateDeadline/{id}(id=${wishId})}" class="form-inline m-3">
+                <input class="form-control" type="date" name="deadline"/>
+                <button type="submit" class="btn btn-primary mx-3">Продлить дедлайн</button>
+            </form>
+        </div>
     </div>
     <div>
         <div class="smallcolumns" style="vertical-align: text-bottom">

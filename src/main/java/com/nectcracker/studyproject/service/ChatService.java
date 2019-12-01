@@ -1,21 +1,17 @@
 package com.nectcracker.studyproject.service;
 
-import com.nectcracker.studyproject.domain.Chat;
-import com.nectcracker.studyproject.domain.Participants;
-import com.nectcracker.studyproject.domain.User;
-import com.nectcracker.studyproject.domain.UserWishes;
-import com.nectcracker.studyproject.repos.ChatRepository;
-import com.nectcracker.studyproject.repos.ParticipantsRepository;
-import com.nectcracker.studyproject.repos.UserRepository;
-import com.nectcracker.studyproject.repos.UserWishesRepository;
+import com.nectcracker.studyproject.domain.*;
+import com.nectcracker.studyproject.repos.*;
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.HashSet;
-import java.util.Locale;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -26,6 +22,8 @@ public class ChatService {
     private final UserRepository userRepository;
     private final NewsService newsService;
     private final ParticipantsRepository participantsRepository;
+    @Autowired
+    MessagesRepository messagesRepository;
 
     public ChatService(UserWishesService userWishesService,
                        UserWishesRepository userWishesRepository,
@@ -94,6 +92,10 @@ public class ChatService {
         return chatRepository.findByOwner(user);
     }
 
+    public boolean checkDeadlinePassed(Chat chat){
+        return new Date().after(chat.getDeadline());
+    }
+
     public void checkUser(UserWishes wish) {
         User currentUser = userWishesService.findByAuthentication();
         Chat currentChat = chatRepository.findByWishForChat(wish);
@@ -140,5 +142,22 @@ public class ChatService {
         participantsRepository.save(participants);
         chatRepository.save(currentChat);
         userRepository.save(currentUser);
+    }
+
+    public void closeChatBecauseDeadline(Long id){
+        UserWishes userWishes = userWishesRepository.getOne(id);
+        userWishes.setChatForWish(null);
+        chatRepository.deleteById(id);
+    }
+
+    public boolean updateDeadline(String deadline, Long id) throws ParseException {
+        if (!deadline.equals("")) {
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+            Chat chat = getById(id);
+            chat.setDeadline(formatter.parse(deadline));
+            chatRepository.save(chat);
+            return true;
+        }
+        return false;
     }
 }

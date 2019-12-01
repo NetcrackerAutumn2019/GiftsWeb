@@ -39,7 +39,7 @@ public class Chat {
     @OneToMany(fetch = FetchType.EAGER, targetEntity = Participants.class, cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Participants> chatForParticipants = new HashSet<>();
 
-    @OneToMany(fetch = FetchType.EAGER ,targetEntity = Messages.class)
+    @OneToMany(fetch = FetchType.EAGER ,targetEntity = Messages.class, cascade = CascadeType.ALL)
     private Set<Messages> messages = new HashSet<>();
 
     public Chat() {

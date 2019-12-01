@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.text.ParseException;
 import java.util.Map;
 import java.util.Set;
 
@@ -68,6 +69,7 @@ public class ChatController {
         }
         model.put("participants", participants);
 
+        model.put("deadlinePassed", chatService.checkDeadlinePassed(currentChat));
         return "chat";
     }
 
@@ -118,6 +120,19 @@ public class ChatController {
         chatService.leaveChat(id);
         return "redirect:/chat_list";
     }
+
+    @PostMapping("/closeChatBecauseDeadline/{id}")
+    public String closeChatBecauseDeadline(@PathVariable Long id){
+        chatService.closeChatBecauseDeadline(id);
+        return "redirect:/chat_list";
+    }
+
+    @PostMapping("/updateDeadline/{id}")
+    public String updateDeadline(@PathVariable Long id, @RequestParam String deadline) throws ParseException {
+        chatService.updateDeadline(deadline, id);
+        return "redirect:/chat_list";
+    }
+
 
     @PostMapping("/sendMessage/{wishId}")
     public ModelAndView sendMessageToDB(@PathVariable Long wishId, @RequestParam String sentMessage) {
