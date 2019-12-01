@@ -22,8 +22,6 @@ public class ChatService {
     private final UserRepository userRepository;
     private final NewsService newsService;
     private final ParticipantsRepository participantsRepository;
-    @Autowired
-    MessagesRepository messagesRepository;
 
     public ChatService(UserWishesService userWishesService,
                        UserWishesRepository userWishesRepository,
