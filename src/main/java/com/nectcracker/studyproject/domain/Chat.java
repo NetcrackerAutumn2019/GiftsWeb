@@ -21,9 +21,6 @@ public class Chat {
     @MapsId
     private UserWishes wishForChat;
 
-//    @OneToOne
-//    private News news;
-
     private String description;
 
     private Date deadline;

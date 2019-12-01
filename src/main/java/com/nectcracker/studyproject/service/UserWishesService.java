@@ -7,14 +7,10 @@ import com.nectcracker.studyproject.repos.EventsRepository;
 import com.nectcracker.studyproject.repos.UserRepository;
 import com.nectcracker.studyproject.repos.UserRepositoryCustom;
 import com.nectcracker.studyproject.repos.UserWishesRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import sun.rmi.runtime.Log;
 
-import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @Service

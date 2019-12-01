@@ -15,9 +15,7 @@ public class News {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-//    @OneToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "chat_id")
-//    private Chat chat;
+
 
     private String text;
 
@@ -25,10 +23,6 @@ public class News {
     private Set<NewsUsers> users = new HashSet<>();
 
     public News(){}
-
-//    public News(Chat chat) {
-//        this.chat = chat;
-//    }
 
     public void addUser(User user){
         NewsUsers newsUsers = new NewsUsers(this, user);

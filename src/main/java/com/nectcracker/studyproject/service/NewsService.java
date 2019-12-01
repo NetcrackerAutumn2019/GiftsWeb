@@ -6,10 +6,12 @@ import com.nectcracker.studyproject.domain.NewsUsers;
 import com.nectcracker.studyproject.domain.User;
 import com.nectcracker.studyproject.repos.NewsRepository;
 import com.nectcracker.studyproject.repos.NewsUsersRepository;
-import com.nectcracker.studyproject.repos.UserRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 @Service
 public class NewsService {
@@ -23,7 +25,6 @@ public class NewsService {
 
     private void createNew(Chat chat, User user, String text) {
         News newForFriends = new News();
- //       newForFriends.setChat(chat);
         newForFriends.setText(text);
         Set<User> friends = new HashSet<>(user.getFriends());
         User wishOwnerUser = chat.getWishForChat().getUser();

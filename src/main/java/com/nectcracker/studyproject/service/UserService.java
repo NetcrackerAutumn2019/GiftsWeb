@@ -7,7 +7,6 @@ import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuth20Service;
-import com.google.gson.Gson;
 import com.nectcracker.studyproject.domain.Role;
 import com.nectcracker.studyproject.domain.User;
 import com.nectcracker.studyproject.domain.UserInfo;
@@ -17,7 +16,6 @@ import com.nectcracker.studyproject.json.friendsFromVK.Nickname;
 import com.nectcracker.studyproject.repos.UserInfoRepository;
 import com.nectcracker.studyproject.repos.UserRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -33,10 +31,8 @@ import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
-
 import java.util.regex.Pattern;
 
 @Slf4j

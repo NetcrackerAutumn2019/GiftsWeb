@@ -4,9 +4,11 @@ import com.nectcracker.studyproject.domain.Chat;
 import com.nectcracker.studyproject.domain.Participants;
 import com.nectcracker.studyproject.domain.User;
 import com.nectcracker.studyproject.domain.UserWishes;
-import com.nectcracker.studyproject.repos.*;
+import com.nectcracker.studyproject.repos.ChatRepository;
+import com.nectcracker.studyproject.repos.ParticipantsRepository;
+import com.nectcracker.studyproject.repos.UserRepository;
+import com.nectcracker.studyproject.repos.UserWishesRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
