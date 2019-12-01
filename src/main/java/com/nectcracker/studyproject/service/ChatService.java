@@ -30,15 +30,13 @@ public class ChatService {
                        ChatRepository chatRepository,
                        NewsService newsService,
                        UserRepository userRepository,
-                       ParticipantsRepository participantsRepository,
-                       MessagesRepository messagesRepository) {
+                       ParticipantsRepository participantsRepository) {
         this.userWishesService = userWishesService;
         this.userWishesRepository = userWishesRepository;
         this.chatRepository = chatRepository;
         this.userRepository = userRepository;
         this.newsService = newsService;
         this.participantsRepository = participantsRepository;
-        this.messagesRepository = messagesRepository;
     }
 
     public boolean createNewChat(Long id, String description, String deadline, String sum) {
@@ -164,6 +162,7 @@ public class ChatService {
     }
 
     public void closeAfterMoneyCollected(Long wishId) {
+
         UserWishes wish = userWishesService.getById(wishId);
         userWishesRepository.delete(wish);
     }
