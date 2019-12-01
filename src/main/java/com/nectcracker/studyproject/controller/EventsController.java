@@ -40,7 +40,7 @@ public class EventsController {
         user.getEventsSet().add(event);
         eventsRepository.save(event);
         userRepository.save(user);
-        return "redirect:/cabinet";
+        return "forward:/cabinet";
     }
 
 }
