@@ -23,7 +23,7 @@ CREATE TABLE public.chat(
 );
 
 
-ALTER TABLE public.chat OWNER TO giftsweb_user;
+
 
 CREATE TABLE public.chat_chat_for_participants(
   chat_wish_for_chat    bigint NOT NULL,
@@ -31,7 +31,7 @@ CREATE TABLE public.chat_chat_for_participants(
 );
 
 
-ALTER TABLE public.chat_chat_for_participants OWNER TO giftsweb_user;
+
 
 CREATE TABLE public.chat_messages(
   chat_wish_for_chat bigint NOT NULL,
@@ -39,7 +39,7 @@ CREATE TABLE public.chat_messages(
 );
 
 
-ALTER TABLE public.chat_messages OWNER TO giftsweb_user;
+
 
 CREATE TABLE public.chat_participants(
   chat_id bigint NOT NULL,
@@ -47,7 +47,7 @@ CREATE TABLE public.chat_participants(
 );
 
 
-ALTER TABLE public.chat_participants OWNER TO giftsweb_user;
+
 
 
 CREATE SEQUENCE public.hibernate_sequence
@@ -58,7 +58,7 @@ NO MINVALUE
 NO MAXVALUE CACHE 1;
 
 
-ALTER TABLE public.hibernate_sequence OWNER TO giftsweb_user;
+
 
 CREATE TABLE public.interests (
     id bigint NOT NULL,
@@ -66,7 +66,7 @@ CREATE TABLE public.interests (
 );
 
 
-ALTER TABLE public.interests OWNER TO giftsweb_user;
+
 
 
 CREATE SEQUENCE public.interests_id_seq
@@ -77,7 +77,7 @@ NO MINVALUE
 NO MAXVALUE CACHE 1;
 
 
-ALTER TABLE public.interests_id_seq OWNER TO giftsweb_user;
+
 
 
 ALTER SEQUENCE public.interests_id_seq OWNED BY public.interests.id;
@@ -91,7 +91,7 @@ CREATE TABLE public.messages (
 );
 
 
-ALTER TABLE public.messages OWNER TO giftsweb_user;
+
 
 CREATE SEQUENCE public.messages_id_seq
 START
@@ -101,7 +101,7 @@ NO MINVALUE
 NO MAXVALUE CACHE 1;
 
 
-ALTER TABLE public.messages_id_seq OWNER TO giftsweb_user;
+
 
 ALTER SEQUENCE public.messages_id_seq OWNED BY public.messages.id;
 
@@ -111,7 +111,7 @@ CREATE TABLE public.news(
 );
 
 
-ALTER TABLE public.news OWNER TO giftsweb_user;
+
 
 CREATE SEQUENCE public.news_id_seq
 START
@@ -121,7 +121,6 @@ NO MINVALUE
 NO MAXVALUE CACHE 1;
 
 
-ALTER TABLE public.news_id_seq OWNER TO giftsweb_user;
 
 
 ALTER SEQUENCE public.news_id_seq OWNED BY public.news.id;
@@ -134,7 +133,7 @@ CREATE TABLE public.news_users(
 );
 
 
-ALTER TABLE public.news_users OWNER TO giftsweb_user;
+
 
 
 CREATE TABLE public.participants(
@@ -145,7 +144,7 @@ CREATE TABLE public.participants(
 );
 
 
-ALTER TABLE public.participants OWNER TO giftsweb_user;
+
 
 
 CREATE TABLE public.tbl_friends(
@@ -154,7 +153,7 @@ CREATE TABLE public.tbl_friends(
 );
 
 
-ALTER TABLE public.tbl_friends OWNER TO giftsweb_user;
+
 
 CREATE TABLE public.user_has_interest(
   user_id     bigint NOT NULL,
@@ -162,7 +161,7 @@ CREATE TABLE public.user_has_interest(
 );
 
 
-ALTER TABLE public.user_has_interest OWNER TO giftsweb_user;
+
 
 
 CREATE TABLE public.user_info (
@@ -174,7 +173,7 @@ CREATE TABLE public.user_info (
 );
 
 
-ALTER TABLE public.user_info OWNER TO giftsweb_user;
+
 
 CREATE SEQUENCE public.user_info_id_seq
 START
@@ -184,7 +183,7 @@ NO MINVALUE
 NO MAXVALUE CACHE 1;
 
 
-ALTER TABLE public.user_info_id_seq OWNER TO giftsweb_user;
+
 
 
 ALTER SEQUENCE public.user_info_id_seq OWNED BY public.user_info.id;
@@ -194,7 +193,7 @@ CREATE TABLE public.user_role (
 );
 
 
-ALTER TABLE public.user_role OWNER TO giftsweb_user;
+
 
 
 CREATE TABLE public.user_wishes (
@@ -204,7 +203,7 @@ CREATE TABLE public.user_wishes (
 );
 
 
-ALTER TABLE public.user_wishes OWNER TO giftsweb_user;
+
 
 
 CREATE SEQUENCE public.user_wishes_id_seq
@@ -215,7 +214,7 @@ NO MINVALUE
 NO MAXVALUE CACHE 1;
 
 
-ALTER TABLE public.user_wishes_id_seq OWNER TO giftsweb_user;
+
 
 
 ALTER SEQUENCE public.user_wishes_id_seq OWNED BY public.user_wishes.id;
@@ -233,7 +232,7 @@ CREATE TABLE public.users (
 );
 
 
-ALTER TABLE public.users OWNER TO giftsweb_user;
+
 
 
 CREATE TABLE public.users_chats_owner(
@@ -242,7 +241,7 @@ CREATE TABLE public.users_chats_owner(
 );
 
 
-ALTER TABLE public.users_chats_owner OWNER TO giftsweb_user;
+
 
 
 CREATE SEQUENCE public.users_id_seq
@@ -253,7 +252,7 @@ NO MINVALUE
 NO MAXVALUE CACHE 1;
 
 
-ALTER TABLE public.users_id_seq OWNER TO giftsweb_user;
+
 
 
 ALTER SEQUENCE public.users_id_seq OWNED BY public.users.id;
@@ -265,7 +264,7 @@ CREATE TABLE public.users_messages(
 );
 
 
-ALTER TABLE public.users_messages OWNER TO giftsweb_user;
+
 
 
 CREATE TABLE public.users_participants_for_chat(
@@ -274,7 +273,7 @@ CREATE TABLE public.users_participants_for_chat(
 );
 
 
-ALTER TABLE public.users_participants_for_chat OWNER TO giftsweb_user;
+
 
 
 CREATE TABLE public.users_wishes(
@@ -283,7 +282,7 @@ CREATE TABLE public.users_wishes(
 );
 
 
-ALTER TABLE public.users_wishes OWNER TO giftsweb_user;
+
 
 
 ALTER TABLE ONLY public.interests
