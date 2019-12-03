@@ -33,7 +33,7 @@ public class User implements UserDetails {
     @OneToOne(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL)
     private UserInfo info;
 
-    @OneToMany(fetch = FetchType.EAGER, targetEntity = UserWishes.class, cascade = CascadeType.MERGE)
+    @OneToMany(fetch = FetchType.EAGER, targetEntity = UserWishes.class, cascade = CascadeType.ALL)
     private Set<UserWishes> wishes;
 
     @ManyToMany
@@ -68,13 +68,13 @@ public class User implements UserDetails {
     @OneToMany(targetEntity = Participants.class, orphanRemoval = true, cascade = CascadeType.MERGE)
     private Set<Participants> participantsForChat = new HashSet<>();
 
-    @OneToMany(fetch = FetchType.EAGER, targetEntity = Chat.class)
+    @OneToMany(fetch = FetchType.EAGER, targetEntity = Chat.class, cascade = CascadeType.ALL)
     private Set<Chat> chatsOwner;
 
     @OneToMany(mappedBy = "users")
     private Set<NewsUsers> news = new HashSet<>();
 
-    @OneToMany(fetch = FetchType.EAGER, targetEntity = Messages.class)
+    @OneToMany(fetch = FetchType.EAGER, targetEntity = Messages.class, cascade = CascadeType.MERGE, orphanRemoval = true)
     private Set<Messages> messages = new HashSet<>();
 
     public User() {

@@ -1,28 +1,28 @@
 package com.nectcracker.studyproject.service;
 
+import com.nectcracker.studyproject.domain.Events;
 import com.nectcracker.studyproject.domain.User;
 import com.nectcracker.studyproject.domain.UserWishes;
+import com.nectcracker.studyproject.repos.EventsRepository;
 import com.nectcracker.studyproject.repos.UserRepository;
 import com.nectcracker.studyproject.repos.UserRepositoryCustom;
 import com.nectcracker.studyproject.repos.UserWishesRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import sun.rmi.runtime.Log;
 
-import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @Service
 public class UserWishesService implements UserRepositoryCustom {
     private final UserWishesRepository userWishesRepository;
     private final UserRepository userRepository;
+    private final EventsRepository eventsRepository;
 
-    public UserWishesService(UserWishesRepository userWishesRepository, UserRepository userRepository) {
+    public UserWishesService(UserWishesRepository userWishesRepository, UserRepository userRepository, EventsRepository eventsRepository) {
         this.userWishesRepository = userWishesRepository;
         this.userRepository = userRepository;
+        this.eventsRepository = eventsRepository;
     }
 
     @Override
@@ -35,25 +35,38 @@ public class UserWishesService implements UserRepositoryCustom {
         return userWishesRepository.findByUserId(user.getId());
     }
 
-    public boolean addWish(String text, String imgURL) {
+    public boolean addWish(String text, String eventId, String imgURL) {
+
         try {
+            Events event = null;
+            if(!eventId.isEmpty())
+                event= eventsRepository.getOne(Long.parseLong(eventId));
             User currentUser = findByAuthentication();
             UserWishes m = new UserWishes(currentUser, text, imgURL);
             m.setFriendCreateWish(false);
+            m.setEventForWish(event);
             userWishesRepository.save(m);
             return true;
-        } catch (Exception e) {
+        }
+        catch (Exception e){
+            e.printStackTrace();
             return false;
         }
     }
 
-    public boolean addWishfromFriend(User user, String wishName, String imgURL){
+    public boolean addWishFromFriend(String username, String wishName, String eventId, String imgURL){
         try {
+            User user = userRepository.findByUsername(username);
+            Events event = null;
+            if(!eventId.isEmpty())
+                event= eventsRepository.getOne(Long.parseLong(eventId));
             UserWishes m = new UserWishes(user, wishName, imgURL);
             m.setFriendCreateWish(true);
+            m.setEventForWish(event);
             userWishesRepository.save(m);
             return true;
         } catch (Exception e) {
+            e.printStackTrace();
             return false;
         }
     }

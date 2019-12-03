@@ -1,13 +1,10 @@
 package com.nectcracker.studyproject.controller;
 
-import com.nectcracker.studyproject.controller.FriendsController;
 import com.nectcracker.studyproject.domain.User;
-import com.nectcracker.studyproject.domain.UserInfo;
 import com.nectcracker.studyproject.domain.UserWishes;
 import com.nectcracker.studyproject.repos.UserRepository;
 import com.nectcracker.studyproject.service.UserService;
 import com.nectcracker.studyproject.service.UserWishesService;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,10 +55,9 @@ public class FriendsControllerTest {
 
     @Test
     public void correctWishOnFriendPage() throws Exception{
-        User user = userRepository.findByUsername("a");
-        userWishesService.addWishfromFriend(user, "wishFromFriend", "");
-        userWishesService.addWish("myOwnWish", "");
-        Iterable<UserWishes> wishes = userWishesService.getUserWishes(user);
+        userWishesService.addWishFromFriend("a", "wishFromFriend", "", "");
+        userWishesService.addWish("myOwnWish", "" ,"");
+        Iterable<UserWishes> wishes = userWishesService.getUserWishes(userRepository.findByUsername("a"));
         List<UserWishes> result = new ArrayList<>();
         wishes.forEach(result::add);
         this.mockMvc.perform(get("/friend_page/a"))

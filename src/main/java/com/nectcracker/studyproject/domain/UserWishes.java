@@ -20,6 +20,9 @@ public class UserWishes implements Serializable {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @OneToOne
+    private Events eventForWish;
+
     private String wishName;
     private boolean friendCreateWish;
     private String imgURL;

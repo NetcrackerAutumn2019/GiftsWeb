@@ -163,11 +163,15 @@
             <div class="form-group my-3">
                 <form th:action="@{/new_wish}" method="post" class="form-inline">
                     <div>
+                        <p>Название желания</p>
                         <input type="text" class="form-control" name="text" placeholder="Название"/>
                         <input type="text" class="form-control" name="imgURL" placeholder="Ссылка на изображение"/>
-                    </div>
-                    <div>
                         <button type="submit" class="btn btn-primary mx-3">Добавить</button>
+                        <p>Событие к которому желание относится(не обязательно)</p>
+                        <p><select name="eventsId">
+                            <option></option>
+                            <option th:each="event : ${currentUserActualEvents}" th:value="${event.id}">[[${event.title}]]</option>
+                        </select></p>
                     </div>
                 </form>
             </div>
@@ -182,7 +186,10 @@
                     <img class="card-img-top" th:attr="src=${w.getImgURL()},title=${w.getImgURL()},alt=${w.getImgURL()}" >
                 </div>
                 <div class="card-body text-info">
-                    <h5 class="card-title"><span th:text="${w.wishName}"></span></h5>
+                    <h5 class="card-title">
+                        <p>Желание: [[${w.wishName}]]</p>
+                        <p th:if="${w.eventForWish}">Событие: [[${w.eventForWish.title}]]</p>
+                    </h5>
                 </div>
             </div>
         </div>

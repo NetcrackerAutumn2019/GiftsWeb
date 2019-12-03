@@ -34,7 +34,8 @@
 
         }
 
-        setInterval(updateChatLog, 1500);
+        setInterval(updateChatLog, 2500);
+
 
 
     </script>
@@ -51,6 +52,23 @@
         <form method="post" th:action="@{/leave/{id}(id=${wishId})}" class="form-inline m-3">
             <button type="submit" class="btn btn-primary mx-3">Покинуть чат</button>
         </form>
+        <div th:if="${ownerPage and deadlinePassed}" style="display: inline-block;">
+            <p class="m-3">Пришел дедлайн, вы можете прекратить сбор средств или продлить дедлайн</p>
+            <form method="post" th:action="@{/closeChatBecauseDeadline/{id}(id=${wishId})}" class="form-inline m-3">
+                <button type="submit" class="btn btn-primary mx-3">Прекратить сбор средств</button>
+            </form>
+            <form method="post" th:action="@{/updateDeadline/{id}(id=${wishId})}" class="form-inline m-3">
+                <input class="form-control" type="date" name="deadline"/>
+                <button type="submit" class="btn btn-primary mx-3">Продлить дедлайн</button>
+            </form>
+        </div>
+        <div th:if="${isMoneyCollected}">
+            <div th:if="${ownerPage}">
+                <form th:action="@{/moneyCollected/{id}(id=${wishId})}" class="form-inline m-3" method="post">
+                    <button type="submit" class="btn btn-success mx-3">Собрано!</button>
+                </form>
+            </div>
+        </div>
     </div>
     <div>
         <div class="smallcolumns" style="vertical-align: text-bottom">
@@ -71,50 +89,54 @@
         <div class="smallcolumns">
             <h5 class="font-italic m-3">Внести деньги</h5>
             <form method="post" th:action="@{/donate/{id}(id=${wishId})}" class="form-inline m-3">
-                <div>
-                    <input type="text" class="form-control" name="sum" placeholder="Сумма"/>
-                </div>
-                <div>
-                    <button type="submit" class="btn btn-primary mx-3">Внести!</button>
-                </div>
+                <input type="text" class="form-control" name="sum" placeholder="Сумма"/>
+                <button type="submit" class="btn btn-primary mx-3">Внести!</button>
             </form>
             <div class="container m-1">
                 <span class="left">Собрано: </span>
-                <span class="right" th:text="${currentPrice}"> </span>
+                <span class="right" th:text="${chat.sumCurrentPrice()}"> </span>
             </div>
             <div class="container m-1">
                 <span class="left">Цель: </span>
-                <span class="right" th:text="${price}"></span>
+                <span class="right" th:text="${chat.getPresentPrice()}"></span>
             </div>
-            <progress style="width: 250px;" class="m-2" th:value="${currentPrice}" th:max="${price}"></progress>
+            <progress style="width: 250px;" class="m-2" th:value="${chat.sumCurrentPrice()}"
+                      th:max="${chat.getPresentPrice()}"></progress>
         </div>
-        <div >
-            <div class="smallcolumns">
-                <label class="h5 font-italic">Описание: </label>
-                <span th:text="${description}"></span>
-                <label class="h5 font-italic">Дата окончания: </label>
-                <span th:text="${deadline}"></span>
 
+        <div class="smallcolumns">
+            <label class="h5 font-italic">Описание: </label>
+            <span th:text="${chat.getDescription()}"></span>
+            <div th:if="${chat.wishForChat.eventForWish}">
+                <label class="h5 font-italic">К событию: </label>
+                <span th:text="${chat.wishForChat.eventForWish.title}"></span>
             </div>
+            <label class="h5 font-italic">Дата окончания: </label>
+            <span th:text="${chat.getDeadline()}"></span>
+
         </div>
+
     </div>
-    <div class="m-3">
-        <div style="display: inline-block;
+    <div style="display: inline-block">
+        <div class="m-3">
+            <div style="display: inline-block;
              width: 500px;
              vertical-align: top;"
-             class="holder">
+                 class="holder">
             <span style="padding: 10px;
                          display: block;"
                   id="container-hold"></span>
-        </div>
+            </div>
 
-    </div>
-    <div>
-        <iframe name="mytarget" style="display: none;"></iframe>
-        <form th:action="@{/sendMessage/{id}(id=${wishId})}" class="form-inline m-3" method="post" target="mytarget">
-            <input type="text" class="form-control" name="sentMessage" placeholder="Text"/>
-            <button type="submit" class="btn btn-primary mx-3">Send</button>
-        </form>
+        </div>
+        <div>
+            <iframe name="mytarget" style="display: none;"></iframe>
+            <form th:action="@{/sendMessage/{id}(id=${wishId})}" class="form-inline m-3" method="post"
+                  target="mytarget">
+                <input type="text" class="form-control" name="sentMessage" placeholder="Text"/>
+                <button type="submit" class="btn btn-primary mx-3">Send</button>
+            </form>
+        </div>
     </div>
 </div>
 <div th:insert="fragments/settings :: settings"></div>

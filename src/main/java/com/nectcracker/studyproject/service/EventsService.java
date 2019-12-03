@@ -7,12 +7,15 @@ import com.nectcracker.studyproject.repos.EventsRepository;
 import com.nectcracker.studyproject.repos.UserInfoRepository;
 import com.nectcracker.studyproject.repos.UserRepository;
 import com.nectcracker.studyproject.repos.UserRepositoryCustom;
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Slf4j
@@ -53,6 +56,18 @@ public class EventsService implements UserRepositoryCustom {
             return dbEvent;
         }
         else return event;
+    }
+
+    public Set<Events> actualEvents(Set<Events> currentEvents) throws ParseException {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Set<Events> actualEvents = new HashSet<>();
+
+        Date currentDate = new Date();
+        for(Events event : currentEvents){
+            if(simpleDateFormat.parse(event.getStart()).after(currentDate))
+                actualEvents.add(event);
+        }
+        return actualEvents;
     }
 
     public String toString(Events event){

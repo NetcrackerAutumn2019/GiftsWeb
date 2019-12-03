@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.text.ParseException;
 import java.util.Map;
 import java.util.Set;
 
@@ -59,6 +60,7 @@ public class ChatController {
         chatService.checkUser(currentWish);
         User currentUser = userWishesService.findByAuthentication();
         Chat currentChat = chatService.getById(wishId);
+        model.put("chat", currentChat);
         Iterable<Participants> participants = participantsRepository.findByChat(currentChat);
         if (currentUser.getId().equals(currentChat.getOwner().getId())) {
             model.put("ownerPage", "true");
@@ -66,10 +68,12 @@ public class ChatController {
             model.put("ownerPage", "false");
         }
         model.put("participants", participants);
+        model.put("deadlinePassed", chatService.checkDeadlinePassed(currentChat));
         model.put("currentPrice", currentChat.sumCurrentPrice());
         model.put("description", currentChat.getDescription());
         model.put("deadline", currentChat.getDeadline());
         model.put("price", currentChat.getPresentPrice());
+        model.put("isMoneyCollected", chatService.isMoneyCollected(wishId));
         return "chat";
     }
 
@@ -121,6 +125,19 @@ public class ChatController {
         return "redirect:/chat_list";
     }
 
+    @PostMapping("/closeChatBecauseDeadline/{id}")
+    public String closeChatBecauseDeadline(@PathVariable Long id){
+        chatService.closeChatBecauseDeadline(id);
+        return "redirect:/chat_list";
+    }
+
+    @PostMapping("/updateDeadline/{id}")
+    public String updateDeadline(@PathVariable Long id, @RequestParam String deadline) throws ParseException {
+        chatService.updateDeadline(deadline, id);
+        return "redirect:/chat_list";
+    }
+
+
     @PostMapping("/sendMessage/{wishId}")
     public ModelAndView sendMessageToDB(@PathVariable Long wishId, @RequestParam String sentMessage) {
         messagesService.receiveMessage(sentMessage, wishId);
@@ -134,4 +151,13 @@ public class ChatController {
     public Map<String, String> showMessages(@RequestParam Long chatId, @RequestParam Long userId) {
         return messagesService.findMessagesForChat(chatId);
     }
+
+    @PostMapping("/moneyCollected/{wishId}")
+    public ModelAndView closeChatAfterMoneyCollected(@PathVariable Long wishId) {
+        chatService.closeAfterMoneyCollected(wishId);
+        ModelAndView modelAndView = new ModelAndView("redirect:/cabinet");
+        modelAndView.addObject("wishId", wishId);
+        return modelAndView;
+    }
 }
+

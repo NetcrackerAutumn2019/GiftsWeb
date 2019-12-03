@@ -11,11 +11,9 @@ import com.nectcracker.studyproject.repos.UserWishesRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.HashSet;
-import java.util.Locale;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -62,7 +60,7 @@ public class ChatService {
                 chatRepository.save(tmp);
                 userRepository.save(user);
 
-                newsService.createNew(tmp, user);
+                newsService.creatNewChatCreated(tmp, user);
 
                 wishForChat.setChatForWish(tmp);
                 userWishesRepository.save(wishForChat);
@@ -92,6 +90,10 @@ public class ChatService {
 
     public Chat findByOwner(User user) {
         return chatRepository.findByOwner(user);
+    }
+
+    public boolean checkDeadlinePassed(Chat chat){
+        return new Date().after(chat.getDeadline());
     }
 
     public void checkUser(UserWishes wish) {
@@ -140,5 +142,37 @@ public class ChatService {
         participantsRepository.save(participants);
         chatRepository.save(currentChat);
         userRepository.save(currentUser);
+    }
+
+    public void closeChatBecauseDeadline(Long id){
+        UserWishes userWishes = userWishesRepository.getOne(id);
+        Chat chat = chatRepository.findByWishForChat(userWishes);
+        newsService.createNewChatIsClosed(chat, chat.getOwner());
+        userWishes.setChatForWish(null);
+        chatRepository.deleteById(id);
+    }
+
+    public boolean updateDeadline(String deadline, Long id) throws ParseException {
+        if (!deadline.equals("")) {
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+            Chat chat = getById(id);
+            chat.setDeadline(formatter.parse(deadline));
+            chatRepository.save(chat);
+            return true;
+        }
+        return false;
+    }
+
+    public void closeAfterMoneyCollected(Long wishId) {
+        UserWishes wish = userWishesService.getById(wishId);
+        Chat chat = chatRepository.findByWishForChat(wish);
+        newsService.createNewMoneyCollected(chat, chat.getOwner());
+        userWishesRepository.delete(wish);
+    }
+
+    public Boolean isMoneyCollected(Long wishId) {
+        UserWishes wish = userWishesService.getById(wishId);
+        Chat currentChat = chatRepository.findByWishForChat(wish);
+        return wish.getCurrentSum() > currentChat.getPresentPrice();
     }
 }

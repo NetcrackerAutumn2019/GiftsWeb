@@ -6,12 +6,14 @@ import com.nectcracker.studyproject.domain.User;
 import com.nectcracker.studyproject.domain.UserWishes;
 import com.nectcracker.studyproject.repos.ChatRepository;
 import com.nectcracker.studyproject.repos.MessagesRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Slf4j
 @Service
 public class MessagesService {
     private final MessagesRepository messagesRepository;
@@ -32,6 +34,8 @@ public class MessagesService {
         for (Messages m : messages) {
             result.put(m.getId().toString(), m.getAuthor().getInfo().getFirstName() + " " + m.getText());
         }
+        currentChat.getMessages().addAll(messages);
+        chatRepository.save(currentChat);
         return result;
     }
 

@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.*;
 
 import java.util.concurrent.ExecutionException;
@@ -33,6 +34,7 @@ public class FriendsController {
     private final UserWishesService userWishesService;
     private final UserInfoRepository userInfoRepository;
     private final EventsService eventsService;
+    private final ObjectMapper objectMapper;
 
     private CacheLoader<User, Map> loader = new CacheLoader<User, Map>() {
         @Override
@@ -40,19 +42,21 @@ public class FriendsController {
             return userService.takeFriendFromVk(user);
         }
     };
-    private LoadingCache<User, Map> cache = CacheBuilder.newBuilder().refreshAfterWrite(30, TimeUnit.MINUTES).build(loader);;
+    private LoadingCache<User, Map> cache = CacheBuilder.newBuilder().refreshAfterWrite(30, TimeUnit.MINUTES).build(loader);
+    ;
 
     public FriendsController(UserService userService, InterestsService interestsService,
-                             UserWishesService userWishesService, UserInfoRepository userInfoRepository, EventsService eventsService) {
+                             UserWishesService userWishesService, UserInfoRepository userInfoRepository, EventsService eventsService, ObjectMapper objectMapper) {
         this.userService = userService;
         this.interestsService = interestsService;
         this.userWishesService = userWishesService;
         this.userInfoRepository = userInfoRepository;
         this.eventsService = eventsService;
+        this.objectMapper = objectMapper;
     }
 
     @GetMapping("/friends")
-    public String friends(Model model) throws ExecutionException{
+    public String friends(Model model) throws ExecutionException {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) userService.loadUserByUsername(auth.getName());
 
@@ -64,26 +68,30 @@ public class FriendsController {
     }
 
     @RequestMapping("/friend_page/{name}")
-    public String friendPage(@PathVariable String name, Map<String, Object> model) throws IOException {
+    public String friendPage(@PathVariable String name, Map<String, Object> model) throws IOException, ParseException {
         model.put("name", name);
+
         User friend = (User) userService.loadUserByUsername(name);
         UserInfo currentUserInfo = userInfoRepository.findByUser(friend);
+        model.put("info", currentUserInfo);
+
         List<Object> friendEventsData = new ArrayList<>();
         Set<Events> friendEvents = eventsService.getUserEvents(friend);
-        ObjectMapper objectMapper = new ObjectMapper();
+        model.put("friendsActualEvents", eventsService.actualEvents(friendEvents));
         for (Events event : friendEvents) {
             String eventStr = eventsService.toString(event);
             friendEventsData.add(objectMapper.readTree(eventStr));
         }
         model.put("eventsData", friendEventsData);
-        model.put("info", currentUserInfo);
+
         Iterable<Interests> list = interestsService.getSmbInterests(friend);
         model.put("interests", list);
-        Iterable<UserWishes> wishes = userWishesService.getUserWishes(friend);
+
         Set<UserWishes> friendWishes = new HashSet<>();
         Set<UserWishes> userWishes = new HashSet<>();
-        for(UserWishes wish : wishes){
-            if(wish.isFriendCreateWish())
+        Iterable<UserWishes> wishes = userWishesService.getUserWishes(friend);
+        for (UserWishes wish : wishes) {
+            if (wish.isFriendCreateWish())
                 friendWishes.add(wish);
             else
                 userWishes.add(wish);
@@ -93,5 +101,4 @@ public class FriendsController {
 
         return "friend_page";
     }
-
 }

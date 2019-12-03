@@ -15,18 +15,14 @@ public class News {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "chat_id")
-    private Chat chat;
+
+
+    private String text;
 
     @OneToMany(mappedBy = "news")
     private Set<NewsUsers> users = new HashSet<>();
 
     public News(){}
-
-    public News(Chat chat) {
-        this.chat = chat;
-    }
 
     public void addUser(User user){
         NewsUsers newsUsers = new NewsUsers(this, user);
@@ -58,9 +54,7 @@ public class News {
 
     @Override
     public String toString(){
-        return "Ваш друг " + chat.getOwner().getInfo().getFirstName() + " " + chat.getOwner().getInfo().getLastName() +
-                " начал сбор средств на " + chat.getWishForChat().getWishName() + " для другого вашего друга " + chat.getWishForChat().getUser().getInfo().getFirstName() +
-                " " + chat.getWishForChat().getUser().getInfo().getLastName();
+        return "id: " + id;
     }
 
 }
