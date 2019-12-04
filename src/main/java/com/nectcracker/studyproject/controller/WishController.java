@@ -8,6 +8,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -43,5 +44,11 @@ public class WishController {
     public String addWishFromFriend(@RequestParam String name, @RequestParam String text, @RequestParam String eventsId, @RequestParam String imgURL) {
         userWishesService.addWishFromFriend(name, text, eventsId, imgURL);
         return "redirect:/friend_page/" + name;
+    }
+
+    @PostMapping("/deleteWish/{id}")
+    public String deleteUserWish(@PathVariable String id) {
+        userWishesService.deleteUserWish(Long.parseLong(id));
+        return "redirect:/cabinet";
     }
 }
