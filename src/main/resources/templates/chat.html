@@ -53,7 +53,7 @@
             <button type="submit" class="btn btn-primary mx-3">Покинуть чат</button>
         </form>
         <div th:if="${ownerPage and deadlinePassed}" style="display: inline-block;">
-            <p class="m-3">Пришел дедлайн, вы можете прекратить сбор средств или продлить дедлайн</p>
+            <span>Пришел дедлайн, вы можете прекратить сбор средств или продлить дедлайн</span>
             <form method="post" th:action="@{/closeChatBecauseDeadline/{id}(id=${wishId})}" class="form-inline m-3">
                 <button type="submit" class="btn btn-primary mx-3">Прекратить сбор средств</button>
             </form>
@@ -70,22 +70,8 @@
             </div>
         </div>
     </div>
-    <div>
-        <div class="smallcolumns" style="vertical-align: text-bottom">
-            <h5 class="font-italic m-3">Участники</h5>
-            <div th:fragment="group" class="m-3">
-                <div class="list-group list-group-flush my-3" style="width: 200px;">
-                    <div th:each="p : ${participants}">
-                        <label>[[${p.getUserForChat().getInfo().getFirstName()}]]
-                            [[${p.getUserForChat().getInfo().getLastName()}]]
-                            <div th:if="${ownerPage}">
-                                <label class="text-success">[[${p.getSumFromUser()}]]</label>
-                            </div>
-                        </label>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <div style="position: relative;
+                height: 30vh">
         <div class="smallcolumns">
             <h5 class="font-italic m-3">Внести деньги</h5>
             <form method="post" th:action="@{/donate/{id}(id=${wishId})}" class="form-inline m-3">
@@ -103,9 +89,8 @@
             <progress style="width: 250px;" class="m-2" th:value="${chat.sumCurrentPrice()}"
                       th:max="${chat.getPresentPrice()}"></progress>
         </div>
-
         <div class="smallcolumns">
-            <label class="h5 font-italic">Описание: </label>
+            <h5 class="m-3 font-italic">Описание: </h5>
             <span th:text="${chat.getDescription()}"></span>
             <div th:if="${chat.wishForChat.eventForWish}">
                 <label class="h5 font-italic">К событию: </label>
@@ -113,7 +98,21 @@
             </div>
             <label class="h5 font-italic">Дата окончания: </label>
             <span th:text="${chat.getDeadline()}"></span>
-
+        </div>
+        <div class="smallcolumns" style="vertical-align: text-bottom">
+            <h5 class="font-italic m-3">Участники</h5>
+            <div th:fragment="group" class="m-3">
+                <div class="list-group list-group-flush my-3" style="width: 200px;">
+                    <div th:each="p : ${participants}">
+                        <label>[[${p.getUserForChat().getInfo().getFirstName()}]]
+                            [[${p.getUserForChat().getInfo().getLastName()}]]
+                            <div th:if="${ownerPage}">
+                                <label class="text-success">[[${p.getSumFromUser()}]]</label>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+            </div>
         </div>
 
     </div>
