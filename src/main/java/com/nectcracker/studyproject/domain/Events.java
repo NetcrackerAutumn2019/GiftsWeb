@@ -13,7 +13,7 @@ import java.util.*;
 @Entity(name = "Events")
 public class Events  {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @ManyToMany(mappedBy = "eventsSet")
