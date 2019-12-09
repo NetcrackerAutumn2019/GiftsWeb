@@ -26,6 +26,7 @@ public class UserWishes implements Serializable {
     private String wishName;
     private boolean friendCreateWish;
     private String imgURL;
+    private boolean isClosed;
 
     @OneToOne(mappedBy = "wishForChat", cascade = CascadeType.ALL)
     private Chat chatForWish;
@@ -34,6 +35,7 @@ public class UserWishes implements Serializable {
         this.user = user;
         this.wishName = wish;
         this.imgURL = imgURL;
+        this.isClosed = false;
     }
 
     public UserWishes() {

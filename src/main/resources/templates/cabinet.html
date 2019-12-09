@@ -197,6 +197,9 @@
                     <h5 class="card-title">
                         <p>Желание: [[${w.wishName}]]</p>
                         <p th:if="${w.eventForWish}">Событие: [[${w.eventForWish.title}]]</p>
+                        <form th:action="@{/deleteWish/{id}(id=${w.getId()})}" class="form-inline m-3" method="post">
+                            <button type="submit" class="btn btn-primary mt-3">Удалить</button>
+                        </form>
                     </h5>
                 </div>
             </div>

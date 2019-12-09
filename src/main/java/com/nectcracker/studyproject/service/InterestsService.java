@@ -31,17 +31,19 @@ public class InterestsService implements UserRepositoryCustom {
     }
 
     public void updateUserInterests(String interest) {
+        if (interest.trim().equals("")) {
+            return;
+        }
         User currentUser = findByAuthentication();
         Interests tmpInterest = interestsRepository.findByInterestName(interest);
         if (tmpInterest != null) {
             currentUser.getInterestsSet().add(tmpInterest);
-            userRepository.save(currentUser);
         } else {
             Interests newInterest = new Interests(interest);
             interestsRepository.save(newInterest);
             currentUser.getInterestsSet().add(newInterest);
-            userRepository.save(currentUser);
         }
+        userRepository.save(currentUser);
     }
 
     public Set<Interests> getUserInterests() {
