@@ -70,35 +70,46 @@ public class EventsService implements UserRepositoryCustom {
         return actualEvents;
     }
 
-    public String toString(Events event){
+    public String toString(Events event) throws ParseException {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date today = new Date();
         User currentUser = findByAuthentication();
         Set<User> participants = event.getEventParticipants();
         Iterator<User> userIterator = participants.iterator();
         List<String> userNames = new ArrayList<>();
         List<String> userPageUrls = new ArrayList<>();
-        while(userIterator.hasNext()){
+        while (userIterator.hasNext()) {
             User user = userIterator.next();
             UserInfo userInfo = userInfoRepository.findByUser(user);
             String userName = "\"" + userInfo.getFirstName() + " " + userInfo.getLastName() + "\"";
             userNames.add(userName);
-            if (user.equals(currentUser)){
+            if (user.equals(currentUser)) {
                 String userPageUrl = "\"cabinet\"";
                 userPageUrls.add(userPageUrl);
-            }
-            else {
+            } else {
                 String userPageUrl = "\"friend_page/" + user.getUsername() + "\"";
                 userPageUrls.add(userPageUrl);
             }
 
         }
-        return "{" +
-                "\"id\": " + event.getId() + ", " +
-                "\"title\": \"" + event.getTitle() + "\", " +
-                "\"start\": \"" + event.getStart() + "\", " +
-                "\"allDay\": true, " +
-                "\"userNames\": " + userNames.toString() + ", " +
-                "\"userPageUrls\": " + userPageUrls.toString() + "}";
-
+        if (simpleDateFormat.parse(event.getStart()).after(today)) {
+            return "{" +
+                    "\"id\": " + event.getId() + ", " +
+                    "\"title\": \"" + event.getTitle() + "\", " +
+                    "\"start\": \"" + event.getStart() + "\", " +
+                    "\"allDay\": true, " +
+                    "\"userNames\": " + userNames.toString() + ", " +
+                    "\"userPageUrls\": " + userPageUrls.toString() + "}";
+        } else {
+            return "{" +
+                    "\"id\": " + event.getId() + ", " +
+                    "\"title\": \"" + event.getTitle() + "\", " +
+                    "\"start\": \"" + event.getStart() + "\", " +
+                    "\"allDay\": true, " +
+                    "\"userNames\": " + userNames.toString() + ", " +
+                    "\"userPageUrls\": " + userPageUrls.toString() + ", " +
+                    "\"color\": \"gray\" " + "}";
+        }
     }
 
 }

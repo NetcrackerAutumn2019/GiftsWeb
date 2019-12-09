@@ -22,6 +22,7 @@
                 selectable: true,
                 firstDay: 1,
                 locale: 'ru',
+                handleWindowResize: true,
                 eventLimit: true, // allow "more" link when too many events
                 customButtons: {
                     switchButton: {
@@ -37,6 +38,7 @@
                     backButton:{
                         text: 'Я',
                         click: function () {
+                            location.reload(true);
                             calendar.setOption('selectable', true);
                             calendar.removeAllEvents();
                             calendar.addEventSource([[${eventsData}]]);
@@ -50,42 +52,48 @@
                     right: 'prev,next today'
                 },
                 select: function (arg) {
-                    var title = prompt('Event Title:');
-                    if (title) {
-                        var data = {};
-                        data["title"] = title;
-                        data["start"] = arg.startStr;
-                        data["allDay"] = true;
-                        calendar.addEvent({
-                            title: title,
-                            start: arg.start,
-                            end: arg.end,
-                            allDay: arg.allDay,
-                            textColor: 'yellow',
-                            userNames: null,
-                            userPageUrls: null
-                        });
-                        $.ajax({
-                            type : "POST",
-                            url : "addEvent",
-                            data : JSON.stringify({
-                                "title": title,
-                                "start": arg.startStr,
-                                "allDay": true
-                            }),
-                            dataType : 'json',
-                            timeout : 100000,
-                            contentType:'application/json',
-                            success : function(data) {
-                                console.log("SUCCESS: ", data);
-                            },
-                            error : function(e) {
-                                console.log("ERROR: ", e);
-                            },
-                            done : function(e) {
-                                console.log("DONE");
-                            }
-                        });
+                    var today = new Date();
+                    if(arg.start < today){
+                        alert("Ивенты можно создавать только в будущие дни.")
+                    }
+                    else {
+                        var title = prompt('Event Title:');
+                        if (title) {
+                            var data = {};
+                            data["title"] = title;
+                            data["start"] = arg.startStr;
+                            data["allDay"] = true;
+                            calendar.addEvent({
+                                title: title,
+                                start: arg.start,
+                                end: arg.end,
+                                allDay: arg.allDay,
+                                textColor: 'yellow',
+                                userNames: null,
+                                userPageUrls: null
+                            });
+                            $.ajax({
+                                type: "POST",
+                                url: "addEvent",
+                                data: JSON.stringify({
+                                    "title": title,
+                                    "start": arg.startStr,
+                                    "allDay": true
+                                }),
+                                dataType: 'json',
+                                timeout: 100000,
+                                contentType: 'application/json',
+                                success: function (data) {
+                                    console.log("SUCCESS: ", data);
+                                },
+                                error: function (e) {
+                                    console.log("ERROR: ", e);
+                                },
+                                done: function (e) {
+                                    console.log("DONE");
+                                }
+                            });
+                        }
                     }
                     calendar.unselect()
                 },
@@ -118,7 +126,7 @@
     </script>
     <style>
         #calendar {
-            max-width: 600px;
+            max-width: 40%;
             margin: 0 auto;
             font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
             font-size: 14px;
@@ -189,6 +197,9 @@
                     <h5 class="card-title">
                         <p>Желание: [[${w.wishName}]]</p>
                         <p th:if="${w.eventForWish}">Событие: [[${w.eventForWish.title}]]</p>
+                        <form th:action="@{/deleteWish/{id}(id=${w.getId()})}" class="form-inline m-3" method="post">
+                            <button type="submit" class="btn btn-primary mt-3">Удалить</button>
+                        </form>
                     </h5>
                 </div>
             </div>

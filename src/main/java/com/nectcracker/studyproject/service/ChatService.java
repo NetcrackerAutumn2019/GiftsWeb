@@ -164,15 +164,19 @@ public class ChatService {
     }
 
     public void closeAfterMoneyCollected(Long wishId) {
-        UserWishes wish = userWishesService.getById(wishId);
-        Chat chat = chatRepository.findByWishForChat(wish);
-        newsService.createNewMoneyCollected(chat, chat.getOwner());
-        userWishesRepository.delete(wish);
+        UserWishes userWishes = userWishesRepository.getOne(wishId);
+        Chat chat = chatRepository.findByWishForChat(userWishes);
+        newsService.createNewChatIsClosed(chat, chat.getOwner());
+        userWishes.setChatForWish(null);
+        userWishes.setClosed(true);
+        userWishesRepository.save(userWishes);
+        chatRepository.deleteById(wishId);
     }
 
     public Boolean isMoneyCollected(Long wishId) {
         UserWishes wish = userWishesService.getById(wishId);
         Chat currentChat = chatRepository.findByWishForChat(wish);
+        newsService.createNewMoneyCollected(currentChat, currentChat.getOwner());
         return wish.getCurrentSum() > currentChat.getPresentPrice();
     }
 }

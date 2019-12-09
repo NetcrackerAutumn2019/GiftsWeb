@@ -50,6 +50,7 @@
             calendar.render();
         });
 
+
     </script>
     <style>
         #calendar {
@@ -66,6 +67,7 @@
             padding: 0;
             color: black;
         }
+
 
     </style>
 </head>
@@ -130,15 +132,23 @@
                             <p>Желание: [[${uw.wishName}]]</p>
                             <p th:if="${uw.eventForWish}">Событие: [[${uw.eventForWish.title}]]</p>
                         </h5>
-                        <div class="card-text">
-                            <a class="people-icon" href="#"><span th:text="${uw.getNumberOfChatParticipants()}"></span></a>
-                            <p></p>
-                            <a class="dollar-icon" href="#"><span th:text="${uw.getCurrentSum()}"></span>
-                                / <span th:text="${uw.getPrice()}"></span></a>
+                        <div th:if="${uw.isClosed()}">
+                            <div class="card-text">
+                                <p>Собрано!</p>
+                            </div>
                         </div>
-                        <form th:action="@{/join_chat/{id}(id=${uw.id})}" method="post">
-                            <button type="submit" class="btn btn-primary m-3">Присоеденится</button>
-                        </form>
+                        <div th:if="!${uw.isClosed()}">
+                            <div class="card-text">
+                                <a class="people-icon" href="#"><span
+                                        th:text="${uw.getNumberOfChatParticipants()}"></span></a>
+                                <p></p>
+                                <a class="dollar-icon" href="#"><span th:text="${uw.getCurrentSum()}"></span>
+                                    / <span th:text="${uw.getPrice()}"></span></a>
+                            </div>
+                            <form th:action="@{/join_chat/{id}(id=${uw.id})}" method="post">
+                                <button type="submit" class="btn btn-primary m-3">Присоеденится</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -75,4 +75,9 @@ public class UserWishesService implements UserRepositoryCustom {
         Optional<UserWishes> wish = userWishesRepository.findById(id);
         return wish.orElseGet(UserWishes::new);
     }
+
+    public void deleteUserWish(Long id) {
+        UserWishes wish = getById(id);
+        userWishesRepository.delete(wish);
+    }
 }

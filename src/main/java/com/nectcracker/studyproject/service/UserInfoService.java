@@ -8,6 +8,8 @@ import com.nectcracker.studyproject.repos.UserRepositoryCustom;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 @Service
 public class UserInfoService implements UserRepositoryCustom {
@@ -51,6 +53,8 @@ public class UserInfoService implements UserRepositoryCustom {
             }
             userInfoRepository.save(currentUserInfo);
             userRepository.save(currentUser);
+            ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest().getSession()
+                    .setAttribute("name", currentUserInfo.getFirstName() + " " + currentUserInfo.getLastName());
             return true;
         } catch (Exception ex) {
             return false;

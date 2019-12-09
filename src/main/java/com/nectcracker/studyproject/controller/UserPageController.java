@@ -80,8 +80,7 @@ public class UserPageController {
             currentUserData.add(objectMapper.readTree(eventStr));
         }
 
-        Map<String, Set> friendsMapForForm = cache.get(user);
-        Set<User> friends = friendsMapForForm.get("registered");
+        Set<User> friends = user.getFriends();
         for (User friend : friends) {
             Set<Events> friendEvents = eventsService.getUserEvents(friend);
             for (Events event : friendEvents) {
