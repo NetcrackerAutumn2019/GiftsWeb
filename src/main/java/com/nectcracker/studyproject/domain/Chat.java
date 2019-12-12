@@ -67,10 +67,11 @@ public class Chat {
     }
 
     public double sumCurrentPrice() {
+        double curPrice = 0.0;
         for (Participants p : chatForParticipants) {
-            currentPrice += p.getSumFromUser();
+            curPrice += p.getSumFromUser();
         }
-        return currentPrice;
+        return curPrice;
     }
 
     @Override
