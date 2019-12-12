@@ -42,8 +42,8 @@ public class ChatService {
     public boolean createNewChat(Long id, String description, String deadline, String sum) {
         try {
             UserWishes wishForChat = userWishesService.getById(id);
-            if (!deadline.equals("") && !sum.equals("") && sum.matches("([\\d]*[.]?[\\d]+)")) {
-                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+            if (!deadline.equals("") && !sum.equals("") && sum.matches("([\\d]*[.]?[\\d]+)") && new Date().before(formatter.parse(deadline))) {
                 Chat tmp = new Chat(description, formatter.parse(deadline), Double.parseDouble(sum));
                 tmp.setWishForChat(wishForChat);
                 User user = userWishesService.findByAuthentication();
@@ -110,6 +110,8 @@ public class ChatService {
     }
 
     public void donateMoneyForWish(Long wishId, String sum) {
+        if(!sum.equals("") && sum.matches("([\\d]*[.]?[\\d]+)"))
+            return;
         UserWishes wish = userWishesService.getById(wishId);
         Chat currentChat = chatRepository.findByWishForChat(wish);
         User currentUser = userWishesService.findByAuthentication();
