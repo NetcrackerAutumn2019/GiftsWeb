@@ -110,8 +110,9 @@ public class ChatService {
     }
 
     public void donateMoneyForWish(Long wishId, String sum) {
-        if(!sum.equals("") && sum.matches("([\\d]*[.]?[\\d]+)"))
+        if(sum.isEmpty() || !sum.matches("([\\d]*[.]?[\\d]+)")) {
             return;
+        }
         UserWishes wish = userWishesService.getById(wishId);
         Chat currentChat = chatRepository.findByWishForChat(wish);
         User currentUser = userWishesService.findByAuthentication();
@@ -168,7 +169,7 @@ public class ChatService {
     public void closeAfterMoneyCollected(Long wishId) {
         UserWishes userWishes = userWishesRepository.getOne(wishId);
         Chat chat = chatRepository.findByWishForChat(userWishes);
-        newsService.createNewChatIsClosed(chat, chat.getOwner());
+        newsService.createNewMoneyCollected(chat, chat.getOwner());
         userWishes.setChatForWish(null);
         userWishes.setClosed(true);
         userWishesRepository.save(userWishes);
@@ -178,7 +179,6 @@ public class ChatService {
     public Boolean isMoneyCollected(Long wishId) {
         UserWishes wish = userWishesService.getById(wishId);
         Chat currentChat = chatRepository.findByWishForChat(wish);
-        newsService.createNewMoneyCollected(currentChat, currentChat.getOwner());
         return wish.getCurrentSum() > currentChat.getPresentPrice();
     }
 }
