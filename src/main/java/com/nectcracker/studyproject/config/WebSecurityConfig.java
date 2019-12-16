@@ -68,7 +68,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .permitAll()
                 .and()
                     .logout()
-                    .permitAll();
+                    .permitAll()
+                .and()
+                    .csrf().disable();
         http.
                 addFilterBefore(ssoFilter(), UsernamePasswordAuthenticationFilter.class);
 
