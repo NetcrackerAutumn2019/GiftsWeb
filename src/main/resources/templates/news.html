@@ -13,7 +13,7 @@
 <div th:insert="fragments/listgroup :: group" style="display : inline-block; vertical-align: top;"></div>
 <div style="display : inline-block; vertical-align: top;">
     <div class="m-3">
-        <h1>События</h1>
+        <h1>Новости</h1>
     </div>
     <div class="m-3">
         <div class="m-3">
@@ -26,9 +26,6 @@
                     <div class="card-body text-info">
                         <h5 class="card-title"><span th:text="${newNews.text}"></span></h5>
                     </div>
-<!--                    <div th:if="${newNews.chat}" class="card-text">-->
-<!--                        <a href="chat.html" th:href="@{/chat(wishId=${newNews.chat.getWishId()})}"><h5 class="card-text">Присоеденится к сбору средств</h5></a>-->
-<!--                    </div>-->
                 </div>
             </div>
         </div>
