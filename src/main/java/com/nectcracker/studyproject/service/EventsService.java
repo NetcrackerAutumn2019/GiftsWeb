@@ -99,7 +99,8 @@ public class EventsService implements UserRepositoryCustom {
                     "\"start\": \"" + event.getStart() + "\", " +
                     "\"allDay\": true, " +
                     "\"userNames\": " + userNames.toString() + ", " +
-                    "\"userPageUrls\": " + userPageUrls.toString() + "}";
+                    "\"userPageUrls\": " + userPageUrls.toString() + ", " +
+                    "\"color\": \"green\" " + "}";
         } else {
             return "{" +
                     "\"id\": " + event.getId() + ", " +
