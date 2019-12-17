@@ -144,8 +144,8 @@
                                 <a class="people-icon" href="#"><span
                                         th:text="${uw.getNumberOfChatParticipants()}"></span></a>
                                 <p></p>
-                                <a class="dollar-icon" href="#"><span th:text="${uw.getCurrentSum()}"></span>
-                                    / <span th:text="${uw.getPrice()}"></span></a>
+                                <a class="dollar-icon" href="#"><span>[[${uw.getCurrentSum()}]] руб.</span>
+                                    / <span>[[${uw.getPrice()}]] руб.</span></a>
                             </div>
                             <form th:action="@{/join_chat/{id}(id=${uw.id})}" method="post">
                                 <button type="submit" class="btn btn-primary m-3">Присоеденится</button>
@@ -172,8 +172,8 @@
                         <div class="card-text">
                             <a class="people-icon" href="#"><span th:text="${fw.getNumberOfChatParticipants()}"></span></a>
                             <p></p>
-                            <a class="dollar-icon" href="#"><span th:text="${fw.getCurrentSum()}"></span>
-                                / <span th:text="${fw.getPrice()}"></span></a>
+                            <a class="dollar-icon" href="#"><span>[[${fw.getCurrentSum()}]] руб.</span>
+                                / <span>[[${fw.getPrice()}]] руб.</span></a>
                         </div>
                         <form th:action="@{/join_chat/{id}(id=${fw.id})}" method="post">
                             <button type="submit" class="btn btn-primary m-3">Присоедениться</button>

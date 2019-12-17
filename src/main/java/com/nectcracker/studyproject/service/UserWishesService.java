@@ -38,6 +38,8 @@ public class UserWishesService implements UserRepositoryCustom {
     public boolean addWish(String text, String eventId, String imgURL) {
 
         try {
+            if(text.isEmpty())
+                return false;
             Events event = null;
             if(!eventId.isEmpty())
                 event= eventsRepository.getOne(Long.parseLong(eventId));
