@@ -23,6 +23,8 @@
                 selectable: false,
                 firstDay: 1,
                 locale: 'ru',
+                eventTextColor: 'white',
+                handleWindowResize: true,
                 eventLimit: true, // allow "more" link when too many events
                 eventRender: function (info) {
                     let result = "";
@@ -54,7 +56,7 @@
     </script>
     <style>
         #calendar {
-            max-width: 600px;
+            max-width: 40%;
             margin: 0 auto;
             font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
             font-size: 14px;
